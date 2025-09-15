@@ -9,10 +9,10 @@ import {
 } from 'drizzle-orm/pg-core'
 
 import { generateId } from '@/lib/id'
+import type { CheckoutItemSchema } from '@/lib/validations/cart'
 
 import { addresses } from './addresses'
 import { lifecycleDates } from './utils'
-import type { CheckoutItemSchema } from '@/features/cart/validations/cart'
 
 // @see: https://github.com/jackblatch/OneStopShop/blob/main/db/schema.ts
 export const orders = pgTable(

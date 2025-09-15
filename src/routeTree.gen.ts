@@ -13,16 +13,16 @@ import { createServerRootRoute } from '@tanstack/react-start/server'
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ShopRouteImport } from './routes/shop'
-import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as OrdersRouteImport } from './routes/orders'
-import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as authSignUpRouteImport } from './routes/(auth)/sign-up'
 import { Route as authSignInRouteImport } from './routes/(auth)/sign-in'
 import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
+import { Route as AuthenticatedProfileIndexRouteImport } from './routes/_authenticated/profile/index'
+import { Route as AuthenticatedOrdersIndexRouteImport } from './routes/_authenticated/orders/index'
+import { Route as AuthenticatedFavoritesIndexRouteImport } from './routes/_authenticated/favorites/index'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
 const rootServerRouteImport = createServerRootRoute()
@@ -37,24 +37,9 @@ const ShopRoute = ShopRouteImport.update({
   path: '/shop',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProfileRoute = ProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OrdersRoute = OrdersRouteImport.update({
-  id: '/orders',
-  path: '/orders',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FavoritesRoute = FavoritesRouteImport.update({
-  id: '/favorites',
-  path: '/favorites',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CartRoute = CartRouteImport.update({
@@ -87,6 +72,24 @@ const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedProfileIndexRoute =
+  AuthenticatedProfileIndexRouteImport.update({
+    id: '/_authenticated/profile/',
+    path: '/profile/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthenticatedOrdersIndexRoute =
+  AuthenticatedOrdersIndexRouteImport.update({
+    id: '/_authenticated/orders/',
+    path: '/orders/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthenticatedFavoritesIndexRoute =
+  AuthenticatedFavoritesIndexRouteImport.update({
+    id: '/_authenticated/favorites/',
+    path: '/favorites/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -96,104 +99,104 @@ const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
-  '/favorites': typeof FavoritesRoute
-  '/orders': typeof OrdersRoute
   '/privacy': typeof PrivacyRoute
-  '/profile': typeof ProfileRoute
   '/shop': typeof ShopRoute
   '/terms': typeof TermsRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/reset-password': typeof authResetPasswordRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
+  '/favorites': typeof AuthenticatedFavoritesIndexRoute
+  '/orders': typeof AuthenticatedOrdersIndexRoute
+  '/profile': typeof AuthenticatedProfileIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
-  '/favorites': typeof FavoritesRoute
-  '/orders': typeof OrdersRoute
   '/privacy': typeof PrivacyRoute
-  '/profile': typeof ProfileRoute
   '/shop': typeof ShopRoute
   '/terms': typeof TermsRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/reset-password': typeof authResetPasswordRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
+  '/favorites': typeof AuthenticatedFavoritesIndexRoute
+  '/orders': typeof AuthenticatedOrdersIndexRoute
+  '/profile': typeof AuthenticatedProfileIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
-  '/favorites': typeof FavoritesRoute
-  '/orders': typeof OrdersRoute
   '/privacy': typeof PrivacyRoute
-  '/profile': typeof ProfileRoute
   '/shop': typeof ShopRoute
   '/terms': typeof TermsRoute
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
   '/(auth)/reset-password': typeof authResetPasswordRoute
   '/(auth)/sign-in': typeof authSignInRoute
   '/(auth)/sign-up': typeof authSignUpRoute
+  '/_authenticated/favorites/': typeof AuthenticatedFavoritesIndexRoute
+  '/_authenticated/orders/': typeof AuthenticatedOrdersIndexRoute
+  '/_authenticated/profile/': typeof AuthenticatedProfileIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/cart'
-    | '/favorites'
-    | '/orders'
     | '/privacy'
-    | '/profile'
     | '/shop'
     | '/terms'
     | '/forgot-password'
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/favorites'
+    | '/orders'
+    | '/profile'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/cart'
-    | '/favorites'
-    | '/orders'
     | '/privacy'
-    | '/profile'
     | '/shop'
     | '/terms'
     | '/forgot-password'
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/favorites'
+    | '/orders'
+    | '/profile'
   id:
     | '__root__'
     | '/'
     | '/cart'
-    | '/favorites'
-    | '/orders'
     | '/privacy'
-    | '/profile'
     | '/shop'
     | '/terms'
     | '/(auth)/forgot-password'
     | '/(auth)/reset-password'
     | '/(auth)/sign-in'
     | '/(auth)/sign-up'
+    | '/_authenticated/favorites/'
+    | '/_authenticated/orders/'
+    | '/_authenticated/profile/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CartRoute: typeof CartRoute
-  FavoritesRoute: typeof FavoritesRoute
-  OrdersRoute: typeof OrdersRoute
   PrivacyRoute: typeof PrivacyRoute
-  ProfileRoute: typeof ProfileRoute
   ShopRoute: typeof ShopRoute
   TermsRoute: typeof TermsRoute
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authResetPasswordRoute: typeof authResetPasswordRoute
   authSignInRoute: typeof authSignInRoute
   authSignUpRoute: typeof authSignUpRoute
+  AuthenticatedFavoritesIndexRoute: typeof AuthenticatedFavoritesIndexRoute
+  AuthenticatedOrdersIndexRoute: typeof AuthenticatedOrdersIndexRoute
+  AuthenticatedProfileIndexRoute: typeof AuthenticatedProfileIndexRoute
 }
 export interface FileServerRoutesByFullPath {
   '/api/auth/$': typeof ApiAuthSplatServerRoute
@@ -233,32 +236,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/orders': {
-      id: '/orders'
-      path: '/orders'
-      fullPath: '/orders'
-      preLoaderRoute: typeof OrdersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/favorites': {
-      id: '/favorites'
-      path: '/favorites'
-      fullPath: '/favorites'
-      preLoaderRoute: typeof FavoritesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cart': {
@@ -303,6 +285,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/profile/': {
+      id: '/_authenticated/profile/'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/orders/': {
+      id: '/_authenticated/orders/'
+      path: '/orders'
+      fullPath: '/orders'
+      preLoaderRoute: typeof AuthenticatedOrdersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/favorites/': {
+      id: '/_authenticated/favorites/'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof AuthenticatedFavoritesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 declare module '@tanstack/react-start/server' {
@@ -320,16 +323,16 @@ declare module '@tanstack/react-start/server' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CartRoute: CartRoute,
-  FavoritesRoute: FavoritesRoute,
-  OrdersRoute: OrdersRoute,
   PrivacyRoute: PrivacyRoute,
-  ProfileRoute: ProfileRoute,
   ShopRoute: ShopRoute,
   TermsRoute: TermsRoute,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authResetPasswordRoute: authResetPasswordRoute,
   authSignInRoute: authSignInRoute,
   authSignUpRoute: authSignUpRoute,
+  AuthenticatedFavoritesIndexRoute: AuthenticatedFavoritesIndexRoute,
+  AuthenticatedOrdersIndexRoute: AuthenticatedOrdersIndexRoute,
+  AuthenticatedProfileIndexRoute: AuthenticatedProfileIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -3,7 +3,7 @@ import { getCookie, setCookie } from '@tanstack/react-start/server'
 import { createContext, useContext, useEffect } from 'react'
 import { z } from 'zod'
 
-import { useSetTheme, useThemeQuery } from '@/hooks/use-theme'
+import { useSetTheme, useThemeQuery } from '@/lib/hooks/use-theme'
 
 type Theme = 'dark' | 'light' | 'system'
 

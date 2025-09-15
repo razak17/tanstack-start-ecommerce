@@ -1,0 +1,85 @@
+{
+  "lsp": {
+    "override": ["biome", "jsonls", "vtsls", "copilot"],
+    "disabled": {
+      "servers": ["tailwindcss"]
+    },
+    "lang": {
+      "typescript": {
+        "tsgo": false,
+        "vtsls": true
+      },
+      "web": {
+        "eslint": false,
+        "biome": false
+      }
+    }
+  },
+  "ui": {
+    "transparent": {
+      "enable": false
+    },
+    "winbar": {
+      "variant": "plugin"
+    }
+  },
+  "ai": {
+    "completion": {
+      "variant": "copilot"
+    }
+  },
+  "completion": {
+    "variant": "blink"
+  },
+  "plugin": {
+    "custom": {
+      "baredot": {
+        "enable": false
+      }
+    }
+  },
+  "explorer": {
+    "variant": "mini.files"
+  },
+  "plugins": {
+    "disabled": [],
+    "modules": {
+      "disabled": [],
+      "override": [
+        "comment",
+        "telescope",
+        "icons",
+        "readlline",
+        "grapple",
+        "lang",
+        "ai",
+        "mini-surround",
+        "editing",
+        "hydra",
+        "autopair",
+        "log",
+        "codecompanion",
+        "opencode",
+        "window_picker",
+        "explorer",
+        "typescript",
+        "treesitter-main",
+        "snippets",
+        "terminal",
+        "git",
+        "snacks",
+        "snacks_picker",
+        "snacks_ui_select",
+        "snacks_notifier",
+        "snacks_indent",
+        "blink",
+        "tools",
+        "lsp",
+        "whichkey",
+        "session",
+        "theme",
+        "core"
+      ]
+    }
+  }
+}

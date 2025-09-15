@@ -3,7 +3,7 @@ import { drizzle as drizzleNeon } from 'drizzle-orm/neon-http'
 
 import { env } from '@/lib/env/server'
 
-import * as schema from '@/db/schema'
+import * as schema from '@/server/db/schema'
 
 export const sql = neon(env.DATABASE_URL)
 

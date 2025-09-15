@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigate, useRouter } from '@tanstack/react-router'
 import * as React from 'react'
 import { toast } from 'sonner'
 
@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 
 export function AnonymousSignIn() {
   const [isLoading, setIsLoading] = React.useState(false)
+  const router = useRouter()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
@@ -19,14 +20,13 @@ export function AnonymousSignIn() {
         onSuccess: () => {
           toast.success('Signed in successfully.')
           queryClient.resetQueries()
+          router.invalidate()
           navigate({ to: '/' })
         },
         onError: (ctx) => {
           toast.error(ctx.error.message)
         },
-        onRequest: () => {
-          setIsLoading(true)
-        },
+        onRequest: () => setIsLoading(true),
         onResponse: () => setIsLoading(false),
       },
     })

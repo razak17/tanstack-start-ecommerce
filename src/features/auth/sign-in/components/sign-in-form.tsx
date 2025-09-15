@@ -1,5 +1,3 @@
-'use client'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
@@ -38,25 +36,26 @@ export function SignInForm() {
   })
 
   async function onSubmit(values: z.infer<typeof signInSchema>) {
-    setIsLoading(true)
-
-    const { error } = await authClient.signIn.email({
-      email: values.email,
-      password: values.password,
-      rememberMe: true,
-      callbackURL: `${window.location.origin}/`,
-    })
-
-    if (error) {
-      toast.error(error.message)
-      setIsLoading(false)
-      return
-    }
-
-    toast.success('Signed in successfully.')
-    setIsLoading(false)
-    queryClient.resetQueries()
-    navigate({ to: '/' })
+    await authClient.signIn.email(
+      {
+        email: values.email,
+        password: values.password,
+        rememberMe: true,
+        callbackURL: `${window.location.origin}/`,
+      },
+      {
+        onSuccess: () => {
+          toast.success('Signed in successfully.')
+          queryClient.resetQueries()
+          navigate({ to: '/' })
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message)
+        },
+        onRequest: () => setIsLoading(true),
+        onResponse: () => setIsLoading(false),
+      },
+    )
   }
 
   return (

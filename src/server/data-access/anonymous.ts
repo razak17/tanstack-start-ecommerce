@@ -2,8 +2,8 @@ import { eq } from 'drizzle-orm'
 
 import { getErrorMessage } from '@/lib/handle-error'
 
-import { db } from '@/db/drizzle'
-import { favorites } from '@/db/schema'
+import { db } from '@/server/db'
+import { favorites } from '@/server/db/schema'
 
 export async function linkAnonymousUserFavorites(
   anonymousUserId: string,

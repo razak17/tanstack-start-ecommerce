@@ -1,7 +1,9 @@
+import { useQueryClient } from '@tanstack/react-query'
+import { useRouter } from '@tanstack/react-router'
 import * as React from 'react'
+import { toast } from 'sonner'
 
 import { authClient } from '@/lib/auth/client'
-import { showErrorToast } from '@/lib/handle-error'
 
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
@@ -18,19 +20,29 @@ const oauthProviders = [
 }[]
 
 export function OAuthSignIn() {
-  const [loading, setLoading] = React.useState<OAuthStrategy | null>(null)
+  const [isLoading, setIsLoading] = React.useState<OAuthStrategy | null>(null)
+  const router = useRouter()
+  const queryClient = useQueryClient()
 
   async function oauthSignIn(provider: OAuthStrategy) {
-    try {
-      setLoading(provider)
-      await authClient.signIn.social({
+    await authClient.signIn.social(
+      {
         provider: provider,
         callbackURL: '/',
-      })
-    } catch (err) {
-      setLoading(null)
-      showErrorToast(err)
-    }
+      },
+      {
+        onSuccess: () => {
+          toast.success('Signed in successfully.')
+          queryClient.resetQueries()
+          router.invalidate()
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message)
+        },
+        onRequest: () => setIsLoading(provider),
+        onResponse: () => setIsLoading(null),
+      },
+    )
   }
 
   return (
@@ -44,9 +56,9 @@ export function OAuthSignIn() {
             variant="outline"
             className="w-full bg-background"
             onClick={() => void oauthSignIn(provider.strategy)}
-            disabled={loading !== null}
+            disabled={isLoading !== null}
           >
-            {loading === provider.strategy ? (
+            {isLoading === provider.strategy ? (
               <Icons.spinner
                 className="mr-2 size-4 animate-spin"
                 aria-hidden="true"
