@@ -6,9 +6,10 @@ import {
 } from 'better-auth/client/plugins'
 import { createAuthClient } from 'better-auth/react'
 
+import { env } from '@/lib/env/server'
+
 import type { auth } from './auth'
 import { ac, admin, consumer } from './permissions'
-import { env } from '@/config/env'
 import { authQueries } from '../queries/auth'
 
 export const authClient = createAuthClient({
