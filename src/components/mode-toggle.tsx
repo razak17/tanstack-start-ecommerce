@@ -1,5 +1,3 @@
-"use client";
-
 import { LaptopIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
 
 import { useTheme } from "./theme-provider";

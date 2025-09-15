@@ -3,12 +3,13 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { admin as adminPlugin, anonymous } from "better-auth/plugins";
 
+import { linkAnonymousUserFavorites } from "@/lib/data-access/anonymous";
+
 import { ac, admin, consumer } from "./permissions";
 import ResetPasswordEmail from "@/components/reset-password-email";
 import AccountVerificationEmail from "@/components/verification-email";
 import { env } from "@/config/env";
 import { siteConfig } from "@/config/site";
-import { linkAnonymousUserFavorites } from "@/data-access/anonymous";
 import { db } from "@/db/drizzle";
 import * as schema from "@/db/schema";
 import { resend } from "../resend";

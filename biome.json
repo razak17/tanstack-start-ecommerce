@@ -42,6 +42,9 @@
       "complexity": {
         "noBannedTypes": "off"
       },
+      "performance": {
+        "noImgElement": "off"
+      },
       "style": {
         "useImportType": "warn",
         "noHeadElement": "off"

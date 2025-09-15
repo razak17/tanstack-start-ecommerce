@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import {
   adminClient,
   anonymousClient,
@@ -8,6 +9,7 @@ import { createAuthClient } from "better-auth/react";
 import type { auth } from "./auth";
 import { ac, admin, consumer } from "./permissions";
 import { env } from "@/config/env";
+import { authQueries } from "../queries/auth";
 
 export const authClient = createAuthClient({
   baseURL: env.VITE_APP_URL,
@@ -24,3 +26,19 @@ export const authClient = createAuthClient({
     anonymousClient(),
   ],
 });
+
+export const useAuthentication = () => {
+  const { data: userSession } = useQuery(authQueries.user());
+
+  return { userSession, isAuthenticated: !!userSession };
+};
+
+export const useAuthenticatedUser = () => {
+  const { userSession } = useAuthentication();
+
+  if (!userSession) {
+    throw new Error("User is not authenticated!");
+  }
+
+  return userSession;
+};
