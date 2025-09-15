@@ -20,9 +20,10 @@ import { Route as authSignUpRouteImport } from './routes/(auth)/sign-up'
 import { Route as authSignInRouteImport } from './routes/(auth)/sign-in'
 import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
-import { Route as AuthenticatedProfileIndexRouteImport } from './routes/_authenticated/profile/index'
-import { Route as AuthenticatedOrdersIndexRouteImport } from './routes/_authenticated/orders/index'
-import { Route as AuthenticatedFavoritesIndexRouteImport } from './routes/_authenticated/favorites/index'
+import { Route as authedProfileIndexRouteImport } from './routes/(authed)/profile/index'
+import { Route as authedOrdersIndexRouteImport } from './routes/(authed)/orders/index'
+import { Route as authedLogoutIndexRouteImport } from './routes/(authed)/logout/index'
+import { Route as authedFavoritesIndexRouteImport } from './routes/(authed)/favorites/index'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
 const rootServerRouteImport = createServerRootRoute()
@@ -72,24 +73,26 @@ const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedProfileIndexRoute =
-  AuthenticatedProfileIndexRouteImport.update({
-    id: '/_authenticated/profile/',
-    path: '/profile/',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const AuthenticatedOrdersIndexRoute =
-  AuthenticatedOrdersIndexRouteImport.update({
-    id: '/_authenticated/orders/',
-    path: '/orders/',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const AuthenticatedFavoritesIndexRoute =
-  AuthenticatedFavoritesIndexRouteImport.update({
-    id: '/_authenticated/favorites/',
-    path: '/favorites/',
-    getParentRoute: () => rootRouteImport,
-  } as any)
+const authedProfileIndexRoute = authedProfileIndexRouteImport.update({
+  id: '/(authed)/profile/',
+  path: '/profile/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authedOrdersIndexRoute = authedOrdersIndexRouteImport.update({
+  id: '/(authed)/orders/',
+  path: '/orders/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authedLogoutIndexRoute = authedLogoutIndexRouteImport.update({
+  id: '/(authed)/logout/',
+  path: '/logout/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authedFavoritesIndexRoute = authedFavoritesIndexRouteImport.update({
+  id: '/(authed)/favorites/',
+  path: '/favorites/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -106,9 +109,10 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof authResetPasswordRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
-  '/favorites': typeof AuthenticatedFavoritesIndexRoute
-  '/orders': typeof AuthenticatedOrdersIndexRoute
-  '/profile': typeof AuthenticatedProfileIndexRoute
+  '/favorites': typeof authedFavoritesIndexRoute
+  '/logout': typeof authedLogoutIndexRoute
+  '/orders': typeof authedOrdersIndexRoute
+  '/profile': typeof authedProfileIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -120,9 +124,10 @@ export interface FileRoutesByTo {
   '/reset-password': typeof authResetPasswordRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
-  '/favorites': typeof AuthenticatedFavoritesIndexRoute
-  '/orders': typeof AuthenticatedOrdersIndexRoute
-  '/profile': typeof AuthenticatedProfileIndexRoute
+  '/favorites': typeof authedFavoritesIndexRoute
+  '/logout': typeof authedLogoutIndexRoute
+  '/orders': typeof authedOrdersIndexRoute
+  '/profile': typeof authedProfileIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -135,9 +140,10 @@ export interface FileRoutesById {
   '/(auth)/reset-password': typeof authResetPasswordRoute
   '/(auth)/sign-in': typeof authSignInRoute
   '/(auth)/sign-up': typeof authSignUpRoute
-  '/_authenticated/favorites/': typeof AuthenticatedFavoritesIndexRoute
-  '/_authenticated/orders/': typeof AuthenticatedOrdersIndexRoute
-  '/_authenticated/profile/': typeof AuthenticatedProfileIndexRoute
+  '/(authed)/favorites/': typeof authedFavoritesIndexRoute
+  '/(authed)/logout/': typeof authedLogoutIndexRoute
+  '/(authed)/orders/': typeof authedOrdersIndexRoute
+  '/(authed)/profile/': typeof authedProfileIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -152,6 +158,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/favorites'
+    | '/logout'
     | '/orders'
     | '/profile'
   fileRoutesByTo: FileRoutesByTo
@@ -166,6 +173,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/favorites'
+    | '/logout'
     | '/orders'
     | '/profile'
   id:
@@ -179,9 +187,10 @@ export interface FileRouteTypes {
     | '/(auth)/reset-password'
     | '/(auth)/sign-in'
     | '/(auth)/sign-up'
-    | '/_authenticated/favorites/'
-    | '/_authenticated/orders/'
-    | '/_authenticated/profile/'
+    | '/(authed)/favorites/'
+    | '/(authed)/logout/'
+    | '/(authed)/orders/'
+    | '/(authed)/profile/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -194,9 +203,10 @@ export interface RootRouteChildren {
   authResetPasswordRoute: typeof authResetPasswordRoute
   authSignInRoute: typeof authSignInRoute
   authSignUpRoute: typeof authSignUpRoute
-  AuthenticatedFavoritesIndexRoute: typeof AuthenticatedFavoritesIndexRoute
-  AuthenticatedOrdersIndexRoute: typeof AuthenticatedOrdersIndexRoute
-  AuthenticatedProfileIndexRoute: typeof AuthenticatedProfileIndexRoute
+  authedFavoritesIndexRoute: typeof authedFavoritesIndexRoute
+  authedLogoutIndexRoute: typeof authedLogoutIndexRoute
+  authedOrdersIndexRoute: typeof authedOrdersIndexRoute
+  authedProfileIndexRoute: typeof authedProfileIndexRoute
 }
 export interface FileServerRoutesByFullPath {
   '/api/auth/$': typeof ApiAuthSplatServerRoute
@@ -285,25 +295,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/profile/': {
-      id: '/_authenticated/profile/'
+    '/(authed)/profile/': {
+      id: '/(authed)/profile/'
       path: '/profile'
       fullPath: '/profile'
-      preLoaderRoute: typeof AuthenticatedProfileIndexRouteImport
+      preLoaderRoute: typeof authedProfileIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/orders/': {
-      id: '/_authenticated/orders/'
+    '/(authed)/orders/': {
+      id: '/(authed)/orders/'
       path: '/orders'
       fullPath: '/orders'
-      preLoaderRoute: typeof AuthenticatedOrdersIndexRouteImport
+      preLoaderRoute: typeof authedOrdersIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/favorites/': {
-      id: '/_authenticated/favorites/'
+    '/(authed)/logout/': {
+      id: '/(authed)/logout/'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof authedLogoutIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(authed)/favorites/': {
+      id: '/(authed)/favorites/'
       path: '/favorites'
       fullPath: '/favorites'
-      preLoaderRoute: typeof AuthenticatedFavoritesIndexRouteImport
+      preLoaderRoute: typeof authedFavoritesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -330,9 +347,10 @@ const rootRouteChildren: RootRouteChildren = {
   authResetPasswordRoute: authResetPasswordRoute,
   authSignInRoute: authSignInRoute,
   authSignUpRoute: authSignUpRoute,
-  AuthenticatedFavoritesIndexRoute: AuthenticatedFavoritesIndexRoute,
-  AuthenticatedOrdersIndexRoute: AuthenticatedOrdersIndexRoute,
-  AuthenticatedProfileIndexRoute: AuthenticatedProfileIndexRoute,
+  authedFavoritesIndexRoute: authedFavoritesIndexRoute,
+  authedLogoutIndexRoute: authedLogoutIndexRoute,
+  authedOrdersIndexRoute: authedOrdersIndexRoute,
+  authedProfileIndexRoute: authedProfileIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import {
   adminClient,
   anonymousClient,
@@ -10,7 +10,7 @@ import { env } from '@/lib/env/client'
 
 import type { auth } from './auth'
 import { ac, admin, consumer } from './permissions'
-import { authQueries } from '@/server/queries/auth'
+import { userQueryOptions } from '@/server/fn/user'
 
 export const authClient = createAuthClient({
   baseURL: env.VITE_APP_URL,
@@ -29,17 +29,17 @@ export const authClient = createAuthClient({
 })
 
 export const useAuthentication = () => {
-  const { data: userSession } = useQuery(authQueries.user())
+  const { data: user } = useSuspenseQuery(userQueryOptions())
 
-  return { userSession, isAuthenticated: !!userSession }
+  return { user, isAuthenticated: !!user }
 }
 
 export const useAuthenticatedUser = () => {
-  const { userSession } = useAuthentication()
+  const { user } = useAuthentication()
 
-  if (!userSession) {
+  if (!user) {
     throw new Error('User is not authenticated!')
   }
 
-  return userSession
+  return user
 }

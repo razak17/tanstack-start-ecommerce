@@ -17,7 +17,7 @@ import { AnonymousSignIn } from '../anonymous-signin'
 import { OAuthSignIn } from '../oauth-sigin'
 
 export default function SignIn() {
-  const { userSession } = useAuthentication()
+  const { user } = useAuthentication()
 
   return (
     <AuthLayout>
@@ -42,7 +42,7 @@ export default function SignIn() {
               </div>
             </div>
             <SignInForm />
-            {!userSession?.user?.isAnonymous && (
+            {!user?.isAnonymous && (
               <>
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">

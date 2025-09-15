@@ -1,12 +1,27 @@
+import type { QueryClient } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
+import {
+  createRootRouteWithContext,
+  HeadContent,
+  Scripts,
+} from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+
+import { env } from '@/lib/env/client'
 
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
+import { userQueryOptions } from '@/server/fn/user'
 import appCss from '@/styles/app.css?url'
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{
+  queryClient: QueryClient
+}>()({
+  beforeLoad: async ({ context }) => {
+    const user = await context.queryClient.fetchQuery(userQueryOptions())
+
+    return { user }
+  },
   head: () => ({
     meta: [
       {
@@ -27,7 +42,6 @@ export const Route = createRootRoute({
       },
     ],
   }),
-
   shellComponent: RootDocument,
 })
 
@@ -42,8 +56,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <div className="min-h-screen bg-background">
             <main>{children}</main>
           </div>
-          <TanStackRouterDevtools position="bottom-right" />
-          <ReactQueryDevtools buttonPosition="bottom-left" />
+          {env.VITE_APP_ENV === 'development' && (
+            <>
+              <TanStackRouterDevtools position="bottom-right" />
+              <ReactQueryDevtools buttonPosition="bottom-left" />
+            </>
+          )}
           <Toaster />
           <Scripts />
         </ThemeProvider>
