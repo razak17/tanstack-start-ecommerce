@@ -1,4 +1,3 @@
-import type { Route } from "@tanstack/react-router";
 import type Stripe from "stripe";
 
 import type { Icons } from "@/components/icons";
@@ -19,7 +18,7 @@ export interface StoredFile {
 
 export interface NavItem {
   title: string;
-  url: Route;
+  url: string;
   disabled?: boolean;
   external?: boolean;
   shortcut?: [string, string];
@@ -32,7 +31,7 @@ export interface NavItem {
 
 export interface SidebarNavItem {
   title: string;
-  url: Route;
+  url: string;
   disabled?: boolean;
   external?: boolean;
   icon?: keyof typeof Icons;
