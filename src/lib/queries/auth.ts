@@ -1,13 +1,13 @@
-import { queryOptions } from "@tanstack/react-query";
+import { queryOptions } from '@tanstack/react-query'
 
-import { getUserSessionFn } from "../fn/auth";
+import { getUserSessionFn } from '../fn/auth'
 
 export const authQueries = {
-  all: ["auth"],
+  all: ['auth'],
   user: () =>
     queryOptions({
-      queryKey: [...authQueries.all, "user"],
+      queryKey: [...authQueries.all, 'user'],
       queryFn: () => getUserSessionFn(),
       staleTime: 5000,
     }),
-};
+}

@@ -1,9 +1,9 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from '@tanstack/react-router'
 
-import { siteConfig } from "@/config/site";
+import { siteConfig } from '@/config/site'
 
 interface Props {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export default function AuthLayout({ children }: Props) {
@@ -26,14 +26,14 @@ export default function AuthLayout({ children }: Props) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background to-black/80 lg:to-black/40" />
         <div className="absolute right-4 bottom-4 z-20 line-clamp-1 rounded-md bg-muted px-3 py-1.5 text-muted-foreground text-sm">
-          Photo by{" "}
+          Photo by{' '}
           <a
             href="https://unsplash.com/@a_myth?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
             className="underline transition-colors hover:text-foreground"
           >
             a_myth
           </a>
-          {" on "}
+          {' on '}
           <a
             href="https://unsplash.com/photos/three-black-and-grey-laptops-y7T1lYkfg0c?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
             className="underline transition-colors hover:text-foreground"
@@ -43,5 +43,5 @@ export default function AuthLayout({ children }: Props) {
         </div>
       </div>
     </div>
-  );
+  )
 }

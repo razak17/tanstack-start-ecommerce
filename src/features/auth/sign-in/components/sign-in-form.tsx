@@ -1,19 +1,19 @@
-"use client";
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import type { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import type { z } from 'zod'
 
-import { authClient } from "@/lib/auth/client";
-import { signInSchema } from "@/lib/validations/auth";
+import { authClient } from '@/lib/auth/client'
+import { signInSchema } from '@/lib/validations/auth'
 
-import { Icons } from "@/components/icons";
-import { PasswordInput } from "@/components/password-input";
-import { Button } from "@/components/ui/button";
+import { Icons } from '@/components/icons'
+import { PasswordInput } from '@/components/password-input'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -21,42 +21,42 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 
 export function SignInForm() {
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
-  });
+  })
 
   async function onSubmit(values: z.infer<typeof signInSchema>) {
-    setIsLoading(true);
+    setIsLoading(true)
 
     const { error } = await authClient.signIn.email({
       email: values.email,
       password: values.password,
       rememberMe: true,
       callbackURL: `${window.location.origin}/`,
-    });
+    })
 
     if (error) {
-      toast.error(error.message);
-      setIsLoading(false);
-      return;
+      toast.error(error.message)
+      setIsLoading(false)
+      return
     }
 
-    toast.success("Signed in successfully.");
-    setIsLoading(false);
-    queryClient.resetQueries();
-    navigate({ to: "/" });
+    toast.success('Signed in successfully.')
+    setIsLoading(false)
+    queryClient.resetQueries()
+    navigate({ to: '/' })
   }
 
   return (
@@ -102,5 +102,5 @@ export function SignInForm() {
         </Button>
       </form>
     </Form>
-  );
+  )
 }

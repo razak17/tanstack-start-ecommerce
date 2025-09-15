@@ -1,8 +1,8 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from '@tanstack/react-router'
 
-import { SignUpForm } from "./components/sign-up-form";
-import AuthLayout from "@/components/layouts/auth-layout";
-import { Shell } from "@/components/shell";
+import { SignUpForm } from './components/sign-up-form'
+import AuthLayout from '@/components/layouts/auth-layout'
+import { Shell } from '@/components/shell'
 import {
   Card,
   CardContent,
@@ -10,8 +10,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { OAuthSignIn } from "../oauth-sigin";
+} from '@/components/ui/card'
+import { OAuthSignIn } from '../oauth-sigin'
 
 export default function SignUp() {
   return (
@@ -40,15 +40,15 @@ export default function SignUp() {
           </CardContent>
           <CardFooter>
             <p className="px-8 text-center text-muted-foreground text-sm">
-              By creating an account, you agree to our{" "}
+              By creating an account, you agree to our{' '}
               <Link
                 aria-label="Terms"
                 to="/terms"
                 className="underline underline-offset-4 hover:text-primary"
               >
                 Terms of Service
-              </Link>{" "}
-              and{" "}
+              </Link>{' '}
+              and{' '}
               <Link
                 aria-label="Privacy"
                 to="/privacy"
@@ -62,5 +62,5 @@ export default function SignUp() {
         </Card>
       </Shell>
     </AuthLayout>
-  );
+  )
 }

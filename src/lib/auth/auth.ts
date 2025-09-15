@@ -1,44 +1,44 @@
-import { betterAuth } from "better-auth";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { nextCookies } from "better-auth/next-js";
-import { admin as adminPlugin, anonymous } from "better-auth/plugins";
+import { betterAuth } from 'better-auth'
+import { drizzleAdapter } from 'better-auth/adapters/drizzle'
+import { nextCookies } from 'better-auth/next-js'
+import { admin as adminPlugin, anonymous } from 'better-auth/plugins'
 
-import { linkAnonymousUserFavorites } from "@/lib/data-access/anonymous";
+import { linkAnonymousUserFavorites } from '@/lib/data-access/anonymous'
 
-import { ac, admin, consumer } from "./permissions";
-import ResetPasswordEmail from "@/components/reset-password-email";
-import AccountVerificationEmail from "@/components/verification-email";
-import { env } from "@/config/env";
-import { siteConfig } from "@/config/site";
-import { db } from "@/db/drizzle";
-import * as schema from "@/db/schema";
-import { resend } from "../resend";
+import { ac, admin, consumer } from './permissions'
+import ResetPasswordEmail from '@/components/reset-password-email'
+import AccountVerificationEmail from '@/components/verification-email'
+import { env } from '@/config/env'
+import { siteConfig } from '@/config/site'
+import { db } from '@/db/drizzle'
+import * as schema from '@/db/schema'
+import { resend } from '../resend'
 
-const EMAIL_FROM = `${env.EMAIL_SENDER_NAME} <${env.EMAIL_SENDER_ADDRESS}>`;
+const EMAIL_FROM = `${env.EMAIL_SENDER_NAME} <${env.EMAIL_SENDER_ADDRESS}>`
 
 export const auth = betterAuth({
   user: {
     additionalFields: {
       firstName: {
-        type: "string",
+        type: 'string',
         required: false,
         defaultValue: null,
         input: true,
       },
       lastName: {
-        type: "string",
+        type: 'string',
         required: false,
         defaultValue: null,
         input: true,
       },
       gender: {
-        type: "string",
+        type: 'string',
         required: false,
         defaultValue: null,
         input: true,
       },
       phone: {
-        type: "string",
+        type: 'string',
         required: false,
         defaultValue: null,
         input: true,
@@ -46,7 +46,7 @@ export const auth = betterAuth({
     },
   },
   database: drizzleAdapter(db, {
-    provider: "pg",
+    provider: 'pg',
     schema,
   }),
   emailVerification: {
@@ -55,13 +55,13 @@ export const auth = betterAuth({
       await resend.emails.send({
         from: EMAIL_FROM,
         to: user.email,
-        subject: "Verify your email address",
+        subject: 'Verify your email address',
         react: AccountVerificationEmail({
           email: user.email,
           verificationUrl: url,
           companyName: siteConfig.name,
         }),
-      });
+      })
     },
   },
   emailAndPassword: {
@@ -71,13 +71,13 @@ export const auth = betterAuth({
       resend.emails.send({
         from: EMAIL_FROM,
         to: user.email,
-        subject: "Reset your password",
+        subject: 'Reset your password',
         react: ResetPasswordEmail({
           name: user.name,
           resetUrl: url,
           userEmail: user.email,
         }),
-      });
+      })
     },
   },
   socialProviders: {
@@ -94,10 +94,7 @@ export const auth = betterAuth({
     anonymous({
       onLinkAccount: async ({ anonymousUser, newUser }) => {
         // perform actions like moving the cart items from anonymous user to the new user
-        await linkAnonymousUserFavorites(
-          anonymousUser.user.id,
-          newUser.user.id,
-        );
+        await linkAnonymousUserFavorites(anonymousUser.user.id, newUser.user.id)
       },
     }),
     adminPlugin({
@@ -106,9 +103,9 @@ export const auth = betterAuth({
         admin,
         consumer,
       },
-      adminRoles: ["admin"],
-      defaultRole: "consumer",
+      adminRoles: ['admin'],
+      defaultRole: 'consumer',
     }),
     nextCookies(), // make sure this is the last plugin in the array
   ],
-});
+})

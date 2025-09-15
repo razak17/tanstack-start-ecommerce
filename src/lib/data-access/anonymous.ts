@@ -1,9 +1,9 @@
-import { eq } from "drizzle-orm";
+import { eq } from 'drizzle-orm'
 
-import { getErrorMessage } from "@/lib/handle-error";
+import { getErrorMessage } from '@/lib/handle-error'
 
-import { db } from "@/db/drizzle";
-import { favorites } from "@/db/schema";
+import { db } from '@/db/drizzle'
+import { favorites } from '@/db/schema'
 
 export async function linkAnonymousUserFavorites(
   anonymousUserId: string,
@@ -14,26 +14,26 @@ export async function linkAnonymousUserFavorites(
     const anonymousFavorites = await db
       .select({ productId: favorites.productId })
       .from(favorites)
-      .where(eq(favorites.userId, anonymousUserId));
+      .where(eq(favorites.userId, anonymousUserId))
 
     if (anonymousFavorites.length === 0) {
-      return;
+      return
     }
 
     // Get existing favorites for the authenticated user
     const existingFavorites = await db
       .select({ productId: favorites.productId })
       .from(favorites)
-      .where(eq(favorites.userId, userId));
+      .where(eq(favorites.userId, userId))
 
     const existingProductIds = new Set(
       existingFavorites.map((f) => f.productId),
-    );
+    )
 
     // Filter out products that are already in the user's favorites
     const newFavorites = anonymousFavorites.filter(
       (f) => !existingProductIds.has(f.productId),
-    );
+    )
 
     if (newFavorites.length > 0) {
       // Insert new favorites for the authenticated user
@@ -42,13 +42,13 @@ export async function linkAnonymousUserFavorites(
           userId,
           productId: f.productId,
         })),
-      );
+      )
     }
 
     // Delete anonymous user's favorites
-    await db.delete(favorites).where(eq(favorites.userId, anonymousUserId));
+    await db.delete(favorites).where(eq(favorites.userId, anonymousUserId))
   } catch (error) {
-    console.error("Error linking anonymous favorites to user:", error);
-    throw new Error(getErrorMessage(error));
+    console.error('Error linking anonymous favorites to user:', error)
+    throw new Error(getErrorMessage(error))
   }
 }

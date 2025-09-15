@@ -10,16 +10,16 @@ import {
   Section,
   Tailwind,
   Text,
-} from "@react-email/components";
+} from '@react-email/components'
 
 interface ForgotPasswordEmailProps {
-  name: string;
-  resetUrl: string;
-  userEmail: string;
+  name: string
+  resetUrl: string
+  userEmail: string
 }
 
 const ResetPasswordEmail = (props: ForgotPasswordEmailProps) => {
-  const { name, resetUrl, userEmail } = props;
+  const { name, resetUrl, userEmail } = props
 
   return (
     <Html lang="en" dir="ltr">
@@ -97,7 +97,7 @@ const ResetPasswordEmail = (props: ForgotPasswordEmailProps) => {
             {/* Help Section */}
             <Section className="mb-[32px]">
               <Text className="m-0 text-[14px] text-gray-600 leading-[20px]">
-                Need help? Contact our support team at{" "}
+                Need help? Contact our support team at{' '}
                 <Link href="mailto:help@razakmo.tech" className="text-blue-600">
                   support@ecommerce.razakmo.tech
                 </Link>
@@ -120,7 +120,7 @@ const ResetPasswordEmail = (props: ForgotPasswordEmailProps) => {
         </Body>
       </Tailwind>
     </Html>
-  );
-};
+  )
+}
 
-export default ResetPasswordEmail;
+export default ResetPasswordEmail

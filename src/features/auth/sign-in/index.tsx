@@ -1,10 +1,10 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from '@tanstack/react-router'
 
-import { useAuthentication } from "@/lib/auth/client";
+import { useAuthentication } from '@/lib/auth/client'
 
-import { SignInForm } from "./components/sign-in-form";
-import AuthLayout from "@/components/layouts/auth-layout";
-import { Shell } from "@/components/shell";
+import { SignInForm } from './components/sign-in-form'
+import AuthLayout from '@/components/layouts/auth-layout'
+import { Shell } from '@/components/shell'
 import {
   Card,
   CardContent,
@@ -12,12 +12,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { AnonymousSignIn } from "../anonymous-signin";
-import { OAuthSignIn } from "../oauth-sigin";
+} from '@/components/ui/card'
+import { AnonymousSignIn } from '../anonymous-signin'
+import { OAuthSignIn } from '../oauth-sigin'
 
 export default function SignIn() {
-  const { userSession } = useAuthentication();
+  const { userSession } = useAuthentication()
 
   return (
     <AuthLayout>
@@ -82,5 +82,5 @@ export default function SignIn() {
         </Card>
       </Shell>
     </AuthLayout>
-  );
+  )
 }

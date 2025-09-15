@@ -1,23 +1,23 @@
-import { createMiddleware } from "@tanstack/react-start";
-import { getWebRequest } from "@tanstack/react-start/server";
+import { createMiddleware } from '@tanstack/react-start'
+import { getWebRequest } from '@tanstack/react-start/server'
 
-import { auth } from "@/lib/auth/auth";
+import { auth } from '@/lib/auth/auth'
 
 export const authenticatedMiddleware = createMiddleware({
-  type: "function",
+  type: 'function',
 }).server(async ({ next }) => {
-  const request = getWebRequest();
+  const request = getWebRequest()
 
   if (!request?.headers) {
-    throw new Error("No headers");
+    throw new Error('No headers')
   }
-  const session = await auth.api.getSession({ headers: request.headers });
+  const session = await auth.api.getSession({ headers: request.headers })
 
   if (!session) {
-    throw new Error("No session");
+    throw new Error('No session')
   }
 
   return next({
     context: { userId: session.user.id },
-  });
-});
+  })
+})

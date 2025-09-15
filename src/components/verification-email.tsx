@@ -10,12 +10,12 @@ import {
   Section,
   Tailwind,
   Text,
-} from "@react-email/components";
+} from '@react-email/components'
 
 interface AccountVerificationEmailProps {
-  email: string;
-  verificationUrl: string;
-  companyName: string;
+  email: string
+  verificationUrl: string
+  companyName: string
 }
 
 const AccountVerificationEmail = ({
@@ -116,7 +116,7 @@ const AccountVerificationEmail = ({
                 <Link href="/privacy" className="text-gray-500 no-underline">
                   Privacy Policy
                 </Link>
-                {" | "}&copy; {new Date().getFullYear()} {companyName}. All
+                {' | '}&copy; {new Date().getFullYear()} {companyName}. All
                 rights reserved.
               </Text>
             </Section>
@@ -124,7 +124,7 @@ const AccountVerificationEmail = ({
         </Body>
       </Tailwind>
     </Html>
-  );
-};
+  )
+}
 
-export default AccountVerificationEmail;
+export default AccountVerificationEmail

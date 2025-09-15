@@ -5,11 +5,11 @@ import {
   GearIcon,
   HomeIcon,
   ImageIcon,
-} from "@radix-ui/react-icons";
-import { IconPackage } from "@tabler/icons-react";
-import { ChartBarStackedIcon, ChartColumnStackedIcon } from "lucide-react";
+} from '@radix-ui/react-icons'
+import { IconPackage } from '@tabler/icons-react'
+import { ChartBarStackedIcon, ChartColumnStackedIcon } from 'lucide-react'
 
-export type IconProps = React.HTMLAttributes<SVGElement>;
+export type IconProps = React.HTMLAttributes<SVGElement>
 
 export const Icons = {
   logo: (props: IconProps) => (
@@ -485,4 +485,4 @@ export const Icons = {
   placeholder: ImageIcon,
   settings: GearIcon,
   chevronLeft: ChevronLeftIcon,
-};
+}

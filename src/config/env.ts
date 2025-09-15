@@ -24,4 +24,4 @@ export const env = {
   PAYPAL_API_URL: process.env.PAYPAL_API_URL!,
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY!,
   STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET!,
-} as const;
+} as const

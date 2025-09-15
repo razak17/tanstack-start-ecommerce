@@ -1,17 +1,17 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
-import { Link, useRouter } from "@tanstack/react-router";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import type { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
+import { Link, useRouter } from '@tanstack/react-router'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import type { z } from 'zod'
 
-import { authClient } from "@/lib/auth/client";
-import { signUpSchema } from "@/lib/validations/auth";
+import { authClient } from '@/lib/auth/client'
+import { signUpSchema } from '@/lib/validations/auth'
 
-import { Icons } from "@/components/icons";
-import { PasswordInput } from "@/components/password-input";
-import { Button } from "@/components/ui/button";
+import { Icons } from '@/components/icons'
+import { PasswordInput } from '@/components/password-input'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -19,29 +19,29 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 
 export function SignUpForm() {
-  const [isLoading, setIsLoading] = useState(false);
-  const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false)
+  const queryClient = useQueryClient()
 
-  const router = useRouter();
+  const router = useRouter()
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
     },
-  });
+  })
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
-    setIsLoading(true);
+    setIsLoading(true)
 
-    const { firstName, lastName, email, password } = values;
+    const { firstName, lastName, email, password } = values
 
     const { error } = await authClient.signUp.email({
       email,
@@ -49,18 +49,18 @@ export function SignUpForm() {
       firstName,
       lastName,
       name: `${firstName} ${lastName}`,
-    });
+    })
 
     if (error) {
-      toast.error(error.message);
-      setIsLoading(false);
-      return;
+      toast.error(error.message)
+      setIsLoading(false)
+      return
     }
 
-    toast.success("Signed up successfully.");
-    setIsLoading(false);
-    queryClient.resetQueries();
-    router.invalidate();
+    toast.success('Signed up successfully.')
+    setIsLoading(false)
+    queryClient.resetQueries()
+    router.invalidate()
   }
 
   return (
@@ -132,7 +132,7 @@ export function SignUpForm() {
           )}
         />
         <div className="text-muted-foreground text-sm">
-          Already have an account?{" "}
+          Already have an account?{' '}
           <Link
             aria-label="signIn"
             to="/sign-in"
@@ -152,5 +152,5 @@ export function SignUpForm() {
         </Button>
       </form>
     </Form>
-  );
+  )
 }

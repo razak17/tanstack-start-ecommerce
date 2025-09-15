@@ -1,36 +1,36 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
-import * as React from "react";
-import { toast } from "sonner";
+import { useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
+import * as React from 'react'
+import { toast } from 'sonner'
 
-import { authClient } from "@/lib/auth/client";
+import { authClient } from '@/lib/auth/client'
 
-import { Icons } from "@/components/icons";
-import { Button } from "@/components/ui/button";
+import { Icons } from '@/components/icons'
+import { Button } from '@/components/ui/button'
 
 export function AnonymousSignIn() {
-  const [isLoading, setIsLoading] = React.useState(false);
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = React.useState(false)
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   const handleSignInAnonymous = async () => {
     await authClient.signIn.anonymous({
       fetchOptions: {
         onSuccess: () => {
-          toast.success("Signed in successfully.");
-          queryClient.resetQueries();
-          navigate({ to: "/" });
+          toast.success('Signed in successfully.')
+          queryClient.resetQueries()
+          navigate({ to: '/' })
         },
         onError: (ctx) => {
-          toast.error(ctx.error.message);
+          toast.error(ctx.error.message)
         },
         onRequest: () => {
-          setIsLoading(true);
+          setIsLoading(true)
         },
         onResponse: () => setIsLoading(false),
       },
-    });
-  };
+    })
+  }
 
   return (
     <Button
@@ -47,5 +47,5 @@ export function AnonymousSignIn() {
       )}
       Anonymous Login
     </Button>
-  );
+  )
 }

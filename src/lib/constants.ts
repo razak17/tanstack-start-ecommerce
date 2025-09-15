@@ -1,2 +1,1 @@
-export const unknownError =
-  "An unknown error occurred. Please try again later.";
+export const unknownError = 'An unknown error occurred. Please try again later.'
