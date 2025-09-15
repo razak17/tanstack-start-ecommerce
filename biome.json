@@ -10,11 +10,11 @@
     "includes": [
       "**",
       "!**/app.css",
-      "!**/routeTree.gen.ts",
+      "!**/src/routeTree.gen.ts",
       "!.tanstack",
       "!build",
       "!dist",
-      "!drizzle/meta",
+      "!src/db/migrations/meta",
       "!node_modules"
     ]
   },
