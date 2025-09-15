@@ -7,7 +7,9 @@
     "start": "node .output/server/index.mjs",
     "build": "vite build",
     "serve": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "lint": "biome check .",
+    "lint:fix": "biome check . --write"
   },
   "dependencies": {
     "@tanstack/react-devtools": "^0.2.2",
