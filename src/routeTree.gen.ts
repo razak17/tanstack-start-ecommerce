@@ -22,6 +22,7 @@ import { Route as authSignUpRouteImport } from './routes/(auth)/sign-up'
 import { Route as authSignInRouteImport } from './routes/(auth)/sign-in'
 import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
+import { Route as AdminDashboardIndexRouteImport } from './routes/admin/dashboard/index'
 import { Route as authedProfileIndexRouteImport } from './routes/(authed)/profile/index'
 import { Route as authedOrdersIndexRouteImport } from './routes/(authed)/orders/index'
 import { Route as authedLogoutIndexRouteImport } from './routes/(authed)/logout/index'
@@ -85,6 +86,11 @@ const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminDashboardIndexRoute = AdminDashboardIndexRouteImport.update({
+  id: '/admin/dashboard/',
+  path: '/admin/dashboard/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const authedProfileIndexRoute = authedProfileIndexRouteImport.update({
   id: '/(authed)/profile/',
   path: '/profile/',
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/logout': typeof authedLogoutIndexRoute
   '/orders': typeof authedOrdersIndexRoute
   '/profile': typeof authedProfileIndexRoute
+  '/admin/dashboard': typeof AdminDashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/logout': typeof authedLogoutIndexRoute
   '/orders': typeof authedOrdersIndexRoute
   '/profile': typeof authedProfileIndexRoute
+  '/admin/dashboard': typeof AdminDashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -162,6 +170,7 @@ export interface FileRoutesById {
   '/(authed)/logout/': typeof authedLogoutIndexRoute
   '/(authed)/orders/': typeof authedOrdersIndexRoute
   '/(authed)/profile/': typeof authedProfileIndexRoute
+  '/admin/dashboard/': typeof AdminDashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -181,6 +190,7 @@ export interface FileRouteTypes {
     | '/logout'
     | '/orders'
     | '/profile'
+    | '/admin/dashboard'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/logout'
     | '/orders'
     | '/profile'
+    | '/admin/dashboard'
   id:
     | '__root__'
     | '/'
@@ -215,6 +226,7 @@ export interface FileRouteTypes {
     | '/(authed)/logout/'
     | '/(authed)/orders/'
     | '/(authed)/profile/'
+    | '/admin/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -233,6 +245,7 @@ export interface RootRouteChildren {
   authedLogoutIndexRoute: typeof authedLogoutIndexRoute
   authedOrdersIndexRoute: typeof authedOrdersIndexRoute
   authedProfileIndexRoute: typeof authedProfileIndexRoute
+  AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
 }
 export interface FileServerRoutesByFullPath {
   '/api/auth/$': typeof ApiAuthSplatServerRoute
@@ -335,6 +348,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/dashboard/': {
+      id: '/admin/dashboard/'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(authed)/profile/': {
       id: '/(authed)/profile/'
       path: '/profile'
@@ -393,6 +413,7 @@ const rootRouteChildren: RootRouteChildren = {
   authedLogoutIndexRoute: authedLogoutIndexRoute,
   authedOrdersIndexRoute: authedOrdersIndexRoute,
   authedProfileIndexRoute: authedProfileIndexRoute,
+  AdminDashboardIndexRoute: AdminDashboardIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

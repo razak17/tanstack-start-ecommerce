@@ -1,7 +1,7 @@
-import { ProductCardSkeleton } from '@/components/product-card-skeleton'
 import { Shell } from '@/components/shell'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { ProductCardSkeleton } from '@/features/products/components/product-card-skeleton'
 
 export function LobbySkeleton() {
   return (

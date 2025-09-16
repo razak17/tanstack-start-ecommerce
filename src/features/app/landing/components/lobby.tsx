@@ -1,9 +1,9 @@
 import { GemIcon, PackageCheckIcon, TruckIcon } from 'lucide-react'
 
-import { CategoryCard } from '@/components/category-card'
-import { ContentSection } from '@/components/content-section'
-import { ProductCard } from '@/components/product-card'
+import { ContentSection } from './content-section'
 import { Shell } from '@/components/shell'
+import { CategoryCard } from '@/features/categories/components/category-card'
+import { ProductCard } from '@/features/products/components/product-card'
 import type { Category, FeaturedProduct } from '@/server/db/schema'
 
 interface LobbyProps {
