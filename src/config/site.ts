@@ -32,6 +32,7 @@ const authItems = {
     },
   ] satisfies SidebarNavItem[],
 }
+
 const bannerSlides = [
   {
     image: '/images/banner-0.jpg',
