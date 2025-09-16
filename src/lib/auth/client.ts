@@ -10,7 +10,7 @@ import { env } from '@/lib/env/client'
 
 import type { auth } from './auth'
 import { ac, admin, consumer } from './permissions'
-import { userQueryOptions } from '@/server/fn/user'
+import { userQueryOptions } from '@/server/queries/user'
 
 export const authClient = createAuthClient({
   baseURL: env.VITE_APP_URL,

@@ -71,4 +71,18 @@ export const productsRelations = relations(products, ({ one, many }) => ({
 }))
 
 export type Product = typeof products.$inferSelect
+export type FeaturedProduct = Omit<
+  Product,
+  | 'categoryId'
+  | 'description'
+  | 'originalPrice'
+  | 'rating'
+  | 'status'
+  | 'subcategoryId'
+  | 'createdAt'
+  | 'updatedAt'
+> & {
+  isFavorited?: boolean
+  category: string | null
+}
 export type NewProduct = typeof products.$inferInsert

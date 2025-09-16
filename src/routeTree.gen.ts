@@ -16,6 +16,8 @@ import { Route as ShopRouteImport } from './routes/shop'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProductProductIdRouteImport } from './routes/product/$productId'
+import { Route as CollectionsCategorySlugRouteImport } from './routes/collections/$categorySlug'
 import { Route as authSignUpRouteImport } from './routes/(auth)/sign-up'
 import { Route as authSignInRouteImport } from './routes/(auth)/sign-in'
 import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
@@ -51,6 +53,16 @@ const CartRoute = CartRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductProductIdRoute = ProductProductIdRouteImport.update({
+  id: '/product/$productId',
+  path: '/product/$productId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollectionsCategorySlugRoute = CollectionsCategorySlugRouteImport.update({
+  id: '/collections/$categorySlug',
+  path: '/collections/$categorySlug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authSignUpRoute = authSignUpRouteImport.update({
@@ -109,6 +121,8 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof authResetPasswordRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
+  '/collections/$categorySlug': typeof CollectionsCategorySlugRoute
+  '/product/$productId': typeof ProductProductIdRoute
   '/favorites': typeof authedFavoritesIndexRoute
   '/logout': typeof authedLogoutIndexRoute
   '/orders': typeof authedOrdersIndexRoute
@@ -124,6 +138,8 @@ export interface FileRoutesByTo {
   '/reset-password': typeof authResetPasswordRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
+  '/collections/$categorySlug': typeof CollectionsCategorySlugRoute
+  '/product/$productId': typeof ProductProductIdRoute
   '/favorites': typeof authedFavoritesIndexRoute
   '/logout': typeof authedLogoutIndexRoute
   '/orders': typeof authedOrdersIndexRoute
@@ -140,6 +156,8 @@ export interface FileRoutesById {
   '/(auth)/reset-password': typeof authResetPasswordRoute
   '/(auth)/sign-in': typeof authSignInRoute
   '/(auth)/sign-up': typeof authSignUpRoute
+  '/collections/$categorySlug': typeof CollectionsCategorySlugRoute
+  '/product/$productId': typeof ProductProductIdRoute
   '/(authed)/favorites/': typeof authedFavoritesIndexRoute
   '/(authed)/logout/': typeof authedLogoutIndexRoute
   '/(authed)/orders/': typeof authedOrdersIndexRoute
@@ -157,6 +175,8 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/collections/$categorySlug'
+    | '/product/$productId'
     | '/favorites'
     | '/logout'
     | '/orders'
@@ -172,6 +192,8 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/collections/$categorySlug'
+    | '/product/$productId'
     | '/favorites'
     | '/logout'
     | '/orders'
@@ -187,6 +209,8 @@ export interface FileRouteTypes {
     | '/(auth)/reset-password'
     | '/(auth)/sign-in'
     | '/(auth)/sign-up'
+    | '/collections/$categorySlug'
+    | '/product/$productId'
     | '/(authed)/favorites/'
     | '/(authed)/logout/'
     | '/(authed)/orders/'
@@ -203,6 +227,8 @@ export interface RootRouteChildren {
   authResetPasswordRoute: typeof authResetPasswordRoute
   authSignInRoute: typeof authSignInRoute
   authSignUpRoute: typeof authSignUpRoute
+  CollectionsCategorySlugRoute: typeof CollectionsCategorySlugRoute
+  ProductProductIdRoute: typeof ProductProductIdRoute
   authedFavoritesIndexRoute: typeof authedFavoritesIndexRoute
   authedLogoutIndexRoute: typeof authedLogoutIndexRoute
   authedOrdersIndexRoute: typeof authedOrdersIndexRoute
@@ -265,6 +291,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/product/$productId': {
+      id: '/product/$productId'
+      path: '/product/$productId'
+      fullPath: '/product/$productId'
+      preLoaderRoute: typeof ProductProductIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collections/$categorySlug': {
+      id: '/collections/$categorySlug'
+      path: '/collections/$categorySlug'
+      fullPath: '/collections/$categorySlug'
+      preLoaderRoute: typeof CollectionsCategorySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)/sign-up': {
@@ -347,6 +387,8 @@ const rootRouteChildren: RootRouteChildren = {
   authResetPasswordRoute: authResetPasswordRoute,
   authSignInRoute: authSignInRoute,
   authSignUpRoute: authSignUpRoute,
+  CollectionsCategorySlugRoute: CollectionsCategorySlugRoute,
+  ProductProductIdRoute: ProductProductIdRoute,
   authedFavoritesIndexRoute: authedFavoritesIndexRoute,
   authedLogoutIndexRoute: authedLogoutIndexRoute,
   authedOrdersIndexRoute: authedOrdersIndexRoute,

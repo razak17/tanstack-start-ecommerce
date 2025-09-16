@@ -1,13 +1,19 @@
-import BannerCarousel from './components/banner-carousel'
-import { MainLayout } from '@/components/layouts/main-layout'
-import { siteConfig } from '@/config/site'
+import { useSuspenseQuery } from '@tanstack/react-query'
+
+import { useAuthentication } from '@/lib/auth/client'
+
+import { Lobby } from './components/lobby'
+import { getFeaturedCategoriesQuery } from '@/server/queries/categories'
+import { getFeaturedProductsQuery } from '@/server/queries/products'
 
 export default function LandingPage() {
-  return (
-    <MainLayout>
-      <div className="flex min-h-screen flex-col">
-        <BannerCarousel items={siteConfig.bannerSlides} />
-      </div>
-    </MainLayout>
+  const { user } = useAuthentication()
+  const { data: featuredCategories } = useSuspenseQuery(
+    getFeaturedCategoriesQuery(),
   )
+  const { data: featuredProducts } = useSuspenseQuery(
+    getFeaturedProductsQuery(user?.id),
+  )
+
+  return <Lobby categories={featuredCategories} products={featuredProducts} />
 }

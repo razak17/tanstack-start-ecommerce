@@ -42,7 +42,7 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
             to="/shop"
             className={`rounded bg-gray-600 px-2 py-1 font-extrabold text-white uppercase dark:bg-gray-700`}
           >
-            Browse Songs
+            Discover our collection of products
           </Link>
         )}
       </div>

@@ -11,7 +11,7 @@ import { env } from '@/lib/env/client'
 
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
-import { userQueryOptions } from '@/server/fn/user'
+import { userQueryOptions } from '@/server/queries/user'
 import appCss from '@/styles/app.css?url'
 
 export const Route = createRootRouteWithContext<{
