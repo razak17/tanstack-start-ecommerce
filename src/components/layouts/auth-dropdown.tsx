@@ -1,5 +1,3 @@
-'use client'
-
 import { ExitIcon } from '@radix-ui/react-icons'
 import { Link, useRouterState } from '@tanstack/react-router'
 import { LogIn, User } from 'lucide-react'
@@ -29,13 +27,13 @@ interface AuthDropdownProps {
 
 const authItems = [
   {
-    title: 'Login',
-    to: '/login',
+    title: 'Sign In',
+    to: '/sign-in',
     icon: LogIn,
   },
   {
-    title: 'Register',
-    to: '/register',
+    title: 'Sign Up',
+    to: '/sign-up',
     icon: User,
   },
 ]

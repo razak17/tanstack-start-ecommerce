@@ -1,4 +1,4 @@
-import { useAuthenticatedUser } from '@/lib/auth/client'
+import { useAuthentication } from '@/lib/auth/client'
 
 import { SiteFooter } from '@/components/layouts/site-footer'
 import { SiteHeader } from '@/components/layouts/site-header'
@@ -14,7 +14,7 @@ export function MainLayout({
   favoritesCount,
   children,
 }: MainLayoutProps) {
-  const user = useAuthenticatedUser()
+  const { user } = useAuthentication()
 
   return (
     <div className="relative flex min-h-screen flex-col">

@@ -4,7 +4,7 @@ import SignIn from '@/features/auth/sign-in'
 
 export const Route = createFileRoute('/(auth)/sign-in')({
   beforeLoad: async ({ context }) => {
-    if (context.user) {
+    if (context.user && !context.user.isAnonymous) {
       throw redirect({ to: '/' })
     }
   },

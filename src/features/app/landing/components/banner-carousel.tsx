@@ -1,6 +1,4 @@
 /** biome-ignore-all lint/a11y/noStaticElementInteractions: false */
-'use client'
-
 import { Link } from '@tanstack/react-router'
 import * as React from 'react'
 

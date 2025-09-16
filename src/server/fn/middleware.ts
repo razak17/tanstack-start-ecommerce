@@ -18,6 +18,10 @@ export const authenticatedMiddleware = createMiddleware({
   }
 
   return next({
-    context: { userId: session.user.id },
+    context: {
+      userId: session.user.id,
+      role: session.user.role,
+      isAnonymous: session.user.isAnonymous,
+    },
   })
 })

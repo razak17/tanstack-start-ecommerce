@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQueryClient } from '@tanstack/react-query'
-import { Link, useNavigate, useRouter } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -24,9 +23,7 @@ import { Input } from '@/components/ui/input'
 
 export function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
   const navigate = useNavigate()
-  const queryClient = useQueryClient()
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -54,8 +51,6 @@ export function SignUpForm() {
       {
         onSuccess: () => {
           toast.success('Signed up successfully.')
-          queryClient.resetQueries()
-          router.invalidate()
           navigate({ to: '/sign-in' })
         },
         onError: (ctx) => {

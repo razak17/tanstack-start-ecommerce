@@ -18,15 +18,21 @@ import { Route as CartRouteImport } from './routes/cart'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductProductIdRouteImport } from './routes/product/$productId'
 import { Route as CollectionsCategorySlugRouteImport } from './routes/collections/$categorySlug'
+import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminSubcategoriesRouteImport } from './routes/admin/subcategories'
+import { Route as AdminProductsRouteImport } from './routes/admin/products'
+import { Route as AdminOrdersRouteImport } from './routes/admin/orders'
+import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
+import { Route as AdminCategoriesRouteImport } from './routes/admin/categories'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin/analytics'
+import { Route as authedProfileRouteImport } from './routes/(authed)/profile'
+import { Route as authedOrdersRouteImport } from './routes/(authed)/orders'
+import { Route as authedLogoutRouteImport } from './routes/(authed)/logout'
+import { Route as authedFavoritesRouteImport } from './routes/(authed)/favorites'
 import { Route as authSignUpRouteImport } from './routes/(auth)/sign-up'
 import { Route as authSignInRouteImport } from './routes/(auth)/sign-in'
 import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
-import { Route as AdminDashboardIndexRouteImport } from './routes/admin/dashboard/index'
-import { Route as authedProfileIndexRouteImport } from './routes/(authed)/profile/index'
-import { Route as authedOrdersIndexRouteImport } from './routes/(authed)/orders/index'
-import { Route as authedLogoutIndexRouteImport } from './routes/(authed)/logout/index'
-import { Route as authedFavoritesIndexRouteImport } from './routes/(authed)/favorites/index'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
 const rootServerRouteImport = createServerRootRoute()
@@ -66,6 +72,61 @@ const CollectionsCategorySlugRoute = CollectionsCategorySlugRouteImport.update({
   path: '/collections/$categorySlug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSubcategoriesRoute = AdminSubcategoriesRouteImport.update({
+  id: '/admin/subcategories',
+  path: '/admin/subcategories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminProductsRoute = AdminProductsRouteImport.update({
+  id: '/admin/products',
+  path: '/admin/products',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminOrdersRoute = AdminOrdersRouteImport.update({
+  id: '/admin/orders',
+  path: '/admin/orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
+  id: '/admin/categories',
+  path: '/admin/categories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/admin/analytics',
+  path: '/admin/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authedProfileRoute = authedProfileRouteImport.update({
+  id: '/(authed)/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authedOrdersRoute = authedOrdersRouteImport.update({
+  id: '/(authed)/orders',
+  path: '/orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authedLogoutRoute = authedLogoutRouteImport.update({
+  id: '/(authed)/logout',
+  path: '/logout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authedFavoritesRoute = authedFavoritesRouteImport.update({
+  id: '/(authed)/favorites',
+  path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const authSignUpRoute = authSignUpRouteImport.update({
   id: '/(auth)/sign-up',
   path: '/sign-up',
@@ -86,31 +147,6 @@ const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminDashboardIndexRoute = AdminDashboardIndexRouteImport.update({
-  id: '/admin/dashboard/',
-  path: '/admin/dashboard/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const authedProfileIndexRoute = authedProfileIndexRouteImport.update({
-  id: '/(authed)/profile/',
-  path: '/profile/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const authedOrdersIndexRoute = authedOrdersIndexRouteImport.update({
-  id: '/(authed)/orders/',
-  path: '/orders/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const authedLogoutIndexRoute = authedLogoutIndexRouteImport.update({
-  id: '/(authed)/logout/',
-  path: '/logout/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const authedFavoritesIndexRoute = authedFavoritesIndexRouteImport.update({
-  id: '/(authed)/favorites/',
-  path: '/favorites/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -127,13 +163,19 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof authResetPasswordRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
+  '/favorites': typeof authedFavoritesRoute
+  '/logout': typeof authedLogoutRoute
+  '/orders': typeof authedOrdersRoute
+  '/profile': typeof authedProfileRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/products': typeof AdminProductsRoute
+  '/admin/subcategories': typeof AdminSubcategoriesRoute
+  '/admin/users': typeof AdminUsersRoute
   '/collections/$categorySlug': typeof CollectionsCategorySlugRoute
   '/product/$productId': typeof ProductProductIdRoute
-  '/favorites': typeof authedFavoritesIndexRoute
-  '/logout': typeof authedLogoutIndexRoute
-  '/orders': typeof authedOrdersIndexRoute
-  '/profile': typeof authedProfileIndexRoute
-  '/admin/dashboard': typeof AdminDashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -145,13 +187,19 @@ export interface FileRoutesByTo {
   '/reset-password': typeof authResetPasswordRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
+  '/favorites': typeof authedFavoritesRoute
+  '/logout': typeof authedLogoutRoute
+  '/orders': typeof authedOrdersRoute
+  '/profile': typeof authedProfileRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/products': typeof AdminProductsRoute
+  '/admin/subcategories': typeof AdminSubcategoriesRoute
+  '/admin/users': typeof AdminUsersRoute
   '/collections/$categorySlug': typeof CollectionsCategorySlugRoute
   '/product/$productId': typeof ProductProductIdRoute
-  '/favorites': typeof authedFavoritesIndexRoute
-  '/logout': typeof authedLogoutIndexRoute
-  '/orders': typeof authedOrdersIndexRoute
-  '/profile': typeof authedProfileIndexRoute
-  '/admin/dashboard': typeof AdminDashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -164,13 +212,19 @@ export interface FileRoutesById {
   '/(auth)/reset-password': typeof authResetPasswordRoute
   '/(auth)/sign-in': typeof authSignInRoute
   '/(auth)/sign-up': typeof authSignUpRoute
+  '/(authed)/favorites': typeof authedFavoritesRoute
+  '/(authed)/logout': typeof authedLogoutRoute
+  '/(authed)/orders': typeof authedOrdersRoute
+  '/(authed)/profile': typeof authedProfileRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/products': typeof AdminProductsRoute
+  '/admin/subcategories': typeof AdminSubcategoriesRoute
+  '/admin/users': typeof AdminUsersRoute
   '/collections/$categorySlug': typeof CollectionsCategorySlugRoute
   '/product/$productId': typeof ProductProductIdRoute
-  '/(authed)/favorites/': typeof authedFavoritesIndexRoute
-  '/(authed)/logout/': typeof authedLogoutIndexRoute
-  '/(authed)/orders/': typeof authedOrdersIndexRoute
-  '/(authed)/profile/': typeof authedProfileIndexRoute
-  '/admin/dashboard/': typeof AdminDashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -184,13 +238,19 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
-    | '/collections/$categorySlug'
-    | '/product/$productId'
     | '/favorites'
     | '/logout'
     | '/orders'
     | '/profile'
+    | '/admin/analytics'
+    | '/admin/categories'
     | '/admin/dashboard'
+    | '/admin/orders'
+    | '/admin/products'
+    | '/admin/subcategories'
+    | '/admin/users'
+    | '/collections/$categorySlug'
+    | '/product/$productId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -202,13 +262,19 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
-    | '/collections/$categorySlug'
-    | '/product/$productId'
     | '/favorites'
     | '/logout'
     | '/orders'
     | '/profile'
+    | '/admin/analytics'
+    | '/admin/categories'
     | '/admin/dashboard'
+    | '/admin/orders'
+    | '/admin/products'
+    | '/admin/subcategories'
+    | '/admin/users'
+    | '/collections/$categorySlug'
+    | '/product/$productId'
   id:
     | '__root__'
     | '/'
@@ -220,13 +286,19 @@ export interface FileRouteTypes {
     | '/(auth)/reset-password'
     | '/(auth)/sign-in'
     | '/(auth)/sign-up'
+    | '/(authed)/favorites'
+    | '/(authed)/logout'
+    | '/(authed)/orders'
+    | '/(authed)/profile'
+    | '/admin/analytics'
+    | '/admin/categories'
+    | '/admin/dashboard'
+    | '/admin/orders'
+    | '/admin/products'
+    | '/admin/subcategories'
+    | '/admin/users'
     | '/collections/$categorySlug'
     | '/product/$productId'
-    | '/(authed)/favorites/'
-    | '/(authed)/logout/'
-    | '/(authed)/orders/'
-    | '/(authed)/profile/'
-    | '/admin/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -239,13 +311,19 @@ export interface RootRouteChildren {
   authResetPasswordRoute: typeof authResetPasswordRoute
   authSignInRoute: typeof authSignInRoute
   authSignUpRoute: typeof authSignUpRoute
+  authedFavoritesRoute: typeof authedFavoritesRoute
+  authedLogoutRoute: typeof authedLogoutRoute
+  authedOrdersRoute: typeof authedOrdersRoute
+  authedProfileRoute: typeof authedProfileRoute
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminCategoriesRoute: typeof AdminCategoriesRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminOrdersRoute: typeof AdminOrdersRoute
+  AdminProductsRoute: typeof AdminProductsRoute
+  AdminSubcategoriesRoute: typeof AdminSubcategoriesRoute
+  AdminUsersRoute: typeof AdminUsersRoute
   CollectionsCategorySlugRoute: typeof CollectionsCategorySlugRoute
   ProductProductIdRoute: typeof ProductProductIdRoute
-  authedFavoritesIndexRoute: typeof authedFavoritesIndexRoute
-  authedLogoutIndexRoute: typeof authedLogoutIndexRoute
-  authedOrdersIndexRoute: typeof authedOrdersIndexRoute
-  authedProfileIndexRoute: typeof authedProfileIndexRoute
-  AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
 }
 export interface FileServerRoutesByFullPath {
   '/api/auth/$': typeof ApiAuthSplatServerRoute
@@ -320,6 +398,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsCategorySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/subcategories': {
+      id: '/admin/subcategories'
+      path: '/admin/subcategories'
+      fullPath: '/admin/subcategories'
+      preLoaderRoute: typeof AdminSubcategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/products': {
+      id: '/admin/products'
+      path: '/admin/products'
+      fullPath: '/admin/products'
+      preLoaderRoute: typeof AdminProductsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/orders': {
+      id: '/admin/orders'
+      path: '/admin/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AdminOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/categories': {
+      id: '/admin/categories'
+      path: '/admin/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/admin/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(authed)/profile': {
+      id: '/(authed)/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof authedProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(authed)/orders': {
+      id: '/(authed)/orders'
+      path: '/orders'
+      fullPath: '/orders'
+      preLoaderRoute: typeof authedOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(authed)/logout': {
+      id: '/(authed)/logout'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof authedLogoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(authed)/favorites': {
+      id: '/(authed)/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof authedFavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(auth)/sign-up': {
       id: '/(auth)/sign-up'
       path: '/sign-up'
@@ -348,41 +503,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/dashboard/': {
-      id: '/admin/dashboard/'
-      path: '/admin/dashboard'
-      fullPath: '/admin/dashboard'
-      preLoaderRoute: typeof AdminDashboardIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(authed)/profile/': {
-      id: '/(authed)/profile/'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof authedProfileIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(authed)/orders/': {
-      id: '/(authed)/orders/'
-      path: '/orders'
-      fullPath: '/orders'
-      preLoaderRoute: typeof authedOrdersIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(authed)/logout/': {
-      id: '/(authed)/logout/'
-      path: '/logout'
-      fullPath: '/logout'
-      preLoaderRoute: typeof authedLogoutIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(authed)/favorites/': {
-      id: '/(authed)/favorites/'
-      path: '/favorites'
-      fullPath: '/favorites'
-      preLoaderRoute: typeof authedFavoritesIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 declare module '@tanstack/react-start/server' {
@@ -407,13 +527,19 @@ const rootRouteChildren: RootRouteChildren = {
   authResetPasswordRoute: authResetPasswordRoute,
   authSignInRoute: authSignInRoute,
   authSignUpRoute: authSignUpRoute,
+  authedFavoritesRoute: authedFavoritesRoute,
+  authedLogoutRoute: authedLogoutRoute,
+  authedOrdersRoute: authedOrdersRoute,
+  authedProfileRoute: authedProfileRoute,
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminCategoriesRoute: AdminCategoriesRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminOrdersRoute: AdminOrdersRoute,
+  AdminProductsRoute: AdminProductsRoute,
+  AdminSubcategoriesRoute: AdminSubcategoriesRoute,
+  AdminUsersRoute: AdminUsersRoute,
   CollectionsCategorySlugRoute: CollectionsCategorySlugRoute,
   ProductProductIdRoute: ProductProductIdRoute,
-  authedFavoritesIndexRoute: authedFavoritesIndexRoute,
-  authedLogoutIndexRoute: authedLogoutIndexRoute,
-  authedOrdersIndexRoute: authedOrdersIndexRoute,
-  authedProfileIndexRoute: authedProfileIndexRoute,
-  AdminDashboardIndexRoute: AdminDashboardIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

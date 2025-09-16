@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/(authed)/profile/')({
+export const Route = createFileRoute('/(authed)/favorites')({
   beforeLoad: async ({ context }) => {
     if (!context.user) {
       throw redirect({ to: '/sign-in' })
@@ -10,5 +10,5 @@ export const Route = createFileRoute('/(authed)/profile/')({
 })
 
 function RouteComponent() {
-  return <div>Hello "/profile"!</div>
+  return <div>Hello "/favorites"!</div>
 }
