@@ -1,12 +1,12 @@
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
 
-import { authenticatedMiddleware } from './middleware'
 import { toggleFavorite } from '../data-access/favorites'
+import { authed } from '../middlewares/auth'
 
 export const toggleFavoriteFn = createServerFn({ method: 'POST' })
   .validator(z.object({ productId: z.string() }))
-  .middleware([authenticatedMiddleware])
-  .handler(async ({ data, context }) => {
-    return await toggleFavorite(data.productId, context.userId as string)
+  .middleware([authed])
+  .handler(async ({ data: { productId }, context: { user } }) => {
+    return await toggleFavorite(productId, user.id)
   })

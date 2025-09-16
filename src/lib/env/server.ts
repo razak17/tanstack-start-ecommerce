@@ -21,6 +21,10 @@ export const env = createEnv({
     PAYPAL_API_URL: z.string().min(1),
     STRIPE_SECRET_KEY: z.string().min(1),
     STRIPE_WEBHOOK_SECRET: z.string().min(1),
+    DISABLE_RATE_LIMIT: z
+      .string()
+      .default('false')
+      .transform((s) => s !== 'false' && s !== '0'),
   },
   extends: [],
   runtimeEnv: process.env,
