@@ -1,8 +1,8 @@
 import { AuthDropdown } from '@/components/layouts/auth-dropdown'
-import { ModeToggle } from '@/components/mode-toggle'
 import { Separator } from '@/components/ui/separator'
 import type { SessionUser } from '@/types'
 import { Breadcrumbs } from '../breadcrumbs'
+import { ThemeSelector } from '../theme-selector'
 import { SidebarTrigger } from '../ui/sidebar'
 
 interface DashboardHeaderProps {
@@ -21,7 +21,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
         <Breadcrumbs />
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
-            <ModeToggle />
+            <ThemeSelector />
             <AuthDropdown user={user} />
           </nav>
         </div>

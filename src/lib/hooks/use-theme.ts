@@ -1,16 +1,11 @@
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
+import { use } from 'react'
 
-import { getThemeFn, setThemeFn } from '@/components/theme-provider'
+import { ThemeContext } from '@/components/theme-provider'
 
-export function useThemeQuery() {
-  return useSuspenseQuery({
-    queryKey: ['theme'],
-    queryFn: () => getThemeFn(),
-  })
-}
-
-export function useSetTheme() {
-  return useMutation({
-    mutationFn: setThemeFn,
-  })
+export const useTheme = () => {
+  const context = use(ThemeContext)
+  if (!context) {
+    throw new Error('useTheme must be used within a ThemeProvider')
+  }
+  return context
 }

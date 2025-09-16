@@ -52,7 +52,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+        <ThemeProvider>
           <div className="min-h-screen bg-background">
             <main>{children}</main>
           </div>

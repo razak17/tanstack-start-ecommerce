@@ -4,8 +4,8 @@ import { cn } from '@/lib/utils'
 
 import { siteConfig } from '@/config/site'
 import { Icons } from '../icons'
-import { ModeToggle } from '../mode-toggle'
 import { Shell } from '../shell'
+import { ThemeSelector } from '../theme-selector'
 import { buttonVariants } from '../ui/button'
 
 export function SiteFooter() {
@@ -66,7 +66,7 @@ export function SiteFooter() {
               <Icons.gitHub className="size-4" aria-hidden="true" />
               <span className="sr-only">GitHub</span>
             </Link>
-            <ModeToggle />
+            <ThemeSelector />
           </div>
         </section>
       </Shell>

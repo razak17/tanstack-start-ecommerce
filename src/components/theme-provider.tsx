@@ -1,104 +1,122 @@
-import { createServerFn } from '@tanstack/react-start'
-import { getCookie, setCookie } from '@tanstack/react-start/server'
-import { createContext, useContext, useEffect } from 'react'
+import { ScriptOnce } from '@tanstack/react-router'
+import { clientOnly, createIsomorphicFn } from '@tanstack/react-start'
+import { createContext, type ReactNode, useEffect, useState } from 'react'
 import { z } from 'zod'
 
-import { useSetTheme, useThemeQuery } from '@/lib/hooks/use-theme'
+// @see: https://github.com/Balastrong/confhub/blob/src/hooks/useTheme.tsx
+const UserThemeSchema = z.enum(['light', 'dark', 'system']).catch('system')
+const AppThemeSchema = z.enum(['light', 'dark']).catch('light')
 
-type Theme = 'dark' | 'light' | 'system'
+export type UserTheme = z.infer<typeof UserThemeSchema>
+export type AppTheme = z.infer<typeof AppThemeSchema>
 
-type ThemeProviderProps = {
-  children: React.ReactNode
-  defaultTheme?: Theme
-  storageKey?: string
-}
+const themeStorageKey = 'ui-theme'
 
-type ThemeProviderState = { theme: Theme; setTheme: (theme: Theme) => void }
-
-const THEME_COOKIE_NAME = 'ui-theme'
-
-const initialState: ThemeProviderState = {
-  theme: 'system',
-  setTheme: () => null,
-}
-
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
-
-export const getThemeFn = createServerFn().handler(async () => {
-  const theme = getCookie(THEME_COOKIE_NAME)
-  return theme ?? 'system'
-})
-
-export const setThemeFn = createServerFn({ method: 'POST' })
-  .validator(z.object({ theme: z.enum(['dark', 'light', 'system']) }))
-  .handler(async ({ data }) => {
-    setCookie(THEME_COOKIE_NAME, data.theme)
-    return data.theme
+const getStoredUserTheme = createIsomorphicFn()
+  .server((): UserTheme => 'system')
+  .client((): UserTheme => {
+    const stored = localStorage.getItem(themeStorageKey)
+    return UserThemeSchema.parse(stored)
   })
 
-export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-  const themeQuery = useThemeQuery()
-  const setThemeMutation = useSetTheme()
+const setStoredTheme = clientOnly((theme: UserTheme) => {
+  const validatedTheme = UserThemeSchema.parse(theme)
+  localStorage.setItem(themeStorageKey, validatedTheme)
+})
 
-  useEffect(() => {
-    window
-      .matchMedia('(prefers-color-scheme: dark)')
-      .addEventListener('change', (event) => {
-        if (themeQuery.data === 'system') {
-          const newColorScheme = event.matches ? 'dark' : 'light'
-          const root = window.document.documentElement
-          root.classList.remove('light', 'dark')
-          root.classList.add(newColorScheme)
-        }
-      })
-  }, [themeQuery.data])
+const getSystemTheme = createIsomorphicFn()
+  .server((): AppTheme => 'light')
+  .client((): AppTheme => {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light'
+  })
 
-  useEffect(() => {
-    const theme = themeQuery.data as Theme
-    const root = window.document.documentElement
+const handleThemeChange = clientOnly((userTheme: UserTheme) => {
+  const validatedTheme = UserThemeSchema.parse(userTheme)
 
-    root.classList.remove('light', 'dark')
+  const root = document.documentElement
+  root.classList.remove('light', 'dark', 'system')
 
-    if (theme === 'system') {
+  if (validatedTheme === 'system') {
+    const systemTheme = getSystemTheme()
+    root.classList.add(systemTheme, 'system')
+  } else {
+    root.classList.add(validatedTheme)
+  }
+})
+
+const setupPreferredListener = clientOnly(() => {
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+  const handler = () => handleThemeChange('system')
+  mediaQuery.addEventListener('change', handler)
+  return () => mediaQuery.removeEventListener('change', handler)
+})
+
+const themeScript = (() => {
+  function themeFn() {
+    try {
+      const storedTheme = localStorage.getItem('ui-theme') || 'system'
+      const validTheme = ['light', 'dark', 'system'].includes(storedTheme)
+        ? storedTheme
+        : 'system'
+
+      if (validTheme === 'system') {
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
+          .matches
+          ? 'dark'
+          : 'light'
+        document.documentElement.classList.add(systemTheme, 'system')
+      } else {
+        document.documentElement.classList.add(validTheme)
+      }
+    } catch (e) {
+      console.error(e)
       const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
         .matches
         ? 'dark'
         : 'light'
-
-      root.classList.add(systemTheme)
-      return
+      document.documentElement.classList.add(systemTheme, 'system')
     }
+  }
+  return `(${themeFn.toString()})();`
+})()
 
-    root.classList.add(theme)
-  }, [themeQuery.data])
+type ThemeContextProps = {
+  userTheme: UserTheme
+  appTheme: AppTheme
+  setTheme: (theme: UserTheme) => void
+}
+export const ThemeContext = createContext<ThemeContextProps | undefined>(
+  undefined,
+)
 
-  const value = {
-    theme: themeQuery.data as Theme,
-    setTheme: (theme: Theme) => {
-      console.log('setting theme', theme)
-      setThemeMutation.mutate(
-        { data: { theme } },
-        {
-          onSuccess: () => {
-            themeQuery.refetch()
-          },
-        },
-      )
-    },
+type ThemeProviderProps = {
+  children: ReactNode
+}
+export function ThemeProvider({ children }: ThemeProviderProps) {
+  const [userTheme, setUserTheme] = useState<UserTheme>(getStoredUserTheme)
+
+  useEffect(() => {
+    if (userTheme !== 'system') return
+    return setupPreferredListener()
+  }, [userTheme])
+
+  const appTheme = userTheme === 'system' ? getSystemTheme() : userTheme
+
+  const setTheme = (newUserTheme: UserTheme) => {
+    const validatedTheme = UserThemeSchema.parse(newUserTheme)
+    setUserTheme(validatedTheme)
+    setStoredTheme(validatedTheme)
+    handleThemeChange(validatedTheme)
   }
 
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeContext value={{ userTheme, appTheme, setTheme }}>
+      {/** biome-ignore lint/correctness/noChildrenProp: false */}
+      <ScriptOnce children={themeScript} />
+
       {children}
-    </ThemeProviderContext.Provider>
+    </ThemeContext>
   )
-}
-
-export const useTheme = () => {
-  const context = useContext(ThemeProviderContext)
-
-  if (context === undefined)
-    throw new Error('useTheme must be used within a ThemeProvider')
-
-  return context
 }

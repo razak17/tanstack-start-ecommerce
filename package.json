@@ -19,6 +19,7 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@epic-web/client-hints": "^1.3.8",
     "@fontsource-variable/geist": "^5.2.7",
     "@fontsource-variable/geist-mono": "^5.2.6",
     "@hookform/resolvers": "^5.2.0",
