@@ -6,15 +6,10 @@ import { admin as adminPlugin, anonymous } from 'better-auth/plugins'
 import { env } from '@/lib/env/server'
 
 import { ac, admin, consumer } from './permissions'
-import ResetPasswordEmail from '@/components/reset-password-email'
-import AccountVerificationEmail from '@/components/verification-email'
-import { siteConfig } from '@/config/site'
 import { linkAnonymousUserFavorites } from '@/server/data-access/anonymous'
 import { db } from '@/server/db'
 import * as schema from '@/server/db/schema'
-import { resend } from '../resend'
-
-const EMAIL_FROM = `${env.EMAIL_SENDER_NAME} <${env.EMAIL_SENDER_ADDRESS}>`
+import { sendResetPasswordEmail, sendVerificationEmail } from '../email'
 
 export const auth = betterAuth({
   user: {
@@ -52,32 +47,38 @@ export const auth = betterAuth({
   emailVerification: {
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url }) => {
-      await resend.emails.send({
-        from: EMAIL_FROM,
+      const response = await sendVerificationEmail({
         to: user.email,
-        subject: 'Verify your email address',
-        react: AccountVerificationEmail({
-          email: user.email,
-          verificationUrl: url,
-          companyName: siteConfig.name,
-        }),
+        url,
+        name: user.name,
+        imageUrl: user.image ?? undefined,
       })
+      if (response.error) {
+        console.error(
+          'Error sending verification email:',
+          response.error,
+          response.data,
+        )
+      }
     },
   },
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: false,
     sendResetPassword: async ({ user, url }) => {
-      resend.emails.send({
-        from: EMAIL_FROM,
+      const response = await sendResetPasswordEmail({
         to: user.email,
-        subject: 'Reset your password',
-        react: ResetPasswordEmail({
-          name: user.name,
-          resetUrl: url,
-          userEmail: user.email,
-        }),
+        url,
+        name: user.name,
+        imageUrl: user.image ?? undefined,
       })
+      if (response.error) {
+        console.error(
+          'Error sending reset password email:',
+          response.error,
+          response.data,
+        )
+      }
     },
   },
   socialProviders: {
