@@ -13,6 +13,8 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
 import { userQueryOptions } from '@/server/queries/user'
 import appCss from '@/styles/app.css?url'
+import { siteConfig } from '../config/site'
+import { seo } from '../lib/seo'
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -34,6 +36,12 @@ export const Route = createRootRouteWithContext<{
       {
         title: 'TanStack Start Starter',
       },
+      ...seo({
+        title: siteConfig.name,
+        description: siteConfig.description,
+        keywords: 'ecommerce, online store, shopping, electronics',
+        disableTitleSuffix: true,
+      }),
     ],
     links: [
       {

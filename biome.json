@@ -14,6 +14,8 @@
       "!**/.drizzle",
       "!**/.output",
       "!**/.tanstack",
+      "!**/.nitro",
+      "!**/pnpm-lock.yaml",
       "!**/node_modules"
     ]
   },
