@@ -13,7 +13,7 @@ import { getProductWithVariantsQuery } from '@/server/queries/products'
 import { getAllSubcategoriesQuery } from '@/server/queries/subcategories'
 import { ProductForm } from '../components/product-form'
 
-export default async function AdminEditProduct({
+export default function AdminEditProduct({
   productId,
 }: {
   productId: string

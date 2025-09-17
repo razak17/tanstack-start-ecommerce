@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/tooltip'
 import { getProductWithVariantsQuery } from '@/server/queries/products'
 
-export default async function AdminProductDetails({
+export default function AdminProductDetails({
   productId,
 }: {
   productId: string

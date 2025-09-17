@@ -154,6 +154,7 @@ export function ProductForm({
     onSuccess: async () => {
       queryClient.invalidateQueries(getAllProductsQuery())
       toast.success('Product added successfully')
+      navigate({ to: '/admin/products' })
     },
     onError: () => {
       toast.error('Failed to add product')
@@ -604,7 +605,6 @@ export function ProductForm({
               'description',
               'price',
               'inventory',
-              'variants',
             ])
           }
           className="w-fit"
