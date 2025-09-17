@@ -1,17 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { seo } from '@/lib/seo'
+import ForgotPassword from '@/features/auth/forgot-password'
 
 export const Route = createFileRoute('/(auth)/(public)/forgot-password/')({
-  head: () => ({
-    meta: seo({
-      title: 'Forgot Password',
-      description: 'Enter your email to reset your password',
-    }),
-  }),
-  component: RouteComponent,
+  component: ForgotPassword,
 })
-
-function RouteComponent() {
-  return <div>Hello "/(auth)/forgot-password"!</div>
-}

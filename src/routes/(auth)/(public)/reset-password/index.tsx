@@ -1,17 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { z } from 'zod'
 
-import { seo } from '@/lib/seo'
+import ResetPassword from '@/features/auth/reset-password'
 
 export const Route = createFileRoute('/(auth)/(public)/reset-password/')({
-  head: () => ({
-    meta: seo({
-      title: 'Reset Password',
-      description: 'Reset your password',
-    }),
+  validateSearch: z.object({
+    token: z.string().optional(),
   }),
-  component: RouteComponent,
+  component: ResetPassword,
 })
-
-function RouteComponent() {
-  return <div>Hello "/(auth)/reset-password"!</div>
-}

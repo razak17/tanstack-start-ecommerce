@@ -6,7 +6,7 @@ import {
 } from '@/components/page-header'
 import { Shell } from '@/components/shell'
 
-export default function SignOutPage() {
+export default function SignOut() {
   return (
     <Shell className="max-w-md">
       <PageHeader className="text-center">
