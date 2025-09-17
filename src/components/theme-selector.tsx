@@ -17,6 +17,19 @@ export function ThemeSelector() {
     setTheme(themes[nextIndex])
   }
 
+  const getIcon = () => {
+    switch (userTheme) {
+      case 'light':
+        return <Sun className="h-4 w-4" />
+      case 'dark':
+        return <Moon className="h-4 w-4" />
+      case 'system':
+        return <Monitor className="h-4 w-4" />
+      default:
+        return <Monitor className="h-4 w-4" />
+    }
+  }
+
   return (
     <Button
       variant="ghost"
@@ -24,9 +37,7 @@ export function ThemeSelector() {
       onClick={cycleTheme}
       aria-label={'Click to cycle themes'}
     >
-      <Sun className="light:not-system:inline hidden h-4 w-4" />
-      <Moon className="hidden h-4 w-4 dark:not-system:inline" />
-      <Monitor className="system:inline hidden h-4 w-4" />
+      {getIcon()}
     </Button>
   )
 }

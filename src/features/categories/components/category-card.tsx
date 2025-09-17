@@ -45,7 +45,7 @@ interface ProductCountProps {
   categoryId: string
 }
 
-async function ProductCount({ categoryId }: ProductCountProps) {
+function ProductCount({ categoryId }: ProductCountProps) {
   const { data: count } = useSuspenseQuery(
     getProductCountByCategoryQuery(categoryId),
   )
