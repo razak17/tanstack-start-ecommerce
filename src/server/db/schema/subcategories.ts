@@ -5,6 +5,7 @@ import { generateId } from '@/lib/id'
 
 import { categories } from './categories'
 import { lifecycleDates } from './utils'
+import type { getAllSubcategories } from '@/server/data-access/subcategories'
 
 export const subcategories = pgTable(
   'subcategories',
@@ -32,3 +33,6 @@ export const subcategoriesRelations = relations(subcategories, ({ one }) => ({
 
 export type Subcategory = typeof subcategories.$inferSelect
 export type NewSubcategory = typeof subcategories.$inferInsert
+export type SubcategoryForDropdown = Awaited<
+  ReturnType<typeof getAllSubcategories>
+>[0]

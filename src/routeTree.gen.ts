@@ -30,8 +30,10 @@ import { Route as siteShopIndexRouteImport } from './routes/(site)/shop/index'
 import { Route as sitePrivacyIndexRouteImport } from './routes/(site)/privacy/index'
 import { Route as siteCartIndexRouteImport } from './routes/(site)/cart/index'
 import { Route as authSignOutIndexRouteImport } from './routes/(auth)/sign-out/index'
+import { Route as AdminProductsNewRouteImport } from './routes/admin/products/new'
 import { Route as siteProductProductIdRouteImport } from './routes/(site)/product/$productId'
 import { Route as siteCollectionsCategorySlugRouteImport } from './routes/(site)/collections/$categorySlug'
+import { Route as AdminProductsIdIndexRouteImport } from './routes/admin/products/$id/index'
 import { Route as siteprotectedProfileIndexRouteImport } from './routes/(site)/(protected)/profile/index'
 import { Route as siteprotectedOrdersIndexRouteImport } from './routes/(site)/(protected)/orders/index'
 import { Route as siteprotectedFavoritesIndexRouteImport } from './routes/(site)/(protected)/favorites/index'
@@ -39,6 +41,8 @@ import { Route as authpublicSignUpIndexRouteImport } from './routes/(auth)/(publ
 import { Route as authpublicSignInIndexRouteImport } from './routes/(auth)/(public)/sign-in/index'
 import { Route as authpublicResetPasswordIndexRouteImport } from './routes/(auth)/(public)/reset-password/index'
 import { Route as authpublicForgotPasswordIndexRouteImport } from './routes/(auth)/(public)/forgot-password/index'
+import { Route as AdminProductsIdEditRouteImport } from './routes/admin/products/$id/edit'
+import { ServerRoute as ApiUploadthingServerRouteImport } from './routes/api/uploadthing'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
 const rootServerRouteImport = createServerRootRoute()
@@ -134,6 +138,11 @@ const authSignOutIndexRoute = authSignOutIndexRouteImport.update({
   path: '/sign-out/',
   getParentRoute: () => authRouteRoute,
 } as any)
+const AdminProductsNewRoute = AdminProductsNewRouteImport.update({
+  id: '/products/new',
+  path: '/products/new',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const siteProductProductIdRoute = siteProductProductIdRouteImport.update({
   id: '/product/$productId',
   path: '/product/$productId',
@@ -145,6 +154,11 @@ const siteCollectionsCategorySlugRoute =
     path: '/collections/$categorySlug',
     getParentRoute: () => siteRouteRoute,
   } as any)
+const AdminProductsIdIndexRoute = AdminProductsIdIndexRouteImport.update({
+  id: '/products/$id/',
+  path: '/products/$id/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const siteprotectedProfileIndexRoute =
   siteprotectedProfileIndexRouteImport.update({
     id: '/profile/',
@@ -185,6 +199,16 @@ const authpublicForgotPasswordIndexRoute =
     path: '/forgot-password/',
     getParentRoute: () => authpublicRouteRoute,
   } as any)
+const AdminProductsIdEditRoute = AdminProductsIdEditRouteImport.update({
+  id: '/products/$id/edit',
+  path: '/products/$id/edit',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const ApiUploadthingServerRoute = ApiUploadthingServerRouteImport.update({
+  id: '/api/uploadthing',
+  path: '/api/uploadthing',
+  getParentRoute: () => rootServerRouteImport,
+} as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -197,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/collections/$categorySlug': typeof siteCollectionsCategorySlugRoute
   '/product/$productId': typeof siteProductProductIdRoute
+  '/admin/products/new': typeof AdminProductsNewRoute
   '/sign-out': typeof authSignOutIndexRoute
   '/cart': typeof siteCartIndexRoute
   '/privacy': typeof sitePrivacyIndexRoute
@@ -209,6 +234,7 @@ export interface FileRoutesByFullPath {
   '/admin/products': typeof AdminProductsIndexRoute
   '/admin/subcategories': typeof AdminSubcategoriesIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
+  '/admin/products/$id/edit': typeof AdminProductsIdEditRoute
   '/forgot-password': typeof authpublicForgotPasswordIndexRoute
   '/reset-password': typeof authpublicResetPasswordIndexRoute
   '/sign-in': typeof authpublicSignInIndexRoute
@@ -216,12 +242,14 @@ export interface FileRoutesByFullPath {
   '/favorites': typeof siteprotectedFavoritesIndexRoute
   '/orders': typeof siteprotectedOrdersIndexRoute
   '/profile': typeof siteprotectedProfileIndexRoute
+  '/admin/products/$id': typeof AdminProductsIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof siteIndexRoute
   '/admin': typeof AdminIndexRoute
   '/collections/$categorySlug': typeof siteCollectionsCategorySlugRoute
   '/product/$productId': typeof siteProductProductIdRoute
+  '/admin/products/new': typeof AdminProductsNewRoute
   '/sign-out': typeof authSignOutIndexRoute
   '/cart': typeof siteCartIndexRoute
   '/privacy': typeof sitePrivacyIndexRoute
@@ -234,6 +262,7 @@ export interface FileRoutesByTo {
   '/admin/products': typeof AdminProductsIndexRoute
   '/admin/subcategories': typeof AdminSubcategoriesIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
+  '/admin/products/$id/edit': typeof AdminProductsIdEditRoute
   '/forgot-password': typeof authpublicForgotPasswordIndexRoute
   '/reset-password': typeof authpublicResetPasswordIndexRoute
   '/sign-in': typeof authpublicSignInIndexRoute
@@ -241,6 +270,7 @@ export interface FileRoutesByTo {
   '/favorites': typeof siteprotectedFavoritesIndexRoute
   '/orders': typeof siteprotectedOrdersIndexRoute
   '/profile': typeof siteprotectedProfileIndexRoute
+  '/admin/products/$id': typeof AdminProductsIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -253,6 +283,7 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/(site)/collections/$categorySlug': typeof siteCollectionsCategorySlugRoute
   '/(site)/product/$productId': typeof siteProductProductIdRoute
+  '/admin/products/new': typeof AdminProductsNewRoute
   '/(auth)/sign-out/': typeof authSignOutIndexRoute
   '/(site)/cart/': typeof siteCartIndexRoute
   '/(site)/privacy/': typeof sitePrivacyIndexRoute
@@ -265,6 +296,7 @@ export interface FileRoutesById {
   '/admin/products/': typeof AdminProductsIndexRoute
   '/admin/subcategories/': typeof AdminSubcategoriesIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
+  '/admin/products/$id/edit': typeof AdminProductsIdEditRoute
   '/(auth)/(public)/forgot-password/': typeof authpublicForgotPasswordIndexRoute
   '/(auth)/(public)/reset-password/': typeof authpublicResetPasswordIndexRoute
   '/(auth)/(public)/sign-in/': typeof authpublicSignInIndexRoute
@@ -272,6 +304,7 @@ export interface FileRoutesById {
   '/(site)/(protected)/favorites/': typeof siteprotectedFavoritesIndexRoute
   '/(site)/(protected)/orders/': typeof siteprotectedOrdersIndexRoute
   '/(site)/(protected)/profile/': typeof siteprotectedProfileIndexRoute
+  '/admin/products/$id/': typeof AdminProductsIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -281,6 +314,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/collections/$categorySlug'
     | '/product/$productId'
+    | '/admin/products/new'
     | '/sign-out'
     | '/cart'
     | '/privacy'
@@ -293,6 +327,7 @@ export interface FileRouteTypes {
     | '/admin/products'
     | '/admin/subcategories'
     | '/admin/users'
+    | '/admin/products/$id/edit'
     | '/forgot-password'
     | '/reset-password'
     | '/sign-in'
@@ -300,12 +335,14 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/orders'
     | '/profile'
+    | '/admin/products/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
     | '/collections/$categorySlug'
     | '/product/$productId'
+    | '/admin/products/new'
     | '/sign-out'
     | '/cart'
     | '/privacy'
@@ -318,6 +355,7 @@ export interface FileRouteTypes {
     | '/admin/products'
     | '/admin/subcategories'
     | '/admin/users'
+    | '/admin/products/$id/edit'
     | '/forgot-password'
     | '/reset-password'
     | '/sign-in'
@@ -325,6 +363,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/orders'
     | '/profile'
+    | '/admin/products/$id'
   id:
     | '__root__'
     | '/(auth)'
@@ -336,6 +375,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/(site)/collections/$categorySlug'
     | '/(site)/product/$productId'
+    | '/admin/products/new'
     | '/(auth)/sign-out/'
     | '/(site)/cart/'
     | '/(site)/privacy/'
@@ -348,6 +388,7 @@ export interface FileRouteTypes {
     | '/admin/products/'
     | '/admin/subcategories/'
     | '/admin/users/'
+    | '/admin/products/$id/edit'
     | '/(auth)/(public)/forgot-password/'
     | '/(auth)/(public)/reset-password/'
     | '/(auth)/(public)/sign-in/'
@@ -355,6 +396,7 @@ export interface FileRouteTypes {
     | '/(site)/(protected)/favorites/'
     | '/(site)/(protected)/orders/'
     | '/(site)/(protected)/profile/'
+    | '/admin/products/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -363,24 +405,28 @@ export interface RootRouteChildren {
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
 }
 export interface FileServerRoutesByFullPath {
+  '/api/uploadthing': typeof ApiUploadthingServerRoute
   '/api/auth/$': typeof ApiAuthSplatServerRoute
 }
 export interface FileServerRoutesByTo {
+  '/api/uploadthing': typeof ApiUploadthingServerRoute
   '/api/auth/$': typeof ApiAuthSplatServerRoute
 }
 export interface FileServerRoutesById {
   __root__: typeof rootServerRouteImport
+  '/api/uploadthing': typeof ApiUploadthingServerRoute
   '/api/auth/$': typeof ApiAuthSplatServerRoute
 }
 export interface FileServerRouteTypes {
   fileServerRoutesByFullPath: FileServerRoutesByFullPath
-  fullPaths: '/api/auth/$'
+  fullPaths: '/api/uploadthing' | '/api/auth/$'
   fileServerRoutesByTo: FileServerRoutesByTo
-  to: '/api/auth/$'
-  id: '__root__' | '/api/auth/$'
+  to: '/api/uploadthing' | '/api/auth/$'
+  id: '__root__' | '/api/uploadthing' | '/api/auth/$'
   fileServerRoutesById: FileServerRoutesById
 }
 export interface RootServerRouteChildren {
+  ApiUploadthingServerRoute: typeof ApiUploadthingServerRoute
   ApiAuthSplatServerRoute: typeof ApiAuthSplatServerRoute
 }
 
@@ -519,6 +565,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authSignOutIndexRouteImport
       parentRoute: typeof authRouteRoute
     }
+    '/admin/products/new': {
+      id: '/admin/products/new'
+      path: '/products/new'
+      fullPath: '/admin/products/new'
+      preLoaderRoute: typeof AdminProductsNewRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/(site)/product/$productId': {
       id: '/(site)/product/$productId'
       path: '/product/$productId'
@@ -532,6 +585,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/collections/$categorySlug'
       preLoaderRoute: typeof siteCollectionsCategorySlugRouteImport
       parentRoute: typeof siteRouteRoute
+    }
+    '/admin/products/$id/': {
+      id: '/admin/products/$id/'
+      path: '/products/$id'
+      fullPath: '/admin/products/$id'
+      preLoaderRoute: typeof AdminProductsIdIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/(site)/(protected)/profile/': {
       id: '/(site)/(protected)/profile/'
@@ -582,10 +642,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authpublicForgotPasswordIndexRouteImport
       parentRoute: typeof authpublicRouteRoute
     }
+    '/admin/products/$id/edit': {
+      id: '/admin/products/$id/edit'
+      path: '/products/$id/edit'
+      fullPath: '/admin/products/$id/edit'
+      preLoaderRoute: typeof AdminProductsIdEditRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
   }
 }
 declare module '@tanstack/react-start/server' {
   interface ServerFileRoutesByPath {
+    '/api/uploadthing': {
+      id: '/api/uploadthing'
+      path: '/api/uploadthing'
+      fullPath: '/api/uploadthing'
+      preLoaderRoute: typeof ApiUploadthingServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -671,6 +745,7 @@ const siteRouteRouteWithChildren = siteRouteRoute._addFileChildren(
 
 interface AdminRouteRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminProductsNewRoute: typeof AdminProductsNewRoute
   AdminAnalyticsIndexRoute: typeof AdminAnalyticsIndexRoute
   AdminCategoriesIndexRoute: typeof AdminCategoriesIndexRoute
   AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
@@ -678,10 +753,13 @@ interface AdminRouteRouteChildren {
   AdminProductsIndexRoute: typeof AdminProductsIndexRoute
   AdminSubcategoriesIndexRoute: typeof AdminSubcategoriesIndexRoute
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
+  AdminProductsIdEditRoute: typeof AdminProductsIdEditRoute
+  AdminProductsIdIndexRoute: typeof AdminProductsIdIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
+  AdminProductsNewRoute: AdminProductsNewRoute,
   AdminAnalyticsIndexRoute: AdminAnalyticsIndexRoute,
   AdminCategoriesIndexRoute: AdminCategoriesIndexRoute,
   AdminDashboardIndexRoute: AdminDashboardIndexRoute,
@@ -689,6 +767,8 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminProductsIndexRoute: AdminProductsIndexRoute,
   AdminSubcategoriesIndexRoute: AdminSubcategoriesIndexRoute,
   AdminUsersIndexRoute: AdminUsersIndexRoute,
+  AdminProductsIdEditRoute: AdminProductsIdEditRoute,
+  AdminProductsIdIndexRoute: AdminProductsIdIndexRoute,
 }
 
 const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
@@ -704,6 +784,7 @@ export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 const rootServerRouteChildren: RootServerRouteChildren = {
+  ApiUploadthingServerRoute: ApiUploadthingServerRoute,
   ApiAuthSplatServerRoute: ApiAuthSplatServerRoute,
 }
 export const serverRouteTree = rootServerRouteImport

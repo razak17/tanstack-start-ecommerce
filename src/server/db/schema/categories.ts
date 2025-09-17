@@ -6,6 +6,7 @@ import { generateId } from '@/lib/id'
 import { products } from './products'
 import { subcategories } from './subcategories'
 import { lifecycleDates } from './utils'
+import type { getAllCategories } from '@/server/data-access/categories'
 import type { StoredFile } from '@/types'
 
 export const categories = pgTable('categories', {
@@ -26,3 +27,6 @@ export const categoriesRelations = relations(categories, ({ many }) => ({
 
 export type Category = typeof categories.$inferSelect
 export type NewCategory = typeof categories.$inferInsert
+export type CategoryForDropdown = Awaited<
+  ReturnType<typeof getAllCategories>
+>[0]

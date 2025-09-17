@@ -1,8 +1,8 @@
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
 
-import { toggleFavorite } from '../data-access/favorites'
 import { authed } from '../middlewares/auth'
+import { toggleFavorite } from '../mutations/favorites'
 
 export const toggleFavoriteFn = createServerFn({ method: 'POST' })
   .validator(z.object({ productId: z.string() }))

@@ -92,9 +92,6 @@ export async function getAllCategories() {
       name: categories.name,
       slug: categories.slug,
       description: categories.description,
-      image: categories.image,
-      createdAt: categories.createdAt,
-      updatedAt: categories.updatedAt,
     })
     .from(categories)
     .orderBy(desc(categories.name))

@@ -273,16 +273,38 @@ export async function getOtherProducts(productId: string) {
 export async function getProductWithVariants(id: string) {
   try {
     const product = await db.query.products.findFirst({
+      columns: {
+        id: true,
+        name: true,
+        description: true,
+        images: true,
+        price: true,
+        inventory: true,
+        rating: true,
+        categoryId: true,
+        subcategoryId: true,
+      },
       where: eq(products.id, id),
       with: {
-        category: true,
-        subcategory: true,
+        category: {
+          columns: { name: true },
+        },
+        subcategory: { columns: { name: true } },
         variants: {
+          columns: { id: true },
           with: {
-            variant: true,
+            variant: { columns: { name: true } },
             productVariantValues: {
+              columns: {
+                value: true,
+                price: true,
+              },
               with: {
-                stock: true,
+                stock: {
+                  columns: {
+                    quantity: true,
+                  },
+                },
               },
             },
           },
@@ -310,10 +332,15 @@ export async function getAllProducts() {
       inventory: products.inventory,
       rating: products.rating,
       createdAt: products.createdAt,
-      updatedAt: products.updatedAt,
     })
     .from(products)
     .leftJoin(categories, eq(products.categoryId, categories.id))
     .leftJoin(subcategories, eq(products.subcategoryId, subcategories.id))
     .orderBy(desc(products.createdAt))
+}
+
+export async function getProductById(id: Product['id']) {
+  return await db.query.products.findFirst({
+    where: eq(products.id, id),
+  })
 }

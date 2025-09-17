@@ -1,7 +1,10 @@
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
 
-import { getFeaturedCategories } from '../data-access/categories'
+import {
+  getAllCategories,
+  getFeaturedCategories,
+} from '../data-access/categories'
 
 export const getFeaturedCategoriesFn = createServerFn({ method: 'GET' })
   .validator(
@@ -12,3 +15,9 @@ export const getFeaturedCategoriesFn = createServerFn({ method: 'GET' })
   .handler(async ({ data }) => {
     return await getFeaturedCategories(data.limit)
   })
+
+export const getAllCategoriesFn = createServerFn({ method: 'GET' }).handler(
+  async () => {
+    return await getAllCategories()
+  },
+)

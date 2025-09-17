@@ -17,6 +17,11 @@ import { subcategories } from './subcategories'
 import { productTags } from './tags'
 import { lifecycleDates } from './utils'
 import { productVariants } from './variants'
+import type {
+  getAllProducts,
+  getFeaturedProducts,
+  getProductWithVariants,
+} from '@/server/data-access/products'
 import type { StoredFile } from '@/types'
 
 export const productStatusEnum = pgEnum('product_status', [
@@ -71,18 +76,9 @@ export const productsRelations = relations(products, ({ one, many }) => ({
 }))
 
 export type Product = typeof products.$inferSelect
-export type FeaturedProduct = Omit<
-  Product,
-  | 'categoryId'
-  | 'description'
-  | 'originalPrice'
-  | 'rating'
-  | 'status'
-  | 'subcategoryId'
-  | 'createdAt'
-  | 'updatedAt'
-> & {
-  isFavorited?: boolean
-  category: string | null
-}
 export type NewProduct = typeof products.$inferInsert
+export type TableProduct = Awaited<ReturnType<typeof getAllProducts>>[0]
+export type FeaturedProduct = Awaited<ReturnType<typeof getFeaturedProducts>>[0]
+export type ProductWithVariants = Awaited<
+  ReturnType<typeof getProductWithVariants>
+>

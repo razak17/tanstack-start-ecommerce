@@ -1,9 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/admin/products/')({
-  component: RouteComponent,
-})
+import AdminProducts from '@/features/admin/products'
 
-function RouteComponent() {
-  return <div>Hello "/_admin/admin/products/"!</div>
-}
+export const Route = createFileRoute('/admin/products/')({
+  component: AdminProducts,
+})
