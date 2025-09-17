@@ -34,7 +34,8 @@ export function FavoriteButton({
   const queryClient = useQueryClient()
 
   const { mutate, isPending } = useMutation({
-    mutationFn: toggleFavoriteFn,
+    mutationFn: (data: Parameters<typeof toggleFavoriteFn>[0]['data']) =>
+      toggleFavoriteFn({ data }),
     onSuccess: async ({ isFavorited: newFavoriteState }) => {
       queryClient.invalidateQueries(getFeaturedProductsQuery())
       toast.success(
@@ -48,7 +49,7 @@ export function FavoriteButton({
     e.stopPropagation()
 
     mutate({
-      data: { productId },
+      productId,
     })
   }
 

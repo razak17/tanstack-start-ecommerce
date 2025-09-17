@@ -99,7 +99,12 @@ export async function getAllCategories() {
 
 export async function getCategoryById(id: string) {
   const category = await db
-    .select()
+    .select({
+      id: categories.id,
+      name: categories.name,
+      slug: categories.slug,
+      description: categories.description,
+    })
     .from(categories)
     .where(eq(categories.id, id))
     .limit(1)
