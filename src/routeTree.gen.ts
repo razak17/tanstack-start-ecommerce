@@ -31,7 +31,7 @@ import { Route as sitePrivacyIndexRouteImport } from './routes/(site)/privacy/in
 import { Route as siteCartIndexRouteImport } from './routes/(site)/cart/index'
 import { Route as authSignOutIndexRouteImport } from './routes/(auth)/sign-out/index'
 import { Route as siteProductProductIdRouteImport } from './routes/(site)/product/$productId'
-import { Route as siteCollectionCategorySlugRouteImport } from './routes/(site)/collection/$categorySlug'
+import { Route as siteCollectionsCategorySlugRouteImport } from './routes/(site)/collections/$categorySlug'
 import { Route as siteprotectedProfileIndexRouteImport } from './routes/(site)/(protected)/profile/index'
 import { Route as siteprotectedOrdersIndexRouteImport } from './routes/(site)/(protected)/orders/index'
 import { Route as siteprotectedFavoritesIndexRouteImport } from './routes/(site)/(protected)/favorites/index'
@@ -139,10 +139,10 @@ const siteProductProductIdRoute = siteProductProductIdRouteImport.update({
   path: '/product/$productId',
   getParentRoute: () => siteRouteRoute,
 } as any)
-const siteCollectionCategorySlugRoute =
-  siteCollectionCategorySlugRouteImport.update({
-    id: '/collection/$categorySlug',
-    path: '/collection/$categorySlug',
+const siteCollectionsCategorySlugRoute =
+  siteCollectionsCategorySlugRouteImport.update({
+    id: '/collections/$categorySlug',
+    path: '/collections/$categorySlug',
     getParentRoute: () => siteRouteRoute,
   } as any)
 const siteprotectedProfileIndexRoute =
@@ -195,7 +195,7 @@ export interface FileRoutesByFullPath {
   '/': typeof siteIndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
   '/admin/': typeof AdminIndexRoute
-  '/collection/$categorySlug': typeof siteCollectionCategorySlugRoute
+  '/collections/$categorySlug': typeof siteCollectionsCategorySlugRoute
   '/product/$productId': typeof siteProductProductIdRoute
   '/sign-out': typeof authSignOutIndexRoute
   '/cart': typeof siteCartIndexRoute
@@ -220,7 +220,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof siteIndexRoute
   '/admin': typeof AdminIndexRoute
-  '/collection/$categorySlug': typeof siteCollectionCategorySlugRoute
+  '/collections/$categorySlug': typeof siteCollectionsCategorySlugRoute
   '/product/$productId': typeof siteProductProductIdRoute
   '/sign-out': typeof authSignOutIndexRoute
   '/cart': typeof siteCartIndexRoute
@@ -251,7 +251,7 @@ export interface FileRoutesById {
   '/(site)/(protected)': typeof siteprotectedRouteRouteWithChildren
   '/(site)/': typeof siteIndexRoute
   '/admin/': typeof AdminIndexRoute
-  '/(site)/collection/$categorySlug': typeof siteCollectionCategorySlugRoute
+  '/(site)/collections/$categorySlug': typeof siteCollectionsCategorySlugRoute
   '/(site)/product/$productId': typeof siteProductProductIdRoute
   '/(auth)/sign-out/': typeof authSignOutIndexRoute
   '/(site)/cart/': typeof siteCartIndexRoute
@@ -279,7 +279,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/admin/'
-    | '/collection/$categorySlug'
+    | '/collections/$categorySlug'
     | '/product/$productId'
     | '/sign-out'
     | '/cart'
@@ -304,7 +304,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
-    | '/collection/$categorySlug'
+    | '/collections/$categorySlug'
     | '/product/$productId'
     | '/sign-out'
     | '/cart'
@@ -334,7 +334,7 @@ export interface FileRouteTypes {
     | '/(site)/(protected)'
     | '/(site)/'
     | '/admin/'
-    | '/(site)/collection/$categorySlug'
+    | '/(site)/collections/$categorySlug'
     | '/(site)/product/$productId'
     | '/(auth)/sign-out/'
     | '/(site)/cart/'
@@ -526,11 +526,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof siteProductProductIdRouteImport
       parentRoute: typeof siteRouteRoute
     }
-    '/(site)/collection/$categorySlug': {
-      id: '/(site)/collection/$categorySlug'
-      path: '/collection/$categorySlug'
-      fullPath: '/collection/$categorySlug'
-      preLoaderRoute: typeof siteCollectionCategorySlugRouteImport
+    '/(site)/collections/$categorySlug': {
+      id: '/(site)/collections/$categorySlug'
+      path: '/collections/$categorySlug'
+      fullPath: '/collections/$categorySlug'
+      preLoaderRoute: typeof siteCollectionsCategorySlugRouteImport
       parentRoute: typeof siteRouteRoute
     }
     '/(site)/(protected)/profile/': {
@@ -646,7 +646,7 @@ const siteprotectedRouteRouteWithChildren =
 interface siteRouteRouteChildren {
   siteprotectedRouteRoute: typeof siteprotectedRouteRouteWithChildren
   siteIndexRoute: typeof siteIndexRoute
-  siteCollectionCategorySlugRoute: typeof siteCollectionCategorySlugRoute
+  siteCollectionsCategorySlugRoute: typeof siteCollectionsCategorySlugRoute
   siteProductProductIdRoute: typeof siteProductProductIdRoute
   siteCartIndexRoute: typeof siteCartIndexRoute
   sitePrivacyIndexRoute: typeof sitePrivacyIndexRoute
@@ -657,7 +657,7 @@ interface siteRouteRouteChildren {
 const siteRouteRouteChildren: siteRouteRouteChildren = {
   siteprotectedRouteRoute: siteprotectedRouteRouteWithChildren,
   siteIndexRoute: siteIndexRoute,
-  siteCollectionCategorySlugRoute: siteCollectionCategorySlugRoute,
+  siteCollectionsCategorySlugRoute: siteCollectionsCategorySlugRoute,
   siteProductProductIdRoute: siteProductProductIdRoute,
   siteCartIndexRoute: siteCartIndexRoute,
   sitePrivacyIndexRoute: sitePrivacyIndexRoute,

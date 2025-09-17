@@ -47,7 +47,11 @@ export function ProductCard({
       )}
       {...props}
     >
-      <Link aria-label={product.name} to={`/product/${product.id}`}>
+      <Link
+        aria-label={product.name}
+        to="/product/$productId"
+        params={{ productId: product.id }}
+      >
         <CardHeader className="relative gap-0 border-b p-0 [.border-b]:pb-0">
           <AspectRatio ratio={4 / 3}>
             {product.images?.length ? (
@@ -76,7 +80,11 @@ export function ProductCard({
         </CardHeader>
         <span className="sr-only">{product.name}</span>
       </Link>
-      <Link to={`/product/${product.id}`} tabIndex={-1}>
+      <Link
+        to="/product/$productId"
+        params={{ productId: product.id }}
+        tabIndex={-1}
+      >
         <CardContent className="space-y-1.5 p-4">
           <CardTitle className="line-clamp-1">{product.name}</CardTitle>
           <CardDescription className="line-clamp-1">

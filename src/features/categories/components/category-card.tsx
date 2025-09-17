@@ -20,7 +20,10 @@ interface CategoryCardProps {
 
 export function CategoryCard({ category }: CategoryCardProps) {
   return (
-    <Link to={`/collections/${category.slug}`}>
+    <Link
+      to="/collections/$categorySlug"
+      params={{ categorySlug: category.slug }}
+    >
       <Card className="h-full rounded-lg transition-colors hover:bg-muted/25">
         <CardHeader className="flex-1">
           <CardTitle className="capitalize">{category.name}</CardTitle>

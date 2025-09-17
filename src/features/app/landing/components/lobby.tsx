@@ -11,7 +11,7 @@ interface LobbyProps {
   products: FeaturedProduct[]
 }
 
-export async function Lobby({ categories, products }: LobbyProps) {
+export function Lobby({ categories, products }: LobbyProps) {
   const infoSection = [
     {
       title: 'Fast & free shipping',
