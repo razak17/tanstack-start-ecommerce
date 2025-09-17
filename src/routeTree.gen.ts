@@ -29,7 +29,7 @@ import { Route as siteTermsIndexRouteImport } from './routes/(site)/terms/index'
 import { Route as siteShopIndexRouteImport } from './routes/(site)/shop/index'
 import { Route as sitePrivacyIndexRouteImport } from './routes/(site)/privacy/index'
 import { Route as siteCartIndexRouteImport } from './routes/(site)/cart/index'
-import { Route as authLogoutIndexRouteImport } from './routes/(auth)/logout/index'
+import { Route as authSignOutIndexRouteImport } from './routes/(auth)/sign-out/index'
 import { Route as siteProductProductIdRouteImport } from './routes/(site)/product/$productId'
 import { Route as siteCollectionCategorySlugRouteImport } from './routes/(site)/collection/$categorySlug'
 import { Route as siteprotectedProfileIndexRouteImport } from './routes/(site)/(protected)/profile/index'
@@ -129,9 +129,9 @@ const siteCartIndexRoute = siteCartIndexRouteImport.update({
   path: '/cart/',
   getParentRoute: () => siteRouteRoute,
 } as any)
-const authLogoutIndexRoute = authLogoutIndexRouteImport.update({
-  id: '/logout/',
-  path: '/logout/',
+const authSignOutIndexRoute = authSignOutIndexRouteImport.update({
+  id: '/sign-out/',
+  path: '/sign-out/',
   getParentRoute: () => authRouteRoute,
 } as any)
 const siteProductProductIdRoute = siteProductProductIdRouteImport.update({
@@ -197,7 +197,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/collection/$categorySlug': typeof siteCollectionCategorySlugRoute
   '/product/$productId': typeof siteProductProductIdRoute
-  '/logout': typeof authLogoutIndexRoute
+  '/sign-out': typeof authSignOutIndexRoute
   '/cart': typeof siteCartIndexRoute
   '/privacy': typeof sitePrivacyIndexRoute
   '/shop': typeof siteShopIndexRoute
@@ -222,7 +222,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/collection/$categorySlug': typeof siteCollectionCategorySlugRoute
   '/product/$productId': typeof siteProductProductIdRoute
-  '/logout': typeof authLogoutIndexRoute
+  '/sign-out': typeof authSignOutIndexRoute
   '/cart': typeof siteCartIndexRoute
   '/privacy': typeof sitePrivacyIndexRoute
   '/shop': typeof siteShopIndexRoute
@@ -253,7 +253,7 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/(site)/collection/$categorySlug': typeof siteCollectionCategorySlugRoute
   '/(site)/product/$productId': typeof siteProductProductIdRoute
-  '/(auth)/logout/': typeof authLogoutIndexRoute
+  '/(auth)/sign-out/': typeof authSignOutIndexRoute
   '/(site)/cart/': typeof siteCartIndexRoute
   '/(site)/privacy/': typeof sitePrivacyIndexRoute
   '/(site)/shop/': typeof siteShopIndexRoute
@@ -281,7 +281,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/collection/$categorySlug'
     | '/product/$productId'
-    | '/logout'
+    | '/sign-out'
     | '/cart'
     | '/privacy'
     | '/shop'
@@ -306,7 +306,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/collection/$categorySlug'
     | '/product/$productId'
-    | '/logout'
+    | '/sign-out'
     | '/cart'
     | '/privacy'
     | '/shop'
@@ -336,7 +336,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/(site)/collection/$categorySlug'
     | '/(site)/product/$productId'
-    | '/(auth)/logout/'
+    | '/(auth)/sign-out/'
     | '/(site)/cart/'
     | '/(site)/privacy/'
     | '/(site)/shop/'
@@ -512,11 +512,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof siteCartIndexRouteImport
       parentRoute: typeof siteRouteRoute
     }
-    '/(auth)/logout/': {
-      id: '/(auth)/logout/'
-      path: '/logout'
-      fullPath: '/logout'
-      preLoaderRoute: typeof authLogoutIndexRouteImport
+    '/(auth)/sign-out/': {
+      id: '/(auth)/sign-out/'
+      path: '/sign-out'
+      fullPath: '/sign-out'
+      preLoaderRoute: typeof authSignOutIndexRouteImport
       parentRoute: typeof authRouteRoute
     }
     '/(site)/product/$productId': {
@@ -616,12 +616,12 @@ const authpublicRouteRouteWithChildren = authpublicRouteRoute._addFileChildren(
 
 interface authRouteRouteChildren {
   authpublicRouteRoute: typeof authpublicRouteRouteWithChildren
-  authLogoutIndexRoute: typeof authLogoutIndexRoute
+  authSignOutIndexRoute: typeof authSignOutIndexRoute
 }
 
 const authRouteRouteChildren: authRouteRouteChildren = {
   authpublicRouteRoute: authpublicRouteRouteWithChildren,
-  authLogoutIndexRoute: authLogoutIndexRoute,
+  authSignOutIndexRoute: authSignOutIndexRoute,
 }
 
 const authRouteRouteWithChildren = authRouteRoute._addFileChildren(

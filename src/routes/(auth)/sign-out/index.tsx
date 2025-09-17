@@ -1,14 +1,12 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/(auth)/logout/')({
+import SignOutPage from '@/features/auth/sign-out'
+
+export const Route = createFileRoute('/(auth)/sign-out/')({
   beforeLoad: async ({ context }) => {
     if (!context.user) {
       throw redirect({ to: '/' })
     }
   },
-  component: RouteComponent,
+  component: SignOutPage,
 })
-
-function RouteComponent() {
-  return <div>Hello "/(auth)/logout/"!</div>
-}

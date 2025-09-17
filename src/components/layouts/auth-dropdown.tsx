@@ -103,12 +103,12 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
           <AuthDropdownGroup role={user.role} />
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <Link to="/logout">
+            <Link to="/sign-out">
               <ExitIcon
                 className="mr-2 size-4 text-foreground"
                 aria-hidden="true"
               />
-              Logout
+              Log out
             </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
