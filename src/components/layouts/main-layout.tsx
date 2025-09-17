@@ -1,3 +1,5 @@
+import { Outlet } from '@tanstack/react-router'
+
 import { useAuthentication } from '@/lib/auth/client'
 
 import { SiteFooter } from '@/components/layouts/site-footer'
@@ -23,7 +25,7 @@ export function MainLayout({
         cartItemsCount={cartItemsCount}
         favoritesCount={favoritesCount}
       />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1">{children ? children : <Outlet />}</main>
       <SiteFooter />
     </div>
   )

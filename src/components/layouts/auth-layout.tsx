@@ -1,9 +1,9 @@
-import { Link } from '@tanstack/react-router'
+import { Link, Outlet } from '@tanstack/react-router'
 
 import { siteConfig } from '@/config/site'
 
 interface Props {
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 export default function AuthLayout({ children }: Props) {
@@ -16,7 +16,7 @@ export default function AuthLayout({ children }: Props) {
         <span className="font-mono text-xl">{siteConfig.name}</span>
       </Link>
       <main className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 flex w-full items-center lg:static lg:top-0 lg:left-0 lg:flex lg:translate-x-0 lg:translate-y-0">
-        {children}
+        {children ? children : <Outlet />}
       </main>
       <div className="relative aspect-video size-full">
         <img

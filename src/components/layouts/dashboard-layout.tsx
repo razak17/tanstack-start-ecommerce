@@ -1,10 +1,12 @@
+import { Outlet } from '@tanstack/react-router'
+
 import { useAuthenticatedUser } from '@/lib/auth/client'
 
 import { DashboardHeader } from '@/components/layouts/dashboard-header'
 import { DashboardSidebar } from '@/components/layouts/dashboard-sidebar'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 
-export function DashboardLayout({ children }: { children: React.ReactNode }) {
+export function DashboardLayout({ children }: { children?: React.ReactNode }) {
   const user = useAuthenticatedUser()
 
   return (
@@ -19,7 +21,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       <DashboardSidebar />
       <SidebarInset>
         <DashboardHeader user={user} />
-        {children}
+        {children ? children : <Outlet />}
       </SidebarInset>
     </SidebarProvider>
   )
