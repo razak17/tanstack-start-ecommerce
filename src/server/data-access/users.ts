@@ -18,3 +18,19 @@ export const getUser = async (userId: User['id']) => {
 
   return foundUser
 }
+
+export const getUserByEmail = async (email: User['email']) => {
+  const foundUser = await db.query.user.findFirst({
+    where: eq(user.email, email),
+  })
+
+  return foundUser
+}
+
+export const getUserById = async (id: User['id']) => {
+  const foundUser = await db.query.user.findFirst({
+    where: eq(user.id, id),
+  })
+
+  return foundUser
+}
