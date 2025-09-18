@@ -1,6 +1,7 @@
 import { IconEdit } from '@tabler/icons-react'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
+import { Suspense } from 'react'
 
 import { formatPrice } from '@/lib/utils'
 
@@ -17,23 +18,24 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { getProductWithVariantsQuery } from '@/server/queries/products'
+import { ProductDetailsSkeleton } from '../components/product-details-skeleton'
 
 export default function AdminProductDetails({
   productId,
 }: {
   productId: string
 }) {
-  const { data: product } = useQuery(getProductWithVariantsQuery(productId))
+  return (
+    <Suspense fallback={<ProductDetailsSkeleton />}>
+      <ProductDetailsContent productId={productId} />
+    </Suspense>
+  )
+}
 
-  if (!product) {
-    return (
-      <Shell className="flex flex-col">
-        <div className="w-full">
-          <p>Product not found.</p>
-        </div>
-      </Shell>
-    )
-  }
+function ProductDetailsContent({ productId }: { productId: string }) {
+  const { data: product } = useSuspenseQuery(
+    getProductWithVariantsQuery(productId),
+  )
 
   return (
     <Shell className="flex flex-col">
