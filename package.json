@@ -2,6 +2,7 @@
   "name": "tanstack-start-ecommerce",
   "private": true,
   "type": "module",
+  "version": "1.0",
   "scripts": {
     "dev": "vite dev --port 3000",
     "start": "node .output/server/index.mjs",
