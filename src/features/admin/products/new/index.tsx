@@ -1,5 +1,3 @@
-import { useQuery } from '@tanstack/react-query'
-
 import { Shell } from '@/components/shell'
 import {
   Card,
@@ -8,14 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { getAllCategoriesQuery } from '@/server/queries/categories'
-import { getAllSubcategoriesQuery } from '@/server/queries/subcategories'
 import { ProductForm } from '../components/product-form'
 
 export default function AdminNewProduct() {
-  const { data: categories } = useQuery(getAllCategoriesQuery())
-  const { data: subcategories } = useQuery(getAllSubcategoriesQuery())
-
   return (
     <Shell>
       <div className="w-full">
@@ -29,10 +22,7 @@ export default function AdminNewProduct() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ProductForm
-              categories={categories || []}
-              subcategories={subcategories || []}
-            />
+            <ProductForm />
           </CardContent>
         </Card>
       </div>

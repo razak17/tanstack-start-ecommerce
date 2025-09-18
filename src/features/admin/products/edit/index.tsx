@@ -1,4 +1,5 @@
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { Suspense } from 'react'
 
 import { Shell } from '@/components/shell'
 import {
@@ -8,20 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { getAllCategoriesQuery } from '@/server/queries/categories'
 import { getProductWithVariantsQuery } from '@/server/queries/products'
-import { getAllSubcategoriesQuery } from '@/server/queries/subcategories'
 import { ProductForm } from '../components/product-form'
 
-export default function AdminEditProduct({
-  productId,
-}: {
-  productId: string
-}) {
-  const { data: categories } = useQuery(getAllCategoriesQuery())
-  const { data: subcategories } = useQuery(getAllSubcategoriesQuery())
-  const { data: product } = useQuery(getProductWithVariantsQuery(productId))
-
+export default function AdminEditProduct({ productId }: { productId: string }) {
   return (
     <Shell className="flex flex-col">
       <div className="w-full">
@@ -31,14 +22,19 @@ export default function AdminEditProduct({
             <CardDescription>Update your product information</CardDescription>
           </CardHeader>
           <CardContent>
-            <ProductForm
-              product={product}
-              categories={categories || []}
-              subcategories={subcategories || []}
-            />
+            <Suspense fallback={<div>Loading...</div>}>
+              <AdminEditProductsContent productId={productId} />
+            </Suspense>
           </CardContent>
         </Card>
       </div>
     </Shell>
   )
+}
+
+function AdminEditProductsContent({ productId }: { productId: string }) {
+  const { data: product } = useSuspenseQuery(
+    getProductWithVariantsQuery(productId),
+  )
+  return <ProductForm product={product} />
 }

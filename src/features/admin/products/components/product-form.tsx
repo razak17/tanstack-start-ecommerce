@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
@@ -40,28 +40,22 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import type {
-  CategoryForDropdown,
-  ProductWithVariants,
-  SubcategoryForDropdown,
-} from '@/server/db/schema'
+import type { ProductWithVariants } from '@/server/db/schema'
 import { addProductFn, updateProductFn } from '@/server/fn/products'
+import { getAllCategoriesQuery } from '@/server/queries/categories'
 import { getAllProductsQuery } from '@/server/queries/products'
+import { getAllSubcategoriesQuery } from '@/server/queries/subcategories'
 import type { StoredFile } from '@/types'
 
 interface ProductFormProps {
   product?: ProductWithVariants
-  categories: CategoryForDropdown[]
-  subcategories: SubcategoryForDropdown[]
 }
 
-export function ProductForm({
-  product,
-  categories,
-  subcategories,
-}: ProductFormProps) {
+export function ProductForm({ product }: ProductFormProps) {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { data: categories } = useQuery(getAllCategoriesQuery())
+  const { data: subcategories } = useQuery(getAllSubcategoriesQuery())
 
   const { uploadFiles, progresses, isUploading } =
     useUploadFile('imageUploader')
@@ -131,7 +125,7 @@ export function ProductForm({
 
   const filteredSubcategories = React.useMemo(() => {
     if (!selectedCategoryId) return []
-    return subcategories.filter(
+    return subcategories?.filter(
       (subcategory) => subcategory.categoryId === selectedCategoryId,
     )
   }, [selectedCategoryId, subcategories])
@@ -139,7 +133,7 @@ export function ProductForm({
   React.useEffect(() => {
     const currentSubcategoryId = form.getValues('subcategoryId')
     if (currentSubcategoryId && selectedCategoryId) {
-      const isSubcategoryValid = filteredSubcategories.some(
+      const isSubcategoryValid = filteredSubcategories?.some(
         (sub) => sub.id === currentSubcategoryId,
       )
       if (!isSubcategoryValid) {
@@ -187,7 +181,7 @@ export function ProductForm({
         data: {
           ...input,
           images: allImages,
-        }
+        },
       })
     } else {
       addMutate({
@@ -252,7 +246,7 @@ export function ProductForm({
                   </FormControl>
                   <SelectContent>
                     <SelectGroup>
-                      {categories.map((option) => (
+                      {categories?.map((option) => (
                         <SelectItem
                           key={option.id}
                           value={option.id}
@@ -278,7 +272,7 @@ export function ProductForm({
                   value={field.value?.toString()}
                   onValueChange={field.onChange}
                   disabled={
-                    !selectedCategoryId || filteredSubcategories.length === 0
+                    !selectedCategoryId || filteredSubcategories?.length === 0
                   }
                 >
                   <FormControl>
@@ -287,7 +281,7 @@ export function ProductForm({
                         placeholder={
                           !selectedCategoryId
                             ? 'Select a category first'
-                            : filteredSubcategories.length === 0
+                            : filteredSubcategories?.length === 0
                               ? 'No subcategories available'
                               : 'Select a subcategory'
                         }
@@ -296,7 +290,7 @@ export function ProductForm({
                   </FormControl>
                   <SelectContent>
                     <SelectGroup>
-                      {filteredSubcategories.map((option) => (
+                      {filteredSubcategories?.map((option) => (
                         <SelectItem key={option.id} value={option.id}>
                           {option.name}
                         </SelectItem>
@@ -600,12 +594,7 @@ export function ProductForm({
         </div>
         <Button
           onClick={() =>
-            void form.trigger([
-              'name',
-              'description',
-              'price',
-              'inventory',
-            ])
+            void form.trigger(['name', 'description', 'price', 'inventory'])
           }
           className="w-fit"
           disabled={addIsPending || updateIsPending}
