@@ -1,9 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/admin/subcategories/')({
-  component: RouteComponent,
-})
+import AdminSubcategories from '@/features/admin/subcategories'
 
-function RouteComponent() {
-  return <div>Hello "/_admin/admin/subcategories/"!</div>
-}
+export const Route = createFileRoute('/admin/subcategories/')({
+  component: AdminSubcategories,
+})

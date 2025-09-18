@@ -107,8 +107,6 @@ export async function getSubcategoryById(id: string) {
       description: subcategories.description,
       categoryId: subcategories.categoryId,
       categoryName: categories.name,
-      createdAt: subcategories.createdAt,
-      updatedAt: subcategories.updatedAt,
     })
     .from(subcategories)
     .leftJoin(categories, eq(subcategories.categoryId, categories.id))

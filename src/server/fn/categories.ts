@@ -6,6 +6,7 @@ import { createCategorySchema } from '@/lib/validations/categories'
 import { UserRole } from '@/types'
 import {
   getAllCategories,
+  getCategoryById,
   getFeaturedCategories,
 } from '../data-access/categories'
 import { authed } from '../middlewares/auth'
@@ -49,19 +50,27 @@ export const updateCategoryFn = createServerFn({ method: 'POST' })
       data: createCategorySchema,
     }),
   )
-  .handler(async ({ data, context: { user } }) => {
+  .handler(async ({ data: { id, data }, context: { user } }) => {
+    const existingCategory = await getCategoryById(id)
+    if (!existingCategory) {
+      throw new Error('Category not found')
+    }
     if (user.role !== UserRole.Admin) {
       throw new Error('You do not have permission to add a product')
     }
-    return await updateCategory(data.id, data.data)
+    return await updateCategory(id, data)
   })
 
 export const deleteCategoryFn = createServerFn({ method: 'POST' })
   .validator(z.object({ id: z.string() }))
   .middleware([authed])
-  .handler(async ({ data, context: { user } }) => {
+  .handler(async ({ data: { id }, context: { user } }) => {
+    const existingCategory = await getCategoryById(id)
+    if (!existingCategory) {
+      throw new Error('Category not found')
+    }
     if (user.role !== UserRole.Admin) {
       throw new Error('You do not have permission to add a product')
     }
-    return await deleteCategory(data.id)
+    return await deleteCategory(id)
   })
