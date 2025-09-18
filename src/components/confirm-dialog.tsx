@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { type ReactNode, useTransition } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -18,32 +18,40 @@ import {
 interface ConfirmDialogProps {
   title?: string
   description?: string
-  isLoading?: boolean
-  onConfirm?: () => void
+  onConfirm: () => Promise<void>
   children: React.ReactNode
 }
 
 export const ConfirmDialog = ({
   title = 'Delete Item',
   description = 'Are you sure you want to delete item? This action cannot be undone.',
-  isLoading = false,
   onConfirm,
   children,
 }: ConfirmDialogProps) => {
+  const [isLoading, startTransition] = useTransition()
+
+  function performAction() {
+    startTransition(async () => {
+      await onConfirm()
+    })
+  }
+
   return (
     <AlertDialog open={isLoading ? true : undefined}>
-      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+      <AlertDialogTrigger asChild disabled={isLoading}>
+        {children}
+      </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             disabled={isLoading}
-            onClick={onConfirm}
+            onClick={performAction}
           >
             <LoadingTextSwap isLoading={isLoading}>Delete</LoadingTextSwap>
           </AlertDialogAction>

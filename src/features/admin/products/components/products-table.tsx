@@ -25,7 +25,8 @@ interface ProductsTableProps {
 
 export function ProductsTable({ products }: ProductsTableProps) {
   const queryClient = useQueryClient()
-  const { mutate, isPending } = useMutation({
+
+  const { mutate } = useMutation({
     mutationFn: (data: Parameters<typeof deleteProductFn>[0]['data']) =>
       deleteProductFn({ data }),
     onSuccess: async () => {
@@ -131,8 +132,7 @@ export function ProductsTable({ products }: ProductsTableProps) {
                   <ConfirmDialog
                     title="Delete Product"
                     description={`Are you sure you want to delete "${product.name}"? This action cannot be undone.`}
-                    isLoading={isPending}
-                    onConfirm={() => deleteProduct(product.id)}
+                    onConfirm={deleteProduct.bind(null, product.id)}
                   >
                     <Button variant="ghost" size="sm">
                       <IconTrash className="size-4" />
