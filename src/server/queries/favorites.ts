@@ -4,10 +4,10 @@ import { getUserFavoritesCountFn, getUserFavoritesFn } from '../fn/favorites'
 
 export const favoritesQueryKey = ['favorites'] as const
 
-export function getUserFavoritesQuery() {
+export function getUserFavoritesQuery(userId?: string) {
   return queryOptions({
     queryKey: [...favoritesQueryKey, 'user-favorites'] as const,
-    queryFn: () => getUserFavoritesFn(),
+    queryFn: () => getUserFavoritesFn({ data: { userId } }),
   })
 }
 

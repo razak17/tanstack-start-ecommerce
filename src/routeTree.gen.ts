@@ -28,6 +28,7 @@ import { Route as AdminAnalyticsIndexRouteImport } from './routes/admin/analytic
 import { Route as siteTermsIndexRouteImport } from './routes/(site)/terms/index'
 import { Route as siteShopIndexRouteImport } from './routes/(site)/shop/index'
 import { Route as sitePrivacyIndexRouteImport } from './routes/(site)/privacy/index'
+import { Route as siteFavoritesIndexRouteImport } from './routes/(site)/favorites/index'
 import { Route as siteCartIndexRouteImport } from './routes/(site)/cart/index'
 import { Route as authSignOutIndexRouteImport } from './routes/(auth)/sign-out/index'
 import { Route as AdminProductsNewRouteImport } from './routes/admin/products/new'
@@ -36,7 +37,6 @@ import { Route as siteCollectionsCategorySlugRouteImport } from './routes/(site)
 import { Route as AdminProductsIdIndexRouteImport } from './routes/admin/products/$id/index'
 import { Route as siteprotectedProfileIndexRouteImport } from './routes/(site)/(protected)/profile/index'
 import { Route as siteprotectedOrdersIndexRouteImport } from './routes/(site)/(protected)/orders/index'
-import { Route as siteprotectedFavoritesIndexRouteImport } from './routes/(site)/(protected)/favorites/index'
 import { Route as siteprotectedCheckoutIndexRouteImport } from './routes/(site)/(protected)/checkout/index'
 import { Route as authpublicSignUpIndexRouteImport } from './routes/(auth)/(public)/sign-up/index'
 import { Route as authpublicSignInIndexRouteImport } from './routes/(auth)/(public)/sign-in/index'
@@ -129,6 +129,11 @@ const sitePrivacyIndexRoute = sitePrivacyIndexRouteImport.update({
   path: '/privacy/',
   getParentRoute: () => siteRouteRoute,
 } as any)
+const siteFavoritesIndexRoute = siteFavoritesIndexRouteImport.update({
+  id: '/favorites/',
+  path: '/favorites/',
+  getParentRoute: () => siteRouteRoute,
+} as any)
 const siteCartIndexRoute = siteCartIndexRouteImport.update({
   id: '/cart/',
   path: '/cart/',
@@ -170,12 +175,6 @@ const siteprotectedOrdersIndexRoute =
   siteprotectedOrdersIndexRouteImport.update({
     id: '/orders/',
     path: '/orders/',
-    getParentRoute: () => siteprotectedRouteRoute,
-  } as any)
-const siteprotectedFavoritesIndexRoute =
-  siteprotectedFavoritesIndexRouteImport.update({
-    id: '/favorites/',
-    path: '/favorites/',
     getParentRoute: () => siteprotectedRouteRoute,
   } as any)
 const siteprotectedCheckoutIndexRoute =
@@ -231,6 +230,7 @@ export interface FileRoutesByFullPath {
   '/admin/products/new': typeof AdminProductsNewRoute
   '/sign-out': typeof authSignOutIndexRoute
   '/cart': typeof siteCartIndexRoute
+  '/favorites': typeof siteFavoritesIndexRoute
   '/privacy': typeof sitePrivacyIndexRoute
   '/shop': typeof siteShopIndexRoute
   '/terms': typeof siteTermsIndexRoute
@@ -247,7 +247,6 @@ export interface FileRoutesByFullPath {
   '/sign-in': typeof authpublicSignInIndexRoute
   '/sign-up': typeof authpublicSignUpIndexRoute
   '/checkout': typeof siteprotectedCheckoutIndexRoute
-  '/favorites': typeof siteprotectedFavoritesIndexRoute
   '/orders': typeof siteprotectedOrdersIndexRoute
   '/profile': typeof siteprotectedProfileIndexRoute
   '/admin/products/$id': typeof AdminProductsIdIndexRoute
@@ -260,6 +259,7 @@ export interface FileRoutesByTo {
   '/admin/products/new': typeof AdminProductsNewRoute
   '/sign-out': typeof authSignOutIndexRoute
   '/cart': typeof siteCartIndexRoute
+  '/favorites': typeof siteFavoritesIndexRoute
   '/privacy': typeof sitePrivacyIndexRoute
   '/shop': typeof siteShopIndexRoute
   '/terms': typeof siteTermsIndexRoute
@@ -276,7 +276,6 @@ export interface FileRoutesByTo {
   '/sign-in': typeof authpublicSignInIndexRoute
   '/sign-up': typeof authpublicSignUpIndexRoute
   '/checkout': typeof siteprotectedCheckoutIndexRoute
-  '/favorites': typeof siteprotectedFavoritesIndexRoute
   '/orders': typeof siteprotectedOrdersIndexRoute
   '/profile': typeof siteprotectedProfileIndexRoute
   '/admin/products/$id': typeof AdminProductsIdIndexRoute
@@ -295,6 +294,7 @@ export interface FileRoutesById {
   '/admin/products/new': typeof AdminProductsNewRoute
   '/(auth)/sign-out/': typeof authSignOutIndexRoute
   '/(site)/cart/': typeof siteCartIndexRoute
+  '/(site)/favorites/': typeof siteFavoritesIndexRoute
   '/(site)/privacy/': typeof sitePrivacyIndexRoute
   '/(site)/shop/': typeof siteShopIndexRoute
   '/(site)/terms/': typeof siteTermsIndexRoute
@@ -311,7 +311,6 @@ export interface FileRoutesById {
   '/(auth)/(public)/sign-in/': typeof authpublicSignInIndexRoute
   '/(auth)/(public)/sign-up/': typeof authpublicSignUpIndexRoute
   '/(site)/(protected)/checkout/': typeof siteprotectedCheckoutIndexRoute
-  '/(site)/(protected)/favorites/': typeof siteprotectedFavoritesIndexRoute
   '/(site)/(protected)/orders/': typeof siteprotectedOrdersIndexRoute
   '/(site)/(protected)/profile/': typeof siteprotectedProfileIndexRoute
   '/admin/products/$id/': typeof AdminProductsIdIndexRoute
@@ -327,6 +326,7 @@ export interface FileRouteTypes {
     | '/admin/products/new'
     | '/sign-out'
     | '/cart'
+    | '/favorites'
     | '/privacy'
     | '/shop'
     | '/terms'
@@ -343,7 +343,6 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/checkout'
-    | '/favorites'
     | '/orders'
     | '/profile'
     | '/admin/products/$id'
@@ -356,6 +355,7 @@ export interface FileRouteTypes {
     | '/admin/products/new'
     | '/sign-out'
     | '/cart'
+    | '/favorites'
     | '/privacy'
     | '/shop'
     | '/terms'
@@ -372,7 +372,6 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/checkout'
-    | '/favorites'
     | '/orders'
     | '/profile'
     | '/admin/products/$id'
@@ -390,6 +389,7 @@ export interface FileRouteTypes {
     | '/admin/products/new'
     | '/(auth)/sign-out/'
     | '/(site)/cart/'
+    | '/(site)/favorites/'
     | '/(site)/privacy/'
     | '/(site)/shop/'
     | '/(site)/terms/'
@@ -406,7 +406,6 @@ export interface FileRouteTypes {
     | '/(auth)/(public)/sign-in/'
     | '/(auth)/(public)/sign-up/'
     | '/(site)/(protected)/checkout/'
-    | '/(site)/(protected)/favorites/'
     | '/(site)/(protected)/orders/'
     | '/(site)/(protected)/profile/'
     | '/admin/products/$id/'
@@ -564,6 +563,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof sitePrivacyIndexRouteImport
       parentRoute: typeof siteRouteRoute
     }
+    '/(site)/favorites/': {
+      id: '/(site)/favorites/'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof siteFavoritesIndexRouteImport
+      parentRoute: typeof siteRouteRoute
+    }
     '/(site)/cart/': {
       id: '/(site)/cart/'
       path: '/cart'
@@ -618,13 +624,6 @@ declare module '@tanstack/react-router' {
       path: '/orders'
       fullPath: '/orders'
       preLoaderRoute: typeof siteprotectedOrdersIndexRouteImport
-      parentRoute: typeof siteprotectedRouteRoute
-    }
-    '/(site)/(protected)/favorites/': {
-      id: '/(site)/(protected)/favorites/'
-      path: '/favorites'
-      fullPath: '/favorites'
-      preLoaderRoute: typeof siteprotectedFavoritesIndexRouteImport
       parentRoute: typeof siteprotectedRouteRoute
     }
     '/(site)/(protected)/checkout/': {
@@ -724,14 +723,12 @@ const authRouteRouteWithChildren = authRouteRoute._addFileChildren(
 
 interface siteprotectedRouteRouteChildren {
   siteprotectedCheckoutIndexRoute: typeof siteprotectedCheckoutIndexRoute
-  siteprotectedFavoritesIndexRoute: typeof siteprotectedFavoritesIndexRoute
   siteprotectedOrdersIndexRoute: typeof siteprotectedOrdersIndexRoute
   siteprotectedProfileIndexRoute: typeof siteprotectedProfileIndexRoute
 }
 
 const siteprotectedRouteRouteChildren: siteprotectedRouteRouteChildren = {
   siteprotectedCheckoutIndexRoute: siteprotectedCheckoutIndexRoute,
-  siteprotectedFavoritesIndexRoute: siteprotectedFavoritesIndexRoute,
   siteprotectedOrdersIndexRoute: siteprotectedOrdersIndexRoute,
   siteprotectedProfileIndexRoute: siteprotectedProfileIndexRoute,
 }
@@ -745,6 +742,7 @@ interface siteRouteRouteChildren {
   siteCollectionsCategorySlugRoute: typeof siteCollectionsCategorySlugRoute
   siteProductProductIdRoute: typeof siteProductProductIdRoute
   siteCartIndexRoute: typeof siteCartIndexRoute
+  siteFavoritesIndexRoute: typeof siteFavoritesIndexRoute
   sitePrivacyIndexRoute: typeof sitePrivacyIndexRoute
   siteShopIndexRoute: typeof siteShopIndexRoute
   siteTermsIndexRoute: typeof siteTermsIndexRoute
@@ -756,6 +754,7 @@ const siteRouteRouteChildren: siteRouteRouteChildren = {
   siteCollectionsCategorySlugRoute: siteCollectionsCategorySlugRoute,
   siteProductProductIdRoute: siteProductProductIdRoute,
   siteCartIndexRoute: siteCartIndexRoute,
+  siteFavoritesIndexRoute: siteFavoritesIndexRoute,
   sitePrivacyIndexRoute: sitePrivacyIndexRoute,
   siteShopIndexRoute: siteShopIndexRoute,
   siteTermsIndexRoute: siteTermsIndexRoute,

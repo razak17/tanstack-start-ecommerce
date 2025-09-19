@@ -16,9 +16,10 @@ export const toggleFavoriteFn = createServerFn({ method: 'POST' })
   })
 
 export const getUserFavoritesFn = createServerFn({ method: 'GET' })
-  .middleware([authed])
-  .handler(async ({ context: { user } }) => {
-    return await getUserFavorites(user.id)
+  .validator(z.object({ userId: z.string().optional() }))
+  .handler(async ({ data: { userId } }) => {
+    if (!userId) return []
+    return await getUserFavorites(userId)
   })
 
 export const getUserFavoritesCountFn = createServerFn({ method: 'GET' })
