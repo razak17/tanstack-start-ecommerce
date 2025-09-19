@@ -8,6 +8,10 @@ import { cn } from '@/lib/utils'
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { toggleFavoriteFn } from '@/server/fn/favorites'
+import {
+  getUserFavoritesCountQuery,
+  getUserFavoritesQuery,
+} from '@/server/queries/favorites'
 import { getFeaturedProductsQuery } from '@/server/queries/products'
 
 interface FavoriteButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
@@ -38,6 +42,8 @@ export function FavoriteButton({
       toggleFavoriteFn({ data }),
     onSuccess: async ({ isFavorited: newFavoriteState }) => {
       queryClient.invalidateQueries(getFeaturedProductsQuery())
+      queryClient.invalidateQueries(getUserFavoritesQuery())
+      queryClient.invalidateQueries(getUserFavoritesCountQuery())
       toast.success(
         newFavoriteState ? 'Added to favorites' : 'Removed from favorites',
       )

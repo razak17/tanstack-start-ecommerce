@@ -1,20 +1,19 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
 
+import { useAuthentication } from '@/lib/auth/client'
+
 import { AuthDropdown } from './auth-dropdown'
 import { MainNav } from './main-nav'
 import { MobileNav } from './mobile-nav'
 import { siteConfig } from '@/config/site'
 import { getUserCartItemsCountQuery } from '@/server/queries/cart'
-import type { SessionUser } from '@/types'
+import { getUserFavoritesCountQuery } from '@/server/queries/favorites'
 
-interface SiteHeaderProps {
-  user: SessionUser | null
-  favoritesCount?: number
-}
-
-export function SiteHeader({ user, favoritesCount }: SiteHeaderProps) {
+export function SiteHeader() {
+  const { user } = useAuthentication()
   const { data: cartItemsCount } = useQuery(getUserCartItemsCountQuery())
+  const { data: favoritesCount } = useQuery(getUserFavoritesCountQuery())
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background">

@@ -24,7 +24,7 @@ import { addToCartFn } from '@/server/fn/cart'
 import {
   getCartItemsQuery,
   getCartQuery,
-  getUserCartItemCountQuery,
+  getUserCartItemsCountQuery,
 } from '@/server/queries/cart'
 
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -51,7 +51,7 @@ export function ProductCard({
     onSuccess: async () => {
       queryClient.invalidateQueries(getCartQuery())
       queryClient.invalidateQueries(getCartItemsQuery())
-      queryClient.invalidateQueries(getUserCartItemCountQuery())
+      queryClient.invalidateQueries(getUserCartItemsCountQuery())
       toast.success('Item added to cart')
     },
     onError: () => {
