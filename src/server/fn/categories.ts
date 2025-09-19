@@ -3,13 +3,12 @@ import { z } from 'zod'
 
 import { createCategorySchema } from '@/lib/validations/categories'
 
-import { UserRole } from '@/types'
 import {
   getAllCategories,
   getCategoryById,
   getFeaturedCategories,
 } from '../data-access/categories'
-import { authed } from '../middlewares/auth'
+import { adminOnly } from '../middlewares/auth'
 import {
   addCategory,
   deleteCategory,
@@ -34,43 +33,34 @@ export const getAllCategoriesFn = createServerFn({ method: 'GET' }).handler(
 
 export const addCategoryFn = createServerFn({ method: 'POST' })
   .validator(createCategorySchema)
-  .middleware([authed])
-  .handler(async ({ data, context: { user } }) => {
-    if (user.role !== UserRole.Admin) {
-      throw new Error('You do not have permission to add a product')
-    }
+  .middleware([adminOnly])
+  .handler(async ({ data }) => {
     return await addCategory(data)
   })
 
 export const updateCategoryFn = createServerFn({ method: 'POST' })
-  .middleware([authed])
   .validator(
     z.object({
       id: z.string(),
       data: createCategorySchema,
     }),
   )
-  .handler(async ({ data: { id, data }, context: { user } }) => {
+  .middleware([adminOnly])
+  .handler(async ({ data: { id, data } }) => {
     const existingCategory = await getCategoryById(id)
     if (!existingCategory) {
       throw new Error('Category not found')
-    }
-    if (user.role !== UserRole.Admin) {
-      throw new Error('You do not have permission to add a product')
     }
     return await updateCategory(id, data)
   })
 
 export const deleteCategoryFn = createServerFn({ method: 'POST' })
   .validator(z.object({ id: z.string() }))
-  .middleware([authed])
-  .handler(async ({ data: { id }, context: { user } }) => {
+  .middleware([adminOnly])
+  .handler(async ({ data: { id } }) => {
     const existingCategory = await getCategoryById(id)
     if (!existingCategory) {
       throw new Error('Category not found')
-    }
-    if (user.role !== UserRole.Admin) {
-      throw new Error('You do not have permission to add a product')
     }
     return await deleteCategory(id)
   })

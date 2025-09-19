@@ -1,5 +1,5 @@
-import { Skeleton } from '@/components/ui/skeleton'
 import { Shell } from '@/components/shell'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export function FavoritesSkeleton() {
   return (

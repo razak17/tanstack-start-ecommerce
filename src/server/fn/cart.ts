@@ -3,7 +3,6 @@ import { z } from 'zod'
 
 import { cartItemSchema } from '@/lib/validations/cart'
 
-import { UserRole } from '@/types'
 import {
   getCart,
   getCartItems,
@@ -42,29 +41,20 @@ export const getUserCartItemsCountFn = createServerFn({
 export const addToCartFn = createServerFn({ method: 'POST' })
   .validator(cartItemSchema)
   .middleware([authed])
-  .handler(async ({ data, context: { user } }) => {
-    if (user.role !== UserRole.Admin) {
-      throw new Error('You do not have permission to add a product')
-    }
+  .handler(async ({ data }) => {
     return await addToCart(data)
   })
 
 export const updateCartItemFn = createServerFn({ method: 'POST' })
   .validator(cartItemSchema)
   .middleware([authed])
-  .handler(async ({ data, context: { user } }) => {
-    if (user.role !== UserRole.Admin) {
-      throw new Error('You do not have permission to update a cart item')
-    }
+  .handler(async ({ data }) => {
     return await updateCartItem(data)
   })
 
 export const deleteCartFn = createServerFn({ method: 'POST' })
   .middleware([authed])
-  .handler(async ({ context: { user } }) => {
-    if (user.role !== UserRole.Admin) {
-      throw new Error('You do not have permission to delete the cart')
-    }
+  .handler(async () => {
     return await deleteCart()
   })
 
@@ -75,10 +65,7 @@ export const deleteCartItemFn = createServerFn({ method: 'POST' })
     }),
   )
   .middleware([authed])
-  .handler(async ({ data, context: { user } }) => {
-    if (user.role !== UserRole.Admin) {
-      throw new Error('You do not have permission to delete a cart item')
-    }
+  .handler(async ({ data }) => {
     return await deleteCartItem(data)
   })
 
@@ -89,9 +76,6 @@ export const deleteCartItemsFn = createServerFn({ method: 'POST' })
     }),
   )
   .middleware([authed])
-  .handler(async ({ data, context: { user } }) => {
-    if (user.role !== UserRole.Admin) {
-      throw new Error('You do not have permission to delete cart items')
-    }
+  .handler(async ({ data }) => {
     return await deleteCartItems(data)
   })

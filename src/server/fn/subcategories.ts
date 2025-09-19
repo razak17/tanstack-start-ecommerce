@@ -3,12 +3,11 @@ import { z } from 'zod'
 
 import { createSubcategorySchema } from '@/lib/validations/subcategories'
 
-import { UserRole } from '@/types'
 import {
   getAllSubcategories,
   getSubcategoryById,
 } from '../data-access/subcategories'
-import { authed } from '../middlewares/auth'
+import { adminOnly } from '../middlewares/auth'
 import {
   addSubcategory,
   deleteSubcategory,
@@ -23,43 +22,34 @@ export const getAllSubcategoriesFn = createServerFn({ method: 'GET' }).handler(
 
 export const addSubcategoryFn = createServerFn({ method: 'POST' })
   .validator(createSubcategorySchema)
-  .middleware([authed])
-  .handler(async ({ data, context: { user } }) => {
-    if (user.role !== UserRole.Admin) {
-      throw new Error('You do not have permission to add a product')
-    }
+  .middleware([adminOnly])
+  .handler(async ({ data }) => {
     return await addSubcategory(data)
   })
 
 export const updateSubcategoryFn = createServerFn({ method: 'POST' })
-  .middleware([authed])
+  .middleware([adminOnly])
   .validator(
     z.object({
       id: z.string(),
       data: createSubcategorySchema,
     }),
   )
-  .handler(async ({ data: { id, data }, context: { user } }) => {
+  .handler(async ({ data: { id, data } }) => {
     const existingSubcategory = await getSubcategoryById(id)
     if (!existingSubcategory) {
       throw new Error('Subcategory not found')
-    }
-    if (user.role !== UserRole.Admin) {
-      throw new Error('You do not have permission to add a product')
     }
     return await updateSubcategory(id, data)
   })
 
 export const deleteSubcategoryFn = createServerFn({ method: 'POST' })
   .validator(z.object({ id: z.string() }))
-  .middleware([authed])
-  .handler(async ({ data: { id }, context: { user } }) => {
+  .middleware([adminOnly])
+  .handler(async ({ data: { id } }) => {
     const existingSubcategory = await getSubcategoryById(id)
     if (!existingSubcategory) {
       throw new Error('Subcategory not found')
-    }
-    if (user.role !== UserRole.Admin) {
-      throw new Error('You do not have permission to delete a product')
     }
     return await deleteSubcategory(id)
   })
