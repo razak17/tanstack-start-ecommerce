@@ -1,22 +1,21 @@
+import { useQuery } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
 
 import { AuthDropdown } from './auth-dropdown'
 import { MainNav } from './main-nav'
 import { MobileNav } from './mobile-nav'
 import { siteConfig } from '@/config/site'
+import { getUserCartItemsCountQuery } from '@/server/queries/cart'
 import type { SessionUser } from '@/types'
 
 interface SiteHeaderProps {
   user: SessionUser | null
   favoritesCount?: number
-  cartItemsCount?: number
 }
 
-export function SiteHeader({
-  user,
-  cartItemsCount,
-  favoritesCount,
-}: SiteHeaderProps) {
+export function SiteHeader({ user, favoritesCount }: SiteHeaderProps) {
+  const { data: cartItemsCount } = useQuery(getUserCartItemsCountQuery())
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background">
       <div className="container flex h-16 w-full items-center justify-between">

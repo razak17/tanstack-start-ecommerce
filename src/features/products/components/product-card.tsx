@@ -1,9 +1,8 @@
-import { CheckIcon, PlusIcon } from '@radix-ui/react-icons'
-// import { addToCart } from "@/features/cart/actions/cart";
+import { CheckIcon, EyeOpenIcon, PlusIcon } from '@radix-ui/react-icons'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
 import * as React from 'react'
-
-// import { toast } from 'sonner'
+import { toast } from 'sonner'
 
 import { cn, formatPrice } from '@/lib/utils'
 
@@ -11,7 +10,7 @@ import { FavoriteButton } from './favorite-button'
 import { Icons } from '@/components/icons'
 import { PlaceholderImage } from '@/components/placeholder-image'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -21,6 +20,12 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import type { FeaturedProduct } from '@/server/db/schema'
+import { addToCartFn } from '@/server/fn/cart'
+import {
+  getCartItemsQuery,
+  getCartQuery,
+  getUserCartItemCountQuery,
+} from '@/server/queries/cart'
 
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   product: FeaturedProduct
@@ -37,7 +42,22 @@ export function ProductCard({
   className,
   ...props
 }: ProductCardProps) {
+  const queryClient = useQueryClient()
   const [isUpdatePending, startUpdateTransition] = React.useTransition()
+
+  const { mutate: addMutate, isPending: addIsPending } = useMutation({
+    mutationFn: (data: Parameters<typeof addToCartFn>[0]['data']) =>
+      addToCartFn({ data }),
+    onSuccess: async () => {
+      queryClient.invalidateQueries(getCartQuery())
+      queryClient.invalidateQueries(getCartItemsQuery())
+      queryClient.invalidateQueries(getUserCartItemCountQuery())
+      toast.success('Item added to cart')
+    },
+    onError: () => {
+      toast.error('Failed to add item to cart')
+    },
+  })
 
   return (
     <Card
@@ -60,7 +80,7 @@ export function ProductCard({
                   product.images[0]?.url ?? '/images/product-placeholder.webp'
                 }
                 alt={product.images[0]?.name ?? product.name}
-                className="object-cover"
+                className="h-full w-full object-cover transition-colors hover:brightness-90"
                 sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
                 loading="lazy"
               />
@@ -100,21 +120,14 @@ export function ProductCard({
               size="sm"
               className="h-8 w-full rounded-sm"
               onClick={async () => {
-                // startUpdateTransition(() => {});
-                // const { error } = await addToCart({
-                //   productId: product.id,
-                //   quantity: 1,
-                // });
-                //
-                // if (error) {
-                //   toast.error(error);
-                //   return;
-                // }
-                // toast.success("Item added to cart");
+                addMutate({
+                  productId: product.id,
+                  quantity: 1,
+                })
               }}
-              disabled={isUpdatePending}
+              disabled={addIsPending}
             >
-              {isUpdatePending && (
+              {addIsPending && (
                 <Icons.spinner
                   className="mr-2 size-4 animate-spin"
                   aria-hidden="true"
@@ -122,20 +135,20 @@ export function ProductCard({
               )}
               Add to cart
             </Button>
-            {/* <Link */}
-            {/*   to={`/preview/product/${product.id}`} */}
-            {/*   title="Preview" */}
-            {/*   className={cn( */}
-            {/*     buttonVariants({ */}
-            {/*       variant: "secondary", */}
-            {/*       size: "icon", */}
-            {/*       className: "h-8 w-8 shrink-0", */}
-            {/*     }), */}
-            {/*   )} */}
-            {/* > */}
-            {/*   <EyeOpenIcon className="size-4" aria-hidden="true" /> */}
-            {/*   <span className="sr-only">Preview</span> */}
-            {/* </Link> */}
+            <Link
+              to="/"
+              title="Preview"
+              className={cn(
+                buttonVariants({
+                  variant: 'secondary',
+                  size: 'icon',
+                  className: 'h-8 w-8 shrink-0',
+                }),
+              )}
+            >
+              <EyeOpenIcon className="size-4" aria-hidden="true" />
+              <span className="sr-only">Preview</span>
+            </Link>
           </div>
         ) : (
           <Button
