@@ -37,6 +37,7 @@ import { Route as AdminProductsIdIndexRouteImport } from './routes/admin/product
 import { Route as siteprotectedProfileIndexRouteImport } from './routes/(site)/(protected)/profile/index'
 import { Route as siteprotectedOrdersIndexRouteImport } from './routes/(site)/(protected)/orders/index'
 import { Route as siteprotectedFavoritesIndexRouteImport } from './routes/(site)/(protected)/favorites/index'
+import { Route as siteprotectedCheckoutIndexRouteImport } from './routes/(site)/(protected)/checkout/index'
 import { Route as authpublicSignUpIndexRouteImport } from './routes/(auth)/(public)/sign-up/index'
 import { Route as authpublicSignInIndexRouteImport } from './routes/(auth)/(public)/sign-in/index'
 import { Route as authpublicResetPasswordIndexRouteImport } from './routes/(auth)/(public)/reset-password/index'
@@ -177,6 +178,12 @@ const siteprotectedFavoritesIndexRoute =
     path: '/favorites/',
     getParentRoute: () => siteprotectedRouteRoute,
   } as any)
+const siteprotectedCheckoutIndexRoute =
+  siteprotectedCheckoutIndexRouteImport.update({
+    id: '/checkout/',
+    path: '/checkout/',
+    getParentRoute: () => siteprotectedRouteRoute,
+  } as any)
 const authpublicSignUpIndexRoute = authpublicSignUpIndexRouteImport.update({
   id: '/sign-up/',
   path: '/sign-up/',
@@ -239,6 +246,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof authpublicResetPasswordIndexRoute
   '/sign-in': typeof authpublicSignInIndexRoute
   '/sign-up': typeof authpublicSignUpIndexRoute
+  '/checkout': typeof siteprotectedCheckoutIndexRoute
   '/favorites': typeof siteprotectedFavoritesIndexRoute
   '/orders': typeof siteprotectedOrdersIndexRoute
   '/profile': typeof siteprotectedProfileIndexRoute
@@ -267,6 +275,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof authpublicResetPasswordIndexRoute
   '/sign-in': typeof authpublicSignInIndexRoute
   '/sign-up': typeof authpublicSignUpIndexRoute
+  '/checkout': typeof siteprotectedCheckoutIndexRoute
   '/favorites': typeof siteprotectedFavoritesIndexRoute
   '/orders': typeof siteprotectedOrdersIndexRoute
   '/profile': typeof siteprotectedProfileIndexRoute
@@ -301,6 +310,7 @@ export interface FileRoutesById {
   '/(auth)/(public)/reset-password/': typeof authpublicResetPasswordIndexRoute
   '/(auth)/(public)/sign-in/': typeof authpublicSignInIndexRoute
   '/(auth)/(public)/sign-up/': typeof authpublicSignUpIndexRoute
+  '/(site)/(protected)/checkout/': typeof siteprotectedCheckoutIndexRoute
   '/(site)/(protected)/favorites/': typeof siteprotectedFavoritesIndexRoute
   '/(site)/(protected)/orders/': typeof siteprotectedOrdersIndexRoute
   '/(site)/(protected)/profile/': typeof siteprotectedProfileIndexRoute
@@ -332,6 +342,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/checkout'
     | '/favorites'
     | '/orders'
     | '/profile'
@@ -360,6 +371,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/checkout'
     | '/favorites'
     | '/orders'
     | '/profile'
@@ -393,6 +405,7 @@ export interface FileRouteTypes {
     | '/(auth)/(public)/reset-password/'
     | '/(auth)/(public)/sign-in/'
     | '/(auth)/(public)/sign-up/'
+    | '/(site)/(protected)/checkout/'
     | '/(site)/(protected)/favorites/'
     | '/(site)/(protected)/orders/'
     | '/(site)/(protected)/profile/'
@@ -614,6 +627,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof siteprotectedFavoritesIndexRouteImport
       parentRoute: typeof siteprotectedRouteRoute
     }
+    '/(site)/(protected)/checkout/': {
+      id: '/(site)/(protected)/checkout/'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof siteprotectedCheckoutIndexRouteImport
+      parentRoute: typeof siteprotectedRouteRoute
+    }
     '/(auth)/(public)/sign-up/': {
       id: '/(auth)/(public)/sign-up/'
       path: '/sign-up'
@@ -703,12 +723,14 @@ const authRouteRouteWithChildren = authRouteRoute._addFileChildren(
 )
 
 interface siteprotectedRouteRouteChildren {
+  siteprotectedCheckoutIndexRoute: typeof siteprotectedCheckoutIndexRoute
   siteprotectedFavoritesIndexRoute: typeof siteprotectedFavoritesIndexRoute
   siteprotectedOrdersIndexRoute: typeof siteprotectedOrdersIndexRoute
   siteprotectedProfileIndexRoute: typeof siteprotectedProfileIndexRoute
 }
 
 const siteprotectedRouteRouteChildren: siteprotectedRouteRouteChildren = {
+  siteprotectedCheckoutIndexRoute: siteprotectedCheckoutIndexRoute,
   siteprotectedFavoritesIndexRoute: siteprotectedFavoritesIndexRoute,
   siteprotectedOrdersIndexRoute: siteprotectedOrdersIndexRoute,
   siteprotectedProfileIndexRoute: siteprotectedProfileIndexRoute,
