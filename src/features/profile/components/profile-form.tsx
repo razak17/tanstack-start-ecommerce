@@ -31,7 +31,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import type { User } from '@/server/db/schema'
-import { updateProfileFn } from '@/server/fn/user'
+import { updateProfileFn } from '@/server/fn/users'
 import { UserGender } from '@/types'
 
 interface ProfileFormProps {

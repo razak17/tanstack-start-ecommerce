@@ -1,8 +1,8 @@
 import { queryOptions } from '@tanstack/react-query'
 
-import { getUserFn } from '../fn/user'
+import { getUserFn } from '../fn/users'
 
-export const userQueryKey = ['auth'] as const
+export const userQueryKey = ['auth', 'user'] as const
 
 export function userQueryOptions() {
   return queryOptions({

@@ -8,8 +8,6 @@ import { getUserById } from '../data-access/users'
 import { authed } from '../middlewares/auth'
 import { updateProfile } from '../mutations/users'
 
-export const userQueryKey = ['auth', 'user'] as const
-
 export const getUserFn = createServerFn({ method: 'GET' }).handler(async () => {
   const { headers } = getWebRequest()
 

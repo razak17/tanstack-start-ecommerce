@@ -3,7 +3,7 @@ import { UploadThingError } from 'uploadthing/server'
 
 import { createTokenBucketManager } from '@/lib/rate-limit'
 
-import { getUserFn } from '../fn/user'
+import { getUserFn } from '../fn/users'
 
 const f = createUploadthing()
 
