@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
 
 import { cn, formatPrice } from '@/lib/utils'
@@ -17,7 +17,7 @@ import { Separator } from '@/components/ui/separator'
 import { getCartQuery } from '@/server/queries/cart'
 
 export async function CheckoutCard() {
-  const { data: cartLineItems } = useQuery(getCartQuery())
+  const { data: cartLineItems } = useSuspenseQuery(getCartQuery())
 
   return (
     <>

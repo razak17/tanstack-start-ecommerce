@@ -1,14 +1,16 @@
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { Suspense } from 'react'
 
 import { useAuthentication } from '@/lib/auth/client'
 
+import { FavoritesSkeleton } from './components/favorites-skeleton'
 import { Shell } from '@/components/shell'
 import { getUserFavoritesQuery } from '@/server/queries/favorites'
 import { ProductCard } from '../products/components/product-card'
 
-export default function ConsumerFavorites() {
+function FavoritesContent() {
   const { user } = useAuthentication()
-  const { data: favorites } = useQuery(getUserFavoritesQuery(user?.id))
+  const { data: favorites } = useSuspenseQuery(getUserFavoritesQuery(user?.id))
 
   if (favorites?.length === 0) {
     return (
@@ -56,5 +58,13 @@ export default function ConsumerFavorites() {
         </div>
       </section>
     </Shell>
+  )
+}
+
+export default function ConsumerFavorites() {
+  return (
+    <Suspense fallback={<FavoritesSkeleton />}>
+      <FavoritesContent />
+    </Suspense>
   )
 }

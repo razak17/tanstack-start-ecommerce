@@ -1,3 +1,6 @@
+import { Suspense } from 'react'
+
+import { CheckoutCardSkeleton } from './components/checkout-card-skeleton'
 import { CheckoutCard } from './components/checkout-cart'
 import {
   PageHeader,
@@ -18,7 +21,9 @@ export default function ConsumerCart() {
           Checkout with your cart items
         </PageHeaderDescription>
       </PageHeader>
-      <CheckoutCard />
+      <Suspense fallback={<CheckoutCardSkeleton />}>
+        <CheckoutCard />
+      </Suspense>
     </Shell>
   )
 }
