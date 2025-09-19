@@ -8,9 +8,22 @@ import { Shell } from '@/components/shell'
 import { getUserFavoritesQuery } from '@/server/queries/favorites'
 import { ProductCard } from '../products/components/product-card'
 
+export default function ConsumerFavorites() {
+  return (
+    <Suspense fallback={<FavoritesSkeleton />}>
+      <FavoritesContent />
+    </Suspense>
+  )
+}
+
 function FavoritesContent() {
   const { user } = useAuthentication()
-  const { data: favorites } = useSuspenseQuery(getUserFavoritesQuery(user?.id))
+  const { data: favorites, isFetching } = useSuspenseQuery(
+    getUserFavoritesQuery(user?.id),
+  )
+  if (isFetching) {
+    return <FavoritesSkeleton />
+  }
 
   if (favorites?.length === 0) {
     return (
@@ -58,13 +71,5 @@ function FavoritesContent() {
         </div>
       </section>
     </Shell>
-  )
-}
-
-export default function ConsumerFavorites() {
-  return (
-    <Suspense fallback={<FavoritesSkeleton />}>
-      <FavoritesContent />
-    </Suspense>
   )
 }
