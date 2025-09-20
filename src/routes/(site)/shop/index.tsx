@@ -1,5 +1,10 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  getRouteApi,
+  useNavigate,
+} from '@tanstack/react-router'
+import React from 'react'
 
 import {
   type ProductsSearchParamsSchema,
@@ -13,6 +18,7 @@ import {
 } from '@/components/page-header'
 import { PaginationButton } from '@/components/pagination-button'
 import { Shell } from '@/components/shell'
+import { ProductCardSkeleton } from '@/features/products/components/product-card-skeleton'
 import { ProductFilters } from '@/features/products/components/product-filters'
 import { ProductsGrid } from '@/features/products/components/products-grid'
 import { getAllCategoriesQuery } from '@/server/queries/categories'
@@ -49,10 +55,6 @@ function RouteComponent() {
 
   const { categories, subcategories, user } = ctx
 
-  const { data: products } = useSuspenseQuery(
-    getProductsQuery(filters, user?.id),
-  )
-
   return (
     <Shell className="min-h-screen">
       <PageHeader>
@@ -72,21 +74,42 @@ function RouteComponent() {
           />
         </aside>
 
-        <main className="flex-1 space-y-6">
-          <ProductsGrid products={products.data} />
-          {products.pageCount > 1 && (
-            <div className="flex justify-center">
-              <PaginationButton
-                pageCount={products.pageCount}
-                page={filters.page}
-                per_page={filters.per_page}
-                sort={filters.sort}
-                onSetFilters={setFilters}
-              />
-            </div>
-          )}
-        </main>
+        <React.Suspense
+          fallback={Array.from({ length: 4 }).map((_, i) => (
+            <ProductCardSkeleton key={i} />
+          ))}
+        >
+          <ProductsList userId={user?.id} setFilters={setFilters} />
+        </React.Suspense>
       </div>
     </Shell>
+  )
+}
+
+function ProductsList({
+  userId,
+  setFilters,
+}: {
+  userId?: string
+  setFilters: (newFilters: Partial<ProductsSearchParamsSchema>) => void
+}) {
+  const filters = getRouteApi('/(site)/shop/').useSearch()
+
+  const { data: products } = useSuspenseQuery(getProductsQuery(filters, userId))
+  return (
+    <main className="flex-1 space-y-6">
+      <ProductsGrid products={products.data} />
+      {products.pageCount > 1 && (
+        <div className="flex justify-center">
+          <PaginationButton
+            pageCount={products.pageCount}
+            page={filters?.page}
+            per_page={filters?.per_page}
+            sort={filters?.sort}
+            onSetFilters={setFilters}
+          />
+        </div>
+      )}
+    </main>
   )
 }
