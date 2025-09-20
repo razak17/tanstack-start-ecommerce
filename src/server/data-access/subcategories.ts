@@ -1,15 +1,15 @@
 import { and, asc, count, desc, eq, ilike, inArray } from 'drizzle-orm'
+import type { z } from 'zod'
 
-import { getSubcategoriesSchema } from '@/lib/validations/subcategories'
+import type { getSubcategoriesSchema } from '@/lib/validations/subcategories'
 
 import { db } from '@/server/db'
 import { categories, type Subcategory, subcategories } from '@/server/db/schema'
-import type { SearchParams } from '@/types'
 
-export async function getSubcategories(input: SearchParams) {
+export async function getSubcategories(
+  search: z.infer<typeof getSubcategoriesSchema>,
+) {
   try {
-    const search = getSubcategoriesSchema.parse(input)
-
     const limit = search.per_page
     const offset = (search.page - 1) * limit
 
@@ -116,7 +116,7 @@ export async function getSubcategoryById(id: string) {
   return subcategory[0] || null
 }
 
-export async function getSubcategorySlugFromId({ id }: { id: string }) {
+export async function getSubcategorySlugFromId(id: string) {
   return await db
     .select({
       slug: subcategories.slug,

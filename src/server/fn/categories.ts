@@ -1,11 +1,17 @@
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
 
-import { createCategorySchema } from '@/lib/validations/categories'
+import {
+  createCategorySchema,
+  getCategoriesSchema,
+} from '@/lib/validations/categories'
 
 import {
   getAllCategories,
+  getCategories,
   getCategoryById,
+  getCategoryBySlug,
+  getCategorySlugFromId,
   getFeaturedCategories,
 } from '../data-access/categories'
 import { adminOnly } from '../middlewares/auth'
@@ -63,4 +69,40 @@ export const deleteCategoryFn = createServerFn({ method: 'POST' })
       throw new Error('Category not found')
     }
     return await deleteCategory(id)
+  })
+
+export const getCategoriesFn = createServerFn({ method: 'GET' })
+  .validator(getCategoriesSchema)
+  .handler(async ({ data }) => {
+    return await getCategories(data)
+  })
+
+export const getCategoryByIdFn = createServerFn({ method: 'GET' })
+  .validator(z.object({ id: z.string() }))
+  .handler(async ({ data: { id } }) => {
+    const category = await getCategoryById(id)
+    if (!category) {
+      throw new Error('Category not found')
+    }
+    return category
+  })
+
+export const getCategorySlugFromIdFn = createServerFn({ method: 'GET' })
+  .validator(z.object({ id: z.string() }))
+  .handler(async ({ data: { id } }) => {
+    const slug = await getCategorySlugFromId({ id })
+    if (!slug) {
+      throw new Error('Category not found')
+    }
+    return slug
+  })
+
+export const getCategoryBySlugFn = createServerFn({ method: 'GET' })
+  .validator(z.object({ slug: z.string() }))
+  .handler(async ({ data: { slug } }) => {
+    const category = await getCategoryBySlug(slug)
+    if (!category) {
+      throw new Error('Category not found')
+    }
+    return category
   })

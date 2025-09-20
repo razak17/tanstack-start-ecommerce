@@ -1,11 +1,18 @@
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
 
-import { createSubcategorySchema } from '@/lib/validations/subcategories'
+import {
+  createSubcategorySchema,
+  getSubcategoriesSchema,
+} from '@/lib/validations/subcategories'
 
 import {
   getAllSubcategories,
+  getSubcategories,
+  getSubcategoriesByCategory,
   getSubcategoryById,
+  getSubcategoryBySlug,
+  getSubcategorySlugFromId,
 } from '../data-access/subcategories'
 import { adminOnly } from '../middlewares/auth'
 import {
@@ -52,4 +59,37 @@ export const deleteSubcategoryFn = createServerFn({ method: 'POST' })
       throw new Error('Subcategory not found')
     }
     return await deleteSubcategory(id)
+  })
+
+export const getSubcategoriesFn = createServerFn({ method: 'GET' })
+  .validator(getSubcategoriesSchema)
+  .handler(async ({ data }) => {
+    return await getSubcategories(data)
+  })
+
+export const getSubcategoriesByCategoryFn = createServerFn({ method: 'GET' })
+  .validator(z.object({ categoryId: z.string() }))
+  .handler(async ({ data: { categoryId } }) => {
+    return await getSubcategoriesByCategory(categoryId)
+  })
+
+export const getSubcategorySlugFromIdFn = createServerFn({ method: 'GET' })
+  .validator(z.object({ id: z.string() }))
+  .handler(async ({ data: { id } }) => {
+    return await getSubcategorySlugFromId(id)
+  })
+
+export const getSubcategoryByIdFn = createServerFn({ method: 'GET' })
+  .validator(z.object({ id: z.string() }))
+  .handler(async ({ data: { id } }) => {
+    const subcategory = await getSubcategoryById(id)
+    return subcategory
+  })
+
+export const getSubcategoryBySlugFn = createServerFn({ method: 'GET' })
+  .validator(z.object({ slug: z.string() }))
+  .handler(async ({ data: { slug } }) => {
+    console.warn('DEBUGPRINT[1260]: subcategories.ts:92: slug=', slug)
+    const subcategory = await getSubcategoryBySlug(slug)
+    return subcategory
   })

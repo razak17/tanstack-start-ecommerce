@@ -1,6 +1,8 @@
 import { queryOptions } from '@tanstack/react-query'
+import type { z } from 'zod'
 
-import type { SearchParams } from '@/types'
+import type { productsSearchParamsSchema } from '@/lib/validations/params'
+
 import {
   getAllProductsFn,
   getFeaturedProductsFn,
@@ -53,11 +55,16 @@ export function getProductQuery(productId: string, currentUserId?: string) {
 }
 
 export function getProductsQuery(
-  searchParams: SearchParams,
+  searchParams: Partial<z.infer<typeof productsSearchParamsSchema>>,
   currentUserId?: string,
 ) {
   return queryOptions({
-    queryKey: [...productsQueryKey, 'products', { currentUserId }] as const,
+    queryKey: [
+      ...productsQueryKey,
+      'products',
+      searchParams,
+      currentUserId,
+    ] as const,
     queryFn: () =>
       getProductsFn({ data: { input: searchParams, currentUserId } }),
   })

@@ -1,11 +1,11 @@
 import { and, asc, count, desc, eq, ilike } from 'drizzle-orm'
+import type { z } from 'zod'
 
-import { getCategoriesSchema } from '@/lib/validations/categories'
+import type { getCategoriesSchema } from '@/lib/validations/categories'
 
 import { db } from '@/server/db'
 import { type Category, categories } from '@/server/db/schema'
 import { products } from '@/server/db/schema/products'
-import type { SearchParams } from '@/types'
 
 export async function getFeaturedCategories(limit: number = 4) {
   return await db
@@ -26,10 +26,10 @@ export async function getFeaturedCategories(limit: number = 4) {
     .orderBy(desc(categories.name))
 }
 
-export async function getCategories(input: SearchParams) {
+export async function getCategories(
+  search: z.infer<typeof getCategoriesSchema>,
+) {
   try {
-    const search = getCategoriesSchema.parse(input)
-
     const limit = search.per_page
     const offset = (search.page - 1) * limit
 

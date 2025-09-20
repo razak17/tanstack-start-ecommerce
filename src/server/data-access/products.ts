@@ -10,8 +10,9 @@ import {
   not,
   sql,
 } from 'drizzle-orm'
+import type { z } from 'zod'
 
-import { getProductsSchema } from '@/lib/validations/products'
+import type { productsSearchParamsSchema } from '@/lib/validations/params'
 
 import { db } from '@/server/db'
 import {
@@ -21,9 +22,7 @@ import {
   products,
   subcategories,
 } from '@/server/db/schema'
-import type { SearchParams } from '@/types'
 
-// See the unstable_cache API docs: https://nextjs.org/docs/app/api-reference/functions/unstable_cache
 export async function getFeaturedProducts(currentUserId?: string) {
   let query = db
     .select({
@@ -60,11 +59,11 @@ export async function getFeaturedProducts(currentUserId?: string) {
   }
 }
 
-// See the unstable_noStore API docs: https://nextjs.org/docs/app/api-reference/functions/unstable_noStore
-export async function getProducts(input: SearchParams, currentUserId?: string) {
+export async function getProducts(
+  search: z.infer<typeof productsSearchParamsSchema>,
+  currentUserId?: string,
+) {
   try {
-    const search = getProductsSchema.parse(input)
-
     const limit = search.per_page
     const offset = (search.page - 1) * limit
 

@@ -1,12 +1,13 @@
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
 
+import { productsSearchParamsSchema } from '@/lib/validations/params'
 import {
   createProductSchema,
   updateProductRatingSchema,
 } from '@/lib/validations/products'
 
-import type { SearchParams, StoredFile } from '@/types'
+import type { StoredFile } from '@/types'
 import {
   getAllProducts,
   getFeaturedProducts,
@@ -122,7 +123,9 @@ export const updateProductRatingFn = createServerFn({ method: 'POST' })
 export const getProductsFn = createServerFn({ method: 'GET' })
   .validator(
     z.object({
-      input: z.custom<SearchParams>(),
+      input: z.object({
+        ...productsSearchParamsSchema.shape,
+      }),
       currentUserId: z.string().optional(),
     }),
   )

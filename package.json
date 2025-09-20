@@ -50,7 +50,7 @@
     "@t3-oss/env-core": "^0.13.8",
     "@tabler/icons-react": "^3.34.1",
     "@tanstack/react-query": "^5.89.0",
-    "@tanstack/react-router": "^1.130.2",
+    "@tanstack/react-router": "^1.131.49",
     "@tanstack/react-router-ssr-query": "^1.131.7",
     "@tanstack/react-start": "^1.131.7",
     "@tanstack/router-plugin": "^1.121.2",
