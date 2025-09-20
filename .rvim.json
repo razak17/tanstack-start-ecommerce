@@ -6,13 +6,16 @@
     },
     "lang": {
       "typescript": {
-        "tsgo": false,
+        "tsgo": true,
         "vtsls": true
       },
       "web": {
         "eslint": false,
         "biome": false
       }
+    },
+    "progress": {
+      "variant": "builtin"
     }
   },
   "ui": {
@@ -41,11 +44,18 @@
   "explorer": {
     "variant": "mini.files"
   },
+  "picker": {
+    "files": "snacks",
+    "variant": "fzf-lua"
+  },
   "plugins": {
     "disabled": [],
     "modules": {
       "disabled": [],
       "override": [
+        "heirline_statusline",
+        "heirline",
+        "picker",
         "comment",
         "telescope",
         "icons",
