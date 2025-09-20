@@ -4,6 +4,7 @@ import { getCategoriesSchema } from '@/lib/validations/categories'
 
 import { db } from '@/server/db'
 import { type Category, categories } from '@/server/db/schema'
+import { products } from '@/server/db/schema/products'
 import type { SearchParams } from '@/types'
 
 export async function getFeaturedCategories(limit: number = 4) {
@@ -16,8 +17,11 @@ export async function getFeaturedCategories(limit: number = 4) {
       image: categories.image,
       createdAt: categories.createdAt,
       updatedAt: categories.updatedAt,
+      productCount: count(products.id),
     })
     .from(categories)
+    .leftJoin(products, eq(categories.id, products.categoryId))
+    .groupBy(categories.id)
     .limit(limit)
     .orderBy(desc(categories.name))
 }
