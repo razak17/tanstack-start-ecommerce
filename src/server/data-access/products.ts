@@ -245,7 +245,10 @@ export async function getProductForMetaData(productId: string) {
   }
 }
 
-export async function getOtherProducts(productId: string) {
+export async function getOtherProducts(
+  productId: string,
+  currentUserId?: string,
+) {
   try {
     const otherProducts = await db
       .select({
@@ -256,6 +259,9 @@ export async function getOtherProducts(productId: string) {
         category: categories.name,
         inventory: products.inventory,
         rating: products.rating,
+        isFavorited: currentUserId
+          ? sql<boolean>`${favorites.productId} IS NOT NULL`
+          : sql<boolean>`FALSE`,
       })
       .from(products)
       .leftJoin(categories, eq(products.categoryId, categories.id))

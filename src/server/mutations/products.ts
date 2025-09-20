@@ -1,7 +1,11 @@
 import { and, eq, ne } from 'drizzle-orm'
+import type { z } from 'zod'
 
 import { getErrorMessage } from '@/lib/handle-error'
-import type { CreateProductSchema } from '@/lib/validations/products'
+import type {
+  CreateProductSchema,
+  updateProductRatingSchema,
+} from '@/lib/validations/products'
 
 import { db } from '@/server/db'
 import {
@@ -229,40 +233,38 @@ export async function updateProduct(
   }
 }
 
-// export async function updateProductRating(
-//   input: z.infer<typeof updateProductRatingSchema>,
-// ) {
-//   try {
-//     const product = await db.query.products.findFirst({
-//       columns: {
-//         id: true,
-//         rating: true,
-//       },
-//       where: eq(products.id, input.id),
-//     });
-//
-//     if (!product) {
-//       throw new Error("Product not found.");
-//     }
-//
-//     await db
-//       .update(products)
-//       .set({ rating: input.rating })
-//       .where(eq(products.id, input.id));
-//
-//     revalidatePath("/");
-//
-//     return {
-//       data: null,
-//       error: null,
-//     };
-//   } catch (err) {
-//     return {
-//       data: null,
-//       error: getErrorMessage(err),
-//     };
-//   }
-// }
+export async function updateProductRating(
+  input: z.infer<typeof updateProductRatingSchema>,
+) {
+  try {
+    const product = await db.query.products.findFirst({
+      columns: {
+        id: true,
+        rating: true,
+      },
+      where: eq(products.id, input.id),
+    })
+
+    if (!product) {
+      throw new Error('Product not found.')
+    }
+
+    await db
+      .update(products)
+      .set({ rating: input.rating })
+      .where(eq(products.id, input.id))
+
+    return {
+      data: null,
+      error: null,
+    }
+  } catch (err) {
+    return {
+      data: null,
+      error: getErrorMessage(err),
+    }
+  }
+}
 
 export async function deleteProduct(id: Product['id']) {
   try {

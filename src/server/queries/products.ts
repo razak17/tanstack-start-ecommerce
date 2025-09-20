@@ -1,9 +1,13 @@
 import { queryOptions } from '@tanstack/react-query'
 
+import type { SearchParams } from '@/types'
 import {
   getAllProductsFn,
   getFeaturedProductsFn,
+  getOtherProductsFn,
   getProductCountByCategoryFn,
+  getProductFn,
+  getProductsFn,
   getProductWithVariantsFn,
 } from '../fn/products'
 
@@ -38,5 +42,36 @@ export function getProductWithVariantsQuery(productId: string) {
       productId,
     ] as const,
     queryFn: () => getProductWithVariantsFn({ data: { productId } }),
+  })
+}
+
+export function getProductQuery(productId: string, currentUserId?: string) {
+  return queryOptions({
+    queryKey: [...productsQueryKey, 'product', productId] as const,
+    queryFn: () => getProductFn({ data: { productId, currentUserId } }),
+  })
+}
+
+export function getProductsQuery(
+  searchParams: SearchParams,
+  currentUserId?: string,
+) {
+  return queryOptions({
+    queryKey: [...productsQueryKey, 'products', { currentUserId }] as const,
+    queryFn: () =>
+      getProductsFn({ data: { input: searchParams, currentUserId } }),
+  })
+}
+
+export function getOtherProductsQuery(
+  productId: string,
+  currentUserId?: string,
+) {
+  return queryOptions({
+    queryKey: [...productsQueryKey, 'other-products', productId] as const,
+    queryFn: () =>
+      getOtherProductsFn({
+        data: { productId, currentUserId },
+      }),
   })
 }

@@ -1,18 +1,29 @@
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
 
-import { createProductSchema } from '@/lib/validations/products'
+import {
+  createProductSchema,
+  updateProductRatingSchema,
+} from '@/lib/validations/products'
 
-import type { StoredFile } from '@/types'
+import type { SearchParams, StoredFile } from '@/types'
 import {
   getAllProducts,
   getFeaturedProducts,
+  getOtherProducts,
+  getProduct,
   getProductById,
   getProductCountByCategory,
+  getProducts,
   getProductWithVariants,
 } from '../data-access/products'
 import { adminOnly } from '../middlewares/auth'
-import { addProduct, deleteProduct, updateProduct } from '../mutations/products'
+import {
+  addProduct,
+  deleteProduct,
+  updateProduct,
+  updateProductRating,
+} from '../mutations/products'
 
 export const getFeaturedProductsFn = createServerFn({ method: 'GET' })
   .validator(
@@ -90,4 +101,57 @@ export const deleteProductFn = createServerFn({ method: 'POST' })
       throw new Error('Product not found')
     }
     return await deleteProduct(id)
+  })
+
+export const getProductByIdFn = createServerFn({ method: 'GET' })
+  .validator(z.object({ productId: z.string() }))
+  .handler(async ({ data: { productId } }) => {
+    const product = await getProductById(productId)
+    if (!product) {
+      throw new Error('Product not found')
+    }
+    return product
+  })
+
+export const updateProductRatingFn = createServerFn({ method: 'POST' })
+  .validator(updateProductRatingSchema)
+  .handler(async ({ data }) => {
+    return await updateProductRating(data)
+  })
+
+export const getProductsFn = createServerFn({ method: 'GET' })
+  .validator(
+    z.object({
+      input: z.custom<SearchParams>(),
+      currentUserId: z.string().optional(),
+    }),
+  )
+  .handler(async ({ data: { input, currentUserId } }) => {
+    return await getProducts(input, currentUserId)
+  })
+
+export const getProductFn = createServerFn({ method: 'GET' })
+  .validator(
+    z.object({
+      productId: z.string(),
+      currentUserId: z.string().optional(),
+    }),
+  )
+  .handler(async ({ data: { productId, currentUserId } }) => {
+    const product = await getProduct(productId, currentUserId)
+    if (!product) {
+      throw new Error('Product not found')
+    }
+    return product
+  })
+
+export const getOtherProductsFn = createServerFn({ method: 'GET' })
+  .validator(
+    z.object({
+      productId: z.string(),
+      currentUserId: z.string().optional(),
+    }),
+  )
+  .handler(async ({ data: { productId, currentUserId } }) => {
+    return await getOtherProducts(productId, currentUserId)
   })

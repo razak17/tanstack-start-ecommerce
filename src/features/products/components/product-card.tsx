@@ -136,7 +136,8 @@ export function ProductCard({
               Add to cart
             </Button>
             <Link
-              to="/"
+              to="/product/$productId"
+              params={{ productId: product.id }}
               title="Preview"
               className={cn(
                 buttonVariants({
