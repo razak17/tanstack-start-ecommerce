@@ -7,6 +7,7 @@ import BannerCarousel from '@/features/app/landing/components/banner-carousel'
 import { LobbySkeleton } from '@/features/app/landing/components/lobby-skeleton'
 
 export const Route = createFileRoute('/(site)/')({
+  pendingComponent: LobbySkeleton,
   component: Home,
 })
 

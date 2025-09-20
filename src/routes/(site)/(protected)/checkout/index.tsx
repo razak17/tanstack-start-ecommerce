@@ -1,12 +1,12 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
+import UserCheckout from '@/features/checkout'
+import { CheckoutLoading } from '@/features/checkout/components/checkout-loading'
+
 export const Route = createFileRoute('/(site)/(protected)/checkout/')({
   loader: ({ context: { user } }) => {
     if (!user || user?.isAnonymous) throw redirect({ to: '/sign-in' })
   },
-  component: RouteComponent,
+  pendingComponent: CheckoutLoading,
+  component: UserCheckout,
 })
-
-function RouteComponent() {
-  return <div>Hello "/(site)/(protected)/checkout/"!</div>
-}

@@ -44,6 +44,8 @@
     "@radix-ui/react-switch": "^1.2.6",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@react-email/components": "^0.5.3",
+    "@stripe/react-stripe-js": "^4.0.2",
+    "@stripe/stripe-js": "^7.9.0",
     "@t3-oss/env-core": "^0.13.8",
     "@tabler/icons-react": "^3.34.1",
     "@tanstack/react-query": "^5.89.0",
@@ -74,7 +76,8 @@
     "tailwind-merge": "^3.3.1",
     "uploadthing": "^7.7.4",
     "vaul": "^1.1.2",
-    "zod": "^4.0.10"
+    "zod": "^4.0.10",
+    "zod-validation-error": "^4.0.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.4",

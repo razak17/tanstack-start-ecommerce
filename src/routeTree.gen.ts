@@ -43,7 +43,9 @@ import { Route as authpublicSignInIndexRouteImport } from './routes/(auth)/(publ
 import { Route as authpublicResetPasswordIndexRouteImport } from './routes/(auth)/(public)/reset-password/index'
 import { Route as authpublicForgotPasswordIndexRouteImport } from './routes/(auth)/(public)/forgot-password/index'
 import { Route as AdminProductsIdEditRouteImport } from './routes/admin/products/$id/edit'
+import { Route as siteprotectedCheckoutSuccessIndexRouteImport } from './routes/(site)/(protected)/checkout/success/index'
 import { ServerRoute as ApiUploadthingServerRouteImport } from './routes/api/uploadthing'
+import { ServerRoute as ApiWebhooksStripeServerRouteImport } from './routes/api/webhooks/stripe'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
 const rootServerRouteImport = createServerRootRoute()
@@ -210,9 +212,20 @@ const AdminProductsIdEditRoute = AdminProductsIdEditRouteImport.update({
   path: '/products/$id/edit',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const siteprotectedCheckoutSuccessIndexRoute =
+  siteprotectedCheckoutSuccessIndexRouteImport.update({
+    id: '/checkout/success/',
+    path: '/checkout/success/',
+    getParentRoute: () => siteprotectedRouteRoute,
+  } as any)
 const ApiUploadthingServerRoute = ApiUploadthingServerRouteImport.update({
   id: '/api/uploadthing',
   path: '/api/uploadthing',
+  getParentRoute: () => rootServerRouteImport,
+} as any)
+const ApiWebhooksStripeServerRoute = ApiWebhooksStripeServerRouteImport.update({
+  id: '/api/webhooks/stripe',
+  path: '/api/webhooks/stripe',
   getParentRoute: () => rootServerRouteImport,
 } as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
@@ -250,6 +263,7 @@ export interface FileRoutesByFullPath {
   '/orders': typeof siteprotectedOrdersIndexRoute
   '/profile': typeof siteprotectedProfileIndexRoute
   '/admin/products/$id': typeof AdminProductsIdIndexRoute
+  '/checkout/success': typeof siteprotectedCheckoutSuccessIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof siteIndexRoute
@@ -279,6 +293,7 @@ export interface FileRoutesByTo {
   '/orders': typeof siteprotectedOrdersIndexRoute
   '/profile': typeof siteprotectedProfileIndexRoute
   '/admin/products/$id': typeof AdminProductsIdIndexRoute
+  '/checkout/success': typeof siteprotectedCheckoutSuccessIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -314,6 +329,7 @@ export interface FileRoutesById {
   '/(site)/(protected)/orders/': typeof siteprotectedOrdersIndexRoute
   '/(site)/(protected)/profile/': typeof siteprotectedProfileIndexRoute
   '/admin/products/$id/': typeof AdminProductsIdIndexRoute
+  '/(site)/(protected)/checkout/success/': typeof siteprotectedCheckoutSuccessIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -346,6 +362,7 @@ export interface FileRouteTypes {
     | '/orders'
     | '/profile'
     | '/admin/products/$id'
+    | '/checkout/success'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -375,6 +392,7 @@ export interface FileRouteTypes {
     | '/orders'
     | '/profile'
     | '/admin/products/$id'
+    | '/checkout/success'
   id:
     | '__root__'
     | '/(auth)'
@@ -409,6 +427,7 @@ export interface FileRouteTypes {
     | '/(site)/(protected)/orders/'
     | '/(site)/(protected)/profile/'
     | '/admin/products/$id/'
+    | '/(site)/(protected)/checkout/success/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -419,27 +438,31 @@ export interface RootRouteChildren {
 export interface FileServerRoutesByFullPath {
   '/api/uploadthing': typeof ApiUploadthingServerRoute
   '/api/auth/$': typeof ApiAuthSplatServerRoute
+  '/api/webhooks/stripe': typeof ApiWebhooksStripeServerRoute
 }
 export interface FileServerRoutesByTo {
   '/api/uploadthing': typeof ApiUploadthingServerRoute
   '/api/auth/$': typeof ApiAuthSplatServerRoute
+  '/api/webhooks/stripe': typeof ApiWebhooksStripeServerRoute
 }
 export interface FileServerRoutesById {
   __root__: typeof rootServerRouteImport
   '/api/uploadthing': typeof ApiUploadthingServerRoute
   '/api/auth/$': typeof ApiAuthSplatServerRoute
+  '/api/webhooks/stripe': typeof ApiWebhooksStripeServerRoute
 }
 export interface FileServerRouteTypes {
   fileServerRoutesByFullPath: FileServerRoutesByFullPath
-  fullPaths: '/api/uploadthing' | '/api/auth/$'
+  fullPaths: '/api/uploadthing' | '/api/auth/$' | '/api/webhooks/stripe'
   fileServerRoutesByTo: FileServerRoutesByTo
-  to: '/api/uploadthing' | '/api/auth/$'
-  id: '__root__' | '/api/uploadthing' | '/api/auth/$'
+  to: '/api/uploadthing' | '/api/auth/$' | '/api/webhooks/stripe'
+  id: '__root__' | '/api/uploadthing' | '/api/auth/$' | '/api/webhooks/stripe'
   fileServerRoutesById: FileServerRoutesById
 }
 export interface RootServerRouteChildren {
   ApiUploadthingServerRoute: typeof ApiUploadthingServerRoute
   ApiAuthSplatServerRoute: typeof ApiAuthSplatServerRoute
+  ApiWebhooksStripeServerRoute: typeof ApiWebhooksStripeServerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -668,6 +691,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProductsIdEditRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/(site)/(protected)/checkout/success/': {
+      id: '/(site)/(protected)/checkout/success/'
+      path: '/checkout/success'
+      fullPath: '/checkout/success'
+      preLoaderRoute: typeof siteprotectedCheckoutSuccessIndexRouteImport
+      parentRoute: typeof siteprotectedRouteRoute
+    }
   }
 }
 declare module '@tanstack/react-start/server' {
@@ -677,6 +707,13 @@ declare module '@tanstack/react-start/server' {
       path: '/api/uploadthing'
       fullPath: '/api/uploadthing'
       preLoaderRoute: typeof ApiUploadthingServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
+    '/api/webhooks/stripe': {
+      id: '/api/webhooks/stripe'
+      path: '/api/webhooks/stripe'
+      fullPath: '/api/webhooks/stripe'
+      preLoaderRoute: typeof ApiWebhooksStripeServerRouteImport
       parentRoute: typeof rootServerRouteImport
     }
     '/api/auth/$': {
@@ -725,12 +762,15 @@ interface siteprotectedRouteRouteChildren {
   siteprotectedCheckoutIndexRoute: typeof siteprotectedCheckoutIndexRoute
   siteprotectedOrdersIndexRoute: typeof siteprotectedOrdersIndexRoute
   siteprotectedProfileIndexRoute: typeof siteprotectedProfileIndexRoute
+  siteprotectedCheckoutSuccessIndexRoute: typeof siteprotectedCheckoutSuccessIndexRoute
 }
 
 const siteprotectedRouteRouteChildren: siteprotectedRouteRouteChildren = {
   siteprotectedCheckoutIndexRoute: siteprotectedCheckoutIndexRoute,
   siteprotectedOrdersIndexRoute: siteprotectedOrdersIndexRoute,
   siteprotectedProfileIndexRoute: siteprotectedProfileIndexRoute,
+  siteprotectedCheckoutSuccessIndexRoute:
+    siteprotectedCheckoutSuccessIndexRoute,
 }
 
 const siteprotectedRouteRouteWithChildren =
@@ -807,6 +847,7 @@ export const routeTree = rootRouteImport
 const rootServerRouteChildren: RootServerRouteChildren = {
   ApiUploadthingServerRoute: ApiUploadthingServerRoute,
   ApiAuthSplatServerRoute: ApiAuthSplatServerRoute,
+  ApiWebhooksStripeServerRoute: ApiWebhooksStripeServerRoute,
 }
 export const serverRouteTree = rootServerRouteImport
   ._addFileChildren(rootServerRouteChildren)
